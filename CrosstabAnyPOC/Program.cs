@@ -1,10 +1,13 @@
-﻿using CrosstabAnyPOC.Models;
+﻿using Colorful;
+using CrosstabAnyPOC.Models;
+using System.Drawing;
+using Console = Colorful.Console;
 
 namespace CrosstabAnyPOC
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var _mappings = JobToDepartmentMapping.GetMockMappings();
             var _employees = WorkDayEmployee.GetMockEmployees();
@@ -43,6 +46,18 @@ namespace CrosstabAnyPOC
             //// Sanity checks
             //Utility.PrintMapping(_mappings);
             //Utility.PrintEmployees(_employees);
+
+
+
+
+            FigletFont font = FigletFont.Load("chunky.flf");
+            Figlet figlet = new Figlet(font);
+
+            Console.WriteLine(figlet.ToAscii("Belvedere"), ColorTranslator.FromHtml("#8AFFEF"));
+            Console.WriteLine(figlet.ToAscii("ice"), ColorTranslator.FromHtml("#FAD6FF"));
+            Console.WriteLine(figlet.ToAscii("cream."), ColorTranslator.FromHtml("#B8DBFF"));
+
+
 
             Console.ReadKey();
 
