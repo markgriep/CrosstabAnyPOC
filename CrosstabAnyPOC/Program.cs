@@ -1,31 +1,20 @@
-﻿namespace CrosstabAnyPOC
+﻿using CrosstabAnyPOC.Models;
+
+namespace CrosstabAnyPOC
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            
-            
-            Console.WriteLine("Hello, World!");
+            var _mappings = JobToDepartmentMapping.GetMockMappings();
+            var _employees = WorkDayEmployee.GetMockEmployees();
 
+            // Sanity checks
+            Utility.PrintMapping(_mappings);
+            Utility.PrintEmployees(_employees);
 
-
+            Console.ReadKey();
 
         }// end of main()
-
-
-
-    }// end of class Program
-
-
-
-
-
-
-
-
-
-
-
-
-} // End of namespace CrosstabAnyPOC
+    }
+} // End of namespace 
