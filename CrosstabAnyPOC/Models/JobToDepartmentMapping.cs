@@ -37,7 +37,7 @@
 
                 new JobToDepartmentMapping(5,   119,       "002",      "N",    new DateTime(2023, 5, 1),      true),
                 new JobToDepartmentMapping(6,   119,       "003",      "N",    new DateTime(2023, 6, 1),      true),
-                new JobToDepartmentMapping(7,   119,       "009",      "N",    new DateTime(2023, 7, 1),      false),// FFFFFFFFFFFFFF
+                new JobToDepartmentMapping(7,   119,       "009",      "N",    new DateTime(2023, 7, 1),      false), // FFFFFFFFFFFFFF
                 new JobToDepartmentMapping(8,   119,       "005",      "N",    new DateTime(2023, 8, 1),      true),
                 new JobToDepartmentMapping(9,   119,       "006",      "N",    new DateTime(2023, 9, 1),      true),
 

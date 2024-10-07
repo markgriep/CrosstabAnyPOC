@@ -24,9 +24,9 @@
                 new WorkDayEmployee("X-Bob",        990,           "009"),
                 new WorkDayEmployee("Charlie",      990,           "003"),
 
-                new WorkDayEmployee("Diana",        119,           "005"),
-                new WorkDayEmployee("Edward",       119,           "005"),
-                new WorkDayEmployee("Fiona",        119,           "005"),
+                new WorkDayEmployee("Diana",        119,           "002"),
+                new WorkDayEmployee("Edward",       119,           "003"),
+                new WorkDayEmployee("X-Fiona",      119,           "004"),
                 new WorkDayEmployee("X-George",     119,           "009"),
 
                 new WorkDayEmployee("Hannah",       111,           "005"),

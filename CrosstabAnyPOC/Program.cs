@@ -9,20 +9,25 @@ namespace CrosstabAnyPOC
     {
         static void Main()
         {
+
+            BigPrint("Employees for");
+            BigPrint("the pool...");
+            BigPrint($"T (Transit)");
+
             var _mappings = JobToDepartmentMapping.GetMockMappings();
             var _employees = WorkDayEmployee.GetMockEmployees();
 
 
-           var _settings = new DrugTestSettings
-           {
-               TestNumber = 1,
-               TestOperatorName = "Mark G",
-               RequestDateTime = DateTime.Now,
-               TestType = "Random",
-               Group = "All Employees",
-               TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
-               PercentageOfEmployeesToTest = 0.54  // 54 percent 
-           };
+            var _settings = new DrugTestSettings
+            {
+                TestNumber = 1,
+                TestOperatorName = "Mark G",
+                RequestDateTime = DateTime.Now,
+                TestType = "Random",
+                Group = "All Employees",
+                TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
+                PercentageOfEmployeesToTest = 0.54  // 54 percent 
+            };
 
 
 
@@ -34,8 +39,8 @@ namespace CrosstabAnyPOC
                 _mappings.Any(map =>
                     map.IsActive && // Only match with active mappings
                     map.CostCenterID == emp.DepartmentID &&
-                    map.TestingGroup == "N" &&
-                   
+                    map.TestingGroup == "D" &&
+
                     map.JobCodeID == emp.JobCode)).ToList();
 
 
@@ -64,17 +69,18 @@ namespace CrosstabAnyPOC
 
 
 
-            FigletFont font = FigletFont.Load("chunky.flf");
-            Figlet figlet = new Figlet(font);
-
-            Console.WriteLine(figlet.ToAscii("Belvedere"), ColorTranslator.FromHtml("#8AFFEF"));
-            Console.WriteLine(figlet.ToAscii("ice"), ColorTranslator.FromHtml("#FAD6FF"));
-            Console.WriteLine(figlet.ToAscii("cream."), ColorTranslator.FromHtml("#B8DBFF"));
-
-
+        
 
             Console.ReadKey();
 
         }// end of main()
+
+        private static void BigPrint(string str)
+        {
+            FigletFont font = FigletFont.Load("ansi regular.flf");
+            Figlet figlet = new Figlet(font);
+
+            Console.WriteLine(figlet.ToAscii(str), ColorTranslator.FromHtml("#8AFFEF"));
+        }
     }
 } // End of namespace 
