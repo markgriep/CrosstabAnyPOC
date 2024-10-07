@@ -1,6 +1,9 @@
 ﻿using Colorful;
 using CrosstabAnyPOC.Models;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
+using System.Reflection;
 using Console = Colorful.Console;
 
 namespace CrosstabAnyPOC
@@ -10,9 +13,7 @@ namespace CrosstabAnyPOC
         static void Main()
         {
 
-            BigPrint("Employees for");
-            BigPrint("the pool...");
-            BigPrint($"T (Transit)");
+         
 
             var _mappings = JobToDepartmentMapping.GetMockMappings();
             var _employees = WorkDayEmployee.GetMockEmployees();
@@ -30,6 +31,18 @@ namespace CrosstabAnyPOC
             };
 
 
+            var transit = TestingGroup.T;
+            var nonTransit = TestingGroup.N;
+            var dot = TestingGroup.D;
+
+
+            // make the "choice" It will be done in the UI
+            var grp = dot; // "T" for Transit
+
+
+            BigPrint("Employees for");
+            BigPrint("the pool");
+            BigPrint($"{GetEnumDisplayName(grp)}");
 
 
 
@@ -39,9 +52,11 @@ namespace CrosstabAnyPOC
                 _mappings.Any(map =>
                     map.IsActive && // Only match with active mappings
                     map.CostCenterID == emp.DepartmentID &&
-                    map.TestingGroup == "D" &&
+                    map.TestingGroup == grp.ToString() &&
 
                     map.JobCodeID == emp.JobCode)).ToList();
+
+
 
 
 
@@ -82,5 +97,15 @@ namespace CrosstabAnyPOC
 
             Console.WriteLine(figlet.ToAscii(str), ColorTranslator.FromHtml("#8AFFEF"));
         }
+
+
+        public static string GetEnumDisplayName(Enum value)
+        {
+            return value.GetType().GetField(value.ToString())?
+                       .GetCustomAttribute<DisplayAttribute>()?
+                       .Name ?? value.ToString();
+        }
+
+
     }
 } // End of namespace 
