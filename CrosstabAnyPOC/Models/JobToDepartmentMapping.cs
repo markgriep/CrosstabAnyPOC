@@ -25,23 +25,36 @@
         // Method to create a list of mock JobToDepartmentMappings
         public static List<JobToDepartmentMapping> GetMockMappings()
         {
+
             return new List<JobToDepartmentMapping>
-        {
-            new JobToDepartmentMapping(1, 909, "BUS Driver", "Group A", new DateTime(2022, 1, 1), true),
-            new JobToDepartmentMapping(2, 800, "Lineman", "Group B", new DateTime(2022, 2, 1), true),
-            new JobToDepartmentMapping(3, 103, "FIN", "Group C", new DateTime(2022, 3, 1), false),
-            new JobToDepartmentMapping(4, 104, "IT", "Group A", new DateTime(2022, 4, 1), false),
-            new JobToDepartmentMapping(5, 105, "MKT", "Group D", new DateTime(2022, 5, 1), false),
-            new JobToDepartmentMapping(6, 101, "DEV", "Group A", new DateTime(2022, 6, 1), false),
-            new JobToDepartmentMapping(7, 102, "HR", "Group B", new DateTime(2022, 7, 1), false),
-            new JobToDepartmentMapping(8, 103, "FIN", "Group C", new DateTime(2022, 8, 1), false),
-            new JobToDepartmentMapping(9, 104, "IT", "Group A", new DateTime(2022, 9, 1), false),
-            new JobToDepartmentMapping(10, 105, "MKT", "Group D", new DateTime(2022, 10, 1), false)
-        };
+            {
+                //                        ID    Dept       JobCode    TestingGroup     EffectiveDate                IsActive
+
+                new JobToDepartmentMapping(1,   990,       "001",      "T",    new DateTime(2023, 1, 1),      true),
+                new JobToDepartmentMapping(2,   990,       "003",      "T",    new DateTime(2023, 2, 1),      true),
+                new JobToDepartmentMapping(3,   990,       "009",      "T",    new DateTime(2023, 3, 1),      false), // FFFFFFFFFFFFFF
+                new JobToDepartmentMapping(4,   990,       "002",      "T",    new DateTime(2023, 4, 1),      true),
+
+                new JobToDepartmentMapping(5,   119,       "002",      "N",    new DateTime(2023, 5, 1),      true),
+                new JobToDepartmentMapping(6,   119,       "003",      "N",    new DateTime(2023, 6, 1),      true),
+                new JobToDepartmentMapping(7,   119,       "009",      "N",    new DateTime(2023, 7, 1),      false),// FFFFFFFFFFFFFF
+                new JobToDepartmentMapping(8,   119,       "005",      "N",    new DateTime(2023, 8, 1),      true),
+                new JobToDepartmentMapping(9,   119,       "006",      "N",    new DateTime(2023, 9, 1),      true),
+
+                new JobToDepartmentMapping(10,  005,       "022",      "D",    new DateTime(2023, 10, 1),     true),
+                new JobToDepartmentMapping(12,  005,       "029",      "D",    new DateTime(2023, 10, 1),     false), // FFFFFFFFFFFFFF
+                new JobToDepartmentMapping(13,  005,       "028",      "D",    new DateTime(2023, 10, 1),     false), // FFFFFFFFFFFFFF
+                new JobToDepartmentMapping(14,  005,       "023",      "D",    new DateTime(2023, 10, 1),     true),
+                new JobToDepartmentMapping(15,  005,       "021",      "D",    new DateTime(2023, 10, 1),     true),
+            };
+
+
+
+
         }
 
 
-     
+
 
 
     }

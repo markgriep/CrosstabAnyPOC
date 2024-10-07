@@ -18,18 +18,27 @@
         public static List<WorkDayEmployee> GetMockEmployees()
         {
             return new List<WorkDayEmployee>
-        {
-            new WorkDayEmployee("Alice", 101, "DEV"),
-            new WorkDayEmployee("Bob", 101, "DEV"),
-            new WorkDayEmployee("Charlie", 909, "BUS Driver"),
-            new WorkDayEmployee("Diana", 909, "BUS Driver"),
-            new WorkDayEmployee("Edward", 800, "Lineman"),
-            new WorkDayEmployee("Fiona", 800, "Lineman"),
-            new WorkDayEmployee("George", 103, "FIN"),
-            new WorkDayEmployee("Hannah", 104, "IT"),
-            new WorkDayEmployee("Ian", 101, "DEV"),
-            new WorkDayEmployee("Julia", 105, "MKT")
-        };
+            {
+                //                    Name          DeptID       JobCode
+                new WorkDayEmployee("Alice",        990,           "001"),
+                new WorkDayEmployee("X-Bob",        990,           "009"),
+                new WorkDayEmployee("Charlie",      990,           "003"),
+
+                new WorkDayEmployee("Diana",        119,           "005"),
+                new WorkDayEmployee("Edward",       119,           "005"),
+                new WorkDayEmployee("Fiona",        119,           "005"),
+                new WorkDayEmployee("X-George",     119,           "009"),
+
+                new WorkDayEmployee("Hannah",       111,           "005"),
+                new WorkDayEmployee("Ian",          111,           "005"),
+                new WorkDayEmployee("Jonah",        111,           "005"),
+                new WorkDayEmployee("Kevin",        111,           "005"),
+
+                new WorkDayEmployee("Lan",          005,           "022"),
+                new WorkDayEmployee("X-Man",        005,           "029"),
+                new WorkDayEmployee("X-Nud",        005,           "028"),
+                new WorkDayEmployee("Odd",          005,           "023")
+            };
         }
 
 

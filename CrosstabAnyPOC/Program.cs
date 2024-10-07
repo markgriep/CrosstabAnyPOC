@@ -13,15 +13,29 @@ namespace CrosstabAnyPOC
             var _employees = WorkDayEmployee.GetMockEmployees();
 
 
+           var _settings = new DrugTestSettings
+           {
+               TestNumber = 1,
+               TestOperatorName = "Mark G",
+               RequestDateTime = DateTime.Now,
+               TestType = "Random",
+               Group = "All Employees",
+               TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
+               PercentageOfEmployeesToTest = 0.54  // 54 percent 
+           };
 
 
 
 
+
+            // this will give a ___POOL___
             // Simple Match employees with the active mappings
             var SelectionPool = _employees.Where(emp =>
                 _mappings.Any(map =>
                     map.IsActive && // Only match with active mappings
                     map.CostCenterID == emp.DepartmentID &&
+                    map.TestingGroup == "N" &&
+                   
                     map.JobCodeID == emp.JobCode)).ToList();
 
 
