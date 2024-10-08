@@ -12,10 +12,18 @@ namespace CrosstabAnyPOC
     {
         static void Main()
         {
-            var _mappings = JobToDepartmentMapping.GetMockMappings();
-            var _employees = WorkDayEmployee.GetMockEmployees();
+            #region Variables
 
-            var _settings = new DrugTestSettings
+
+            var _mappings = JobToDepartmentMapping.GetMockMappings();
+
+            
+            List<WorkDayEmployee> _employees = WorkDayEmployee.GenerateEmployeeList(2900);     // Generate a list of N employees
+
+
+
+            // these are the settings for the test
+            var _settings = new DrugTestSettings                                               
             {
                 TestNumber = 1,
                 TestOperatorName = "Mark G",
@@ -23,20 +31,29 @@ namespace CrosstabAnyPOC
                 TestType = "Random",
                 Group = "All Employees",
                 TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
-                PercentageOfEmployeesToTest = 0.54  // 54 percent 
+                PercentageOfEmployeesToTest = 0.12,  // X percent 
+                NumberOfEmployeesToTest = 0,         // 0 employees
             };
 
+
+
+            // Enumerations for Testing Groups
             var transit = TestingGroup.T;
             var nonTransit = TestingGroup.N;
             var dot = TestingGroup.D;
 
             // make the "choice" It will be done in the UI
-            var grp = transit; // "T" for Transit
+            //var grp = transit; // "T" for Transit
+            //var grp = nonTransit; // "T" for Transit
+            var grp = dot; // "T" for Transit
 
 
-            BigPrint("Employees for");
-            BigPrint("the pool");
-            BigPrint($"{GetEnumDisplayName(grp)}");
+
+
+            #endregion
+
+
+            #region ACTION
 
 
 
@@ -44,10 +61,46 @@ namespace CrosstabAnyPOC
             // Simple Match employees with the active mappings
             var SelectionPool = _employees.Where(emp =>
                 _mappings.Any(map =>
-                    map.IsActive && // Only match with active mappings
-                    map.CostCenterID == emp.DepartmentID &&
-                    map.TestingGroup == grp.ToString() &&
-                    map.JobCodeID == emp.JobCode)).ToList();
+                    map.IsActive &&                                     // ONLY match active mappings                           -AND-
+                    map.CostCenterID == emp.DepartmentID &&             // CostCenter (departments) match each other            -AND-
+                    map.TestingGroup == grp.ToString() &&               // testing group matches one of the enums.  (n, t, d)   -AND-
+                    map.JobCodeID == emp.JobCode &&                     // Jobcodes match each other                            -AND-
+                    true))                                              // always true place holder so I can insert others above
+                    .ToList();
+
+
+
+            // get total in the pool
+            var totalInPool = SelectionPool.Count;
+
+
+            // if SelectionMethod is Automatic, then calculate the number of employees to test
+            if (_settings.TestSubjectSelectionMethod == TestSubjectSelectionMethod.Automatic)
+            {
+                _settings.NumberOfEmployeesToTest = (int)(_settings.PercentageOfEmployeesToTest * totalInPool);
+            }
+            // otherwise do nothing because the number of employees to test is already set
+
+
+            // create a hashset to hold that number of random numbers
+            HashSet<int> randomNumbers = new HashSet<int>();
+
+            // create a random number generator
+            Random rand = new Random();
+
+            //put that number of random numbers in the hashset
+            while (randomNumbers.Count < _settings.NumberOfEmployeesToTest)
+            {
+                randomNumbers.Add(rand.Next(0, totalInPool));
+            }
+
+            // turn the hashset into a comma separated string
+            string randomNumbersString = string.Join(",", randomNumbers);
+
+
+
+            // create a linq query that selects the employees from the pool that match the random numbers
+            var selectedEmployees = SelectionPool.Where((emp, index) => randomNumbers.Contains(index)).ToList();
 
 
 
@@ -55,45 +108,94 @@ namespace CrosstabAnyPOC
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+            #endregion
+
+
+
+            #region PRINT DISPLAY
+
+
+
+
+
+
+            BigPrint("The     P O O L");
+            BigPrint($"{GetEnumDisplayName(grp)}");
+            BigPrint($"{SelectionPool.Count()}");
 
             // Print matched employees in the ___POOL___
             Console.WriteLine("Matched Employees:");
             foreach (var emp in SelectionPool)
             {
-                Console.WriteLine($"{emp.Name} - DepartmentID: {emp.DepartmentID}, JobCode: {emp.JobCode}");
+              
+               Console.WriteLine($"{emp.Name,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
             }
 
 
 
 
 
-
-            // am i going to have to have the test number at this point?  Proabaly ...
-
-
-            BigPrint("random name");
             
-            // Invoke to generate a single random full name
-            string singleName = NameUtility.GenerateRandomFullName();
-            Console.WriteLine($"Generated Single Name: {singleName}");
+            BigPrint("SELECTED From the pool");
+            BigPrint($"{selectedEmployees.Count()}");
 
-
-            BigPrint("Some names");
-
-
-            // Invoke to generate a list of unique full names
-            int numberOfNames = 100; // specify the number of unique names you want
-            List<string> nameList = NameUtility.GenerateUniqueFullNames(numberOfNames);
-            Console.WriteLine("Generated List of Names:");
-            foreach (var name in nameList)
+            // now loop through and print the selected employees
+            foreach (var emp in selectedEmployees)
             {
-                Console.WriteLine(name);
+                Console.WriteLine($"{emp.Name,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
             }
 
 
 
 
 
+            // print all the _settings
+
+            BigPrint(" S E T T I N G S");
+            int labelWidth = 35; // Set to ensure all labels align
+
+            Console.WriteLine($"{"Test Number:".PadLeft(labelWidth)} {_settings.TestNumber}");                      // Right justify label, left justify value
+            Console.WriteLine($"{"Test Operator:".PadLeft(labelWidth)} {_settings.TestOperatorName}");              // Right justify label, left justify value
+            Console.WriteLine($"{"Request Date:".PadLeft(labelWidth)} {_settings.RequestDateTime}");                // Right justify label, left justify value
+            Console.WriteLine($"{"Test Type:".PadLeft(labelWidth)} {_settings.TestType}");                          // Right justify label, left justify value
+            Console.WriteLine($"{"Group:".PadLeft(labelWidth)} {_settings.Group}");                                 // Right justify label, left justify value
+            Console.WriteLine($"{"Test Subject Selection Method:".PadLeft(labelWidth)} {_settings.TestSubjectSelectionMethod}"); // Right justify label, left justify value
+            Console.WriteLine($"{"Percentage of Employees to Test:".PadLeft(labelWidth)} {_settings.PercentageOfEmployeesToTest}"); // Right justify label, left justify value
+            Console.WriteLine($"{"Number of Employees to Test:".PadLeft(labelWidth)} {_settings.NumberOfEmployeesToTest}"); // Right justify label, left justify value
+
+
+            // _settings.NumberOfEmployeesToTest = (int)(_settings.PercentageOfEmployeesToTest * totalInPool);
+            System.Console.WriteLine("");
+            Console.WriteLine($"Pool  {totalInPool}");
+            Console.WriteLine($"   X  {_settings.PercentageOfEmployeesToTest}");
+            Console.WriteLine($"   =  {totalInPool * _settings.PercentageOfEmployeesToTest}");
+
+
+            //print the random numbers string
+            Console.WriteLine($"Random Numbers:{randomNumbersString}");
+
+
+
+
+
+            //BigPrint("ALL EMPLOYEES");
+
+            //foreach (var employee in _employees)                                             // Loop through each employee
+            //{
+            //    Console.WriteLine($"{employee.Name,-25} Dept: {employee.DepartmentID,-5} JobCode: {employee.JobCode,-5}");    // Print employee details with leading zeros intact
+            //}
 
 
 
@@ -101,6 +203,25 @@ namespace CrosstabAnyPOC
 
 
 
+
+            //   BigPrint("random name");
+
+            //   // Invoke to generate a single random full name
+            //   string singleName = NameUtility.GenerateRandomFullName();
+            //  // Console.WriteLine($"Generated Single Name: {singleName}");
+
+
+            //   BigPrint("Some names");
+
+
+            //   // Invoke to generate a list of unique full names
+            //   int numberOfNames = 100; // specify the number of unique names you want
+            //   List<string> nameList = NameUtility.GenerateUniqueFullNames(numberOfNames);
+            // //  Console.WriteLine("Generated List of Names:");
+            //   foreach (var name in nameList)
+            //   {
+            ////       Console.WriteLine(name);
+            //   }
 
 
 
@@ -109,9 +230,20 @@ namespace CrosstabAnyPOC
             //Utility.PrintMapping(_mappings);
             //Utility.PrintEmployees(_employees);
 
+
+
+            #endregion
+
+
             Console.ReadKey();
 
-        }// end of main()
+
+
+        }  // ----------- main()
+
+
+        #region HELPERS
+
 
         private static void BigPrint(string str)
         {
@@ -130,5 +262,7 @@ namespace CrosstabAnyPOC
         }
 
 
-    }
-} // End of namespace 
+        #endregion
+
+    }//----------- class
+} //------------namespace 

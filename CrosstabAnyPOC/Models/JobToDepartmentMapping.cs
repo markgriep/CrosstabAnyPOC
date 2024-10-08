@@ -41,11 +41,28 @@
                 new JobToDepartmentMapping(8,   119,       "005",      "N",    new DateTime(2023, 8, 1),      true),
                 new JobToDepartmentMapping(9,   119,       "006",      "N",    new DateTime(2023, 9, 1),      true),
 
-                new JobToDepartmentMapping(10,  005,       "022",      "D",    new DateTime(2023, 10, 1),     true),
-                new JobToDepartmentMapping(12,  005,       "029",      "D",    new DateTime(2023, 10, 1),     false), // FFFFFFFFFFFFFF
-                new JobToDepartmentMapping(13,  005,       "028",      "D",    new DateTime(2023, 10, 1),     false), // FFFFFFFFFFFFFF
-                new JobToDepartmentMapping(14,  005,       "023",      "D",    new DateTime(2023, 10, 1),     true),
-                new JobToDepartmentMapping(15,  005,       "021",      "D",    new DateTime(2023, 10, 1),     true),
+                new JobToDepartmentMapping(10,  500,       "022",      "D",    new DateTime(2023, 10, 1),     true),
+                new JobToDepartmentMapping(12,  500,       "029",      "D",    new DateTime(2023, 10, 1),     false), // FFFFFFFFFFFFFF
+                new JobToDepartmentMapping(13,  500,       "028",      "D",    new DateTime(2023, 10, 1),     false), // FFFFFFFFFFFFFF
+                new JobToDepartmentMapping(14,  500,       "023",      "D",    new DateTime(2023, 10, 1),     true),
+                new JobToDepartmentMapping(15,  500,       "021",      "D",    new DateTime(2023, 10, 1),     true),
+
+
+               new JobToDepartmentMapping(10,  404,       "022",      "D",    new DateTime(2023, 10, 1),     true),
+               new JobToDepartmentMapping(12,  404,       "029",      "D",    new DateTime(2023, 10, 1),     false), // FFFFFFFFFFFFFF
+               new JobToDepartmentMapping(13,  404,       "028",      "D",    new DateTime(2023, 10, 1),     false), // FFFFFFFFFFFFFF
+               new JobToDepartmentMapping(14,  404,       "023",      "D",    new DateTime(2023, 10, 1),     true),
+               new JobToDepartmentMapping(15,  404,       "021",      "D",    new DateTime(2023, 10, 1),     true),
+
+
+               new JobToDepartmentMapping(10,  789,       "022",      "D",    new DateTime(2023, 10, 1),     true),
+               new JobToDepartmentMapping(12,  789,       "029",      "D",    new DateTime(2023, 10, 1),     false), // FFFFFFFFFFFFFF
+               new JobToDepartmentMapping(13,  789,       "028",      "D",    new DateTime(2023, 10, 1),     false), // FFFFFFFFFFFFFF
+               new JobToDepartmentMapping(14,  789,       "023",      "D",    new DateTime(2023, 10, 1),     true),
+               new JobToDepartmentMapping(15,  789,       "021",      "D",    new DateTime(2023, 10, 1),     true),
+
+
+
             };
 
 
