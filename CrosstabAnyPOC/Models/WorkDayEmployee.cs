@@ -48,7 +48,7 @@
         }
 
 
-        public static List<WorkDayEmployee> GenerateEmployeeList(int numberOfEmployees)
+        public static List<WorkDayEmployee> GetMockEmployees(int numberOfEmployees)
         {
             List<WorkDayEmployee> employeeList = new List<WorkDayEmployee>();
 

@@ -17,31 +17,75 @@ namespace CrosstabAnyPOC.Models
     }
 
 
+    public enum TestingGroup
+    {
+        [Display(Name = "Transit")]
+        T,
+        [Display(Name = "Non-Tranist")]
+        N,
+        [Display(Name = "DOT")]
+        D
+    }
+
+
+
+
+
+    public enum TestType
+    {
+        Drug,
+        Alcohol,
+        Both,
+    }
+
+
+    public enum TestCategory
+    {
+        Random,
+        FollowUp,
+        PostAccident,
+        PreEmployment,
+        ReasonableSuspision,
+        Retest,
+        ReturnToDuty,
+    }
+
+
 
     internal class DrugTestSettings
     {
 
+        
         public int TestNumber { get; set; }
 
         public string TestOperatorName { get; set; } = string.Empty;
         
         public DateTime RequestDateTime { get; set; }
-        
-        public TestType TestType { get; set; } 
-        //public string TestType { get; set; } = string.Empty;
-        
-        public string Group { get; set; } = string.Empty;
-        
+
+
+
+        // ENUM Drug, alcohol or both
+        public TestType TestType { get; set; }
+
+        // ENUM DOT, NonDOT or Transit
+        public TestingGroup TestingGroup { get; set; }
+
+        // ENUM Random, FollowUp, Post-Accident, etc
+        public TestCategory TestCategory { get; set; }
+
+        // ENUM manual or automatic
         public TestSubjectSelectionMethod TestSubjectSelectionMethod { get; set; }
 
 
+
         // Nullable properties, one will be used based on SelectionMethod
-        public int NumberOfEmployeesToTest { get; set; }           // For MANUAL selection
+        public int NumberOfEmployeesToTest { get; set; }            // For MANUAL selection
 
         public decimal PercentageOfEmployeesToTest { get; set; }    // For AUTOMATIC selection
 
         public string? SelectionPattern { get; set; }               // To store the hashset for selecting employees
-        public int EmployeePoolSize { get; set; }           // For MANUAL selection
+
+        public int EmployeePoolSize { get; set; }                   // For MANUAL selection
 
     }
 

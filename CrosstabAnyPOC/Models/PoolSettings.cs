@@ -11,26 +11,6 @@ namespace CrosstabAnyPOC.Models
 
 
 
-    public enum TestingGroup
-    {
-        [Display(Name = "Transit")]
-        T,
-        [Display(Name = "Non-Tranist")]
-        N,
-        [Display(Name = "DOT")]
-        D
-    }
-
-
-
-    public enum TestType
-    {
-        Drug,
-        Alcohol,
-        Both,
-    }
-
-
     /// <summary>
     /// DO I REALLY NEED THIS??
     /// </summary>

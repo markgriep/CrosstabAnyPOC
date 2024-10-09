@@ -14,40 +14,8 @@ namespace CrosstabAnyPOC
         {
             #region Variables
 
-
-
-
-
-            // Enumerations for Testing Groups
-            var transit = TestingGroup.T;
-            var nonTransit = TestingGroup.N;
-            var dot = TestingGroup.D;
-
-            // make the "choice" It will be done in the UI
-            //var grp = transit; // "T" for Transit
-            //var grp = nonTransit; // "T" for Transit
-            var grp = dot; // "T" for Transit
-
-
-
-
-            //// Enumerations for Test Types
-            //var drugTest = TestType.Drug;
-            //var alcoholTest = TestType.Alcohol;
-            //var bothTests =   TestType.Both;
-
-            
-            //var tst = drugTest; 
-            ////var tst = alcoholTest; 
-            ////var tst = bothTests; 
-
-
-
-
-
-            var _mappings = JobToDepartmentMapping.GetMockMappings();
-            var _employees = WorkDayEmployee.GenerateEmployeeList(30000);     // Generate a list of N employees
-
+            var _mappings = JobToDepartmentMapping.GetMockMappings();       // Generate random mappings
+            var _employees = WorkDayEmployee.GetMockEmployees(300);         // Generate random list of N employees
 
 
             // these are the settings for the test
@@ -56,16 +24,15 @@ namespace CrosstabAnyPOC
                 TestNumber = 1,
                 TestOperatorName = "Mark G",
                 RequestDateTime = DateTime.Now,
+
                 TestType = TestType.Both,
-                Group = "All Employees",
-                TestSubjectSelectionMethod = TestSubjectSelectionMethod.Manual,
-                PercentageOfEmployeesToTest = 0.1M,  // X percent 
-                NumberOfEmployeesToTest = 120,         // 0 employees
+                TestingGroup = TestingGroup.D,
+                TestCategory = TestCategory.Random,
+                TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
+                
+                PercentageOfEmployeesToTest = 0.1M,                                     // X percent 
+                NumberOfEmployeesToTest = 0,                                            // 0 employees
             };
-
-
-
-
 
 
             #endregion
@@ -81,7 +48,7 @@ namespace CrosstabAnyPOC
                 _mappings.Any(map =>
                     map.IsActive &&                                     // ONLY match active mappings                           -AND-
                     map.CostCenterID == emp.DepartmentID &&             // CostCenter (departments) match each other            -AND-
-                    map.TestingGroup == grp.ToString() &&               // testing group matches one of the enums.  (n, t, d)   -AND-
+                    map.TestingGroup == TestingGroup.T.ToString() &&               // testing group matches one of the enums.  (n, t, d)   -AND-
                     map.JobCodeID == emp.JobCode &&                     // Jobcodes match each other                            -AND-
                     true))                                              // always true place holder so I can insert others above
                     .ToList();
@@ -138,8 +105,8 @@ namespace CrosstabAnyPOC
 
 
 
-            BigPrint("The     P O O L");
-            BigPrint($"{GetEnumDisplayName(grp)}");
+            BigPrint("The  POOL"); 
+            BigPrint($"{GetEnumDisplayName(_settings.TestingGroup)}");
             BigPrint($"{SelectionPool.Count}");
 
             // Print matched employees in the ___POOL___
@@ -155,6 +122,7 @@ namespace CrosstabAnyPOC
 
 
             
+            BigPrint("");
             BigPrint("SELECTED From the pool");
             BigPrint($"{selectedEmployees.Count}");
 
@@ -170,15 +138,20 @@ namespace CrosstabAnyPOC
 
             // print all the _settings
 
-            BigPrint(" S E T T I N G S");
+            BigPrint("");
+            BigPrint("SETTINGS");
             int labelWidth = 35; // Set to ensure all labels align
 
             Console.WriteLine($"{"Test Number:".PadLeft(labelWidth)} {_settings.TestNumber}");                      // Right justify label, left justify value
             Console.WriteLine($"{"Test Operator:".PadLeft(labelWidth)} {_settings.TestOperatorName}");              // Right justify label, left justify value
             Console.WriteLine($"{"Request Date:".PadLeft(labelWidth)} {_settings.RequestDateTime}");                // Right justify label, left justify value
+            
             Console.WriteLine($"{"Test Type:".PadLeft(labelWidth)} {_settings.TestType}");                          // Right justify label, left justify value
-            Console.WriteLine($"{"Group:".PadLeft(labelWidth)} {_settings.Group}");                                 // Right justify label, left justify value
-            Console.WriteLine($"{"Test Subject Selection Method:".PadLeft(labelWidth)} {_settings.TestSubjectSelectionMethod}"); // Right justify label, left justify value
+            Console.WriteLine($"{"Group:".PadLeft(labelWidth)} {_settings.TestingGroup}");                          // Right justify label, left justify value
+            Console.WriteLine($"{"Category:".PadLeft(labelWidth)} {_settings.TestCategory}");                       // Right justify label, left justify value
+            Console.WriteLine($"{"Selection Method:".PadLeft(labelWidth)} {_settings.TestSubjectSelectionMethod}"); // Right justify label, left justify value
+            
+
             Console.WriteLine($"{"Pool size:".PadLeft(labelWidth)} {_settings.EmployeePoolSize}"); // Right justify label, left justify value
             Console.WriteLine($"{"Percentage of Employees to Test:".PadLeft(labelWidth)} {_settings.PercentageOfEmployeesToTest}"); // Right justify label, left justify value
             Console.WriteLine($"{"Number of Employees to Test:".PadLeft(labelWidth)} {_settings.NumberOfEmployeesToTest}"); // Right justify label, left justify value
