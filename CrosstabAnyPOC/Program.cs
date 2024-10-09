@@ -46,7 +46,7 @@ namespace CrosstabAnyPOC
 
 
             var _mappings = JobToDepartmentMapping.GetMockMappings();
-            var _employees = WorkDayEmployee.GenerateEmployeeList(12340);     // Generate a list of N employees
+            var _employees = WorkDayEmployee.GenerateEmployeeList(30000);     // Generate a list of N employees
 
 
 
@@ -58,9 +58,9 @@ namespace CrosstabAnyPOC
                 RequestDateTime = DateTime.Now,
                 TestType = TestType.Both,
                 Group = "All Employees",
-                TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
+                TestSubjectSelectionMethod = TestSubjectSelectionMethod.Manual,
                 PercentageOfEmployeesToTest = 0.1M,  // X percent 
-                NumberOfEmployeesToTest = 0,         // 0 employees
+                NumberOfEmployeesToTest = 120,         // 0 employees
             };
 
 
@@ -89,19 +89,19 @@ namespace CrosstabAnyPOC
 
 
             // get total in the pool
-            var totalInPool = SelectionPool.Count;
-
+            //int  totalInPool = SelectionPool.Count;
+            _settings.EmployeePoolSize = SelectionPool.Count;
 
            
             if (_settings.TestSubjectSelectionMethod == TestSubjectSelectionMethod.Automatic)                    // if Automatic, 
             {
-                _settings.NumberOfEmployeesToTest = (int)Math.Ceiling(_settings.PercentageOfEmployeesToTest * totalInPool);  // calculate the number of employees to test
+                _settings.NumberOfEmployeesToTest = (int)Math.Ceiling(_settings.PercentageOfEmployeesToTest * _settings.EmployeePoolSize);  // calculate the number of employees to test
             }
                                                                                                                  // otherwise number of employees is already set
 
 
             // make a call to get a random hashset            
-            HashSet<int> randomNumbers =  SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToTest, totalInPool);
+            HashSet<int> randomNumbers =  SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToTest, _settings.EmployeePoolSize);
 
         
             _settings.SelectionPattern = string.Join(",", randomNumbers);               // store the hashset as comma separated string
@@ -179,21 +179,22 @@ namespace CrosstabAnyPOC
             Console.WriteLine($"{"Test Type:".PadLeft(labelWidth)} {_settings.TestType}");                          // Right justify label, left justify value
             Console.WriteLine($"{"Group:".PadLeft(labelWidth)} {_settings.Group}");                                 // Right justify label, left justify value
             Console.WriteLine($"{"Test Subject Selection Method:".PadLeft(labelWidth)} {_settings.TestSubjectSelectionMethod}"); // Right justify label, left justify value
+            Console.WriteLine($"{"Pool size:".PadLeft(labelWidth)} {_settings.EmployeePoolSize}"); // Right justify label, left justify value
             Console.WriteLine($"{"Percentage of Employees to Test:".PadLeft(labelWidth)} {_settings.PercentageOfEmployeesToTest}"); // Right justify label, left justify value
             Console.WriteLine($"{"Number of Employees to Test:".PadLeft(labelWidth)} {_settings.NumberOfEmployeesToTest}"); // Right justify label, left justify value
+            Console.WriteLine($"{"Random Numbers:".PadLeft(labelWidth)} {_settings.SelectionPattern}\n");
 
            
 
+
             // _settings.NumberOfEmployeesToTest = (int)(_settings.PercentageOfEmployeesToTest * totalInPool);
-            
-            Console.WriteLine($"\nPool  {totalInPool}");
+
+            Console.WriteLine($"\nPool  {_settings.EmployeePoolSize}");
             Console.WriteLine($"   X  {_settings.PercentageOfEmployeesToTest}");
 
 
-            Console.WriteLine($"   =  {totalInPool * _settings.PercentageOfEmployeesToTest:0.00}");
+            Console.WriteLine($"   =  {_settings.EmployeePoolSize * _settings.PercentageOfEmployeesToTest:0.00}");
 
-            //print the random numbers string
-            Console.WriteLine($"\nRandom Numbers:{_settings.SelectionPattern}");
 
 
 

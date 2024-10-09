@@ -36,11 +36,12 @@ namespace CrosstabAnyPOC.Models
 
 
         // Nullable properties, one will be used based on SelectionMethod
-        public int? NumberOfEmployeesToTest { get; set; }           // For MANUAL selection
-        
+        public int NumberOfEmployeesToTest { get; set; }           // For MANUAL selection
+
         public decimal PercentageOfEmployeesToTest { get; set; }    // For AUTOMATIC selection
-        
+
         public string? SelectionPattern { get; set; }               // To store the hashset for selecting employees
+        public int EmployeePoolSize { get; set; }           // For MANUAL selection
 
     }
 
