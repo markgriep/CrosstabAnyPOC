@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CrosstabAnyPOC
 {
-    internal class SelectionManager
+    public class SelectionManager
     {
 
 
@@ -16,7 +16,8 @@ namespace CrosstabAnyPOC
         /// </summary>
         /// <param name="numberOfElements"></param>
         /// <returns></returns>
-        public static HashSet<int> GetRandomHashset(int numberOfElements)
+        /// <remarks>Note this is zero based because it's working with the index of a list</remarks>
+        public static HashSet<int> GetRandomHashset(int numberOfElements, int upperBound)
         {
             HashSet<int> randomNumbers = new HashSet<int>();        // create a hashset to hold X random numbers
 
@@ -24,7 +25,7 @@ namespace CrosstabAnyPOC
             
             while (randomNumbers.Count < numberOfElements)          // put X random numbers in the hashset
             {
-                randomNumbers.Add(rand.Next(0, numberOfElements));
+                randomNumbers.Add(rand.Next(0, upperBound));
             }
 
             return randomNumbers;

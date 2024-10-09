@@ -25,11 +25,8 @@ namespace CrosstabAnyPOC.Models
 
     public enum TestType
     {
-       
         Drug,
-     
         Alcohol,
-     
         Both,
     }
 

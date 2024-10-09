@@ -46,7 +46,7 @@ namespace CrosstabAnyPOC
 
 
             var _mappings = JobToDepartmentMapping.GetMockMappings();
-            var _employees = WorkDayEmployee.GenerateEmployeeList(2900);     // Generate a list of N employees
+            var _employees = WorkDayEmployee.GenerateEmployeeList(12340);     // Generate a list of N employees
 
 
 
@@ -59,7 +59,7 @@ namespace CrosstabAnyPOC
                 TestType = TestType.Both,
                 Group = "All Employees",
                 TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
-                PercentageOfEmployeesToTest = 0.12,  // X percent 
+                PercentageOfEmployeesToTest = 0.1M,  // X percent 
                 NumberOfEmployeesToTest = 0,         // 0 employees
             };
 
@@ -95,22 +95,16 @@ namespace CrosstabAnyPOC
            
             if (_settings.TestSubjectSelectionMethod == TestSubjectSelectionMethod.Automatic)                    // if Automatic, 
             {
-                _settings.NumberOfEmployeesToTest = (int)(_settings.PercentageOfEmployeesToTest * totalInPool);  // calculate the number of employees to test
+                _settings.NumberOfEmployeesToTest = (int)Math.Ceiling(_settings.PercentageOfEmployeesToTest * totalInPool);  // calculate the number of employees to test
             }
                                                                                                                  // otherwise number of employees is already set
 
 
-            
-            HashSet<int> randomNumbers =  SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToTest);
+            // make a call to get a random hashset            
+            HashSet<int> randomNumbers =  SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToTest, totalInPool);
 
-
-
-
-
-
-            // turn the hashset into a comma separated string
-            string randomNumbersString = string.Join(",", randomNumbers);
-
+        
+            _settings.SelectionPattern = string.Join(",", randomNumbers);               // store the hashset as comma separated string
 
 
             // create a linq query that selects the employees from the pool that match the random numbers
@@ -146,7 +140,7 @@ namespace CrosstabAnyPOC
 
             BigPrint("The     P O O L");
             BigPrint($"{GetEnumDisplayName(grp)}");
-            BigPrint($"{SelectionPool.Count()}");
+            BigPrint($"{SelectionPool.Count}");
 
             // Print matched employees in the ___POOL___
             Console.WriteLine("Matched Employees:");
@@ -162,7 +156,7 @@ namespace CrosstabAnyPOC
 
             
             BigPrint("SELECTED From the pool");
-            BigPrint($"{selectedEmployees.Count()}");
+            BigPrint($"{selectedEmployees.Count}");
 
             // now loop through and print the selected employees
             foreach (var emp in selectedEmployees)
@@ -188,16 +182,18 @@ namespace CrosstabAnyPOC
             Console.WriteLine($"{"Percentage of Employees to Test:".PadLeft(labelWidth)} {_settings.PercentageOfEmployeesToTest}"); // Right justify label, left justify value
             Console.WriteLine($"{"Number of Employees to Test:".PadLeft(labelWidth)} {_settings.NumberOfEmployeesToTest}"); // Right justify label, left justify value
 
+           
 
             // _settings.NumberOfEmployeesToTest = (int)(_settings.PercentageOfEmployeesToTest * totalInPool);
-            System.Console.WriteLine("");
-            Console.WriteLine($"Pool  {totalInPool}");
+            
+            Console.WriteLine($"\nPool  {totalInPool}");
             Console.WriteLine($"   X  {_settings.PercentageOfEmployeesToTest}");
-            Console.WriteLine($"   =  {totalInPool * _settings.PercentageOfEmployeesToTest}");
 
+
+            Console.WriteLine($"   =  {totalInPool * _settings.PercentageOfEmployeesToTest:0.00}");
 
             //print the random numbers string
-            Console.WriteLine($"Random Numbers:{randomNumbersString}");
+            Console.WriteLine($"\nRandom Numbers:{_settings.SelectionPattern}");
 
 
 
@@ -262,12 +258,14 @@ namespace CrosstabAnyPOC
             //FigletFont font = FigletFont.Load("figlet/Stick Letters.flf");
             //FigletFont font = FigletFont.Load("figlet/JS Stick Letters.flf");
             //FigletFont font = FigletFont.Load("figlet/Cybermedium.flf");
-            FigletFont font = FigletFont.Load("figlet/Small.flf");
             //FigletFont font = FigletFont.Load("figlet/Graceful.flf");
-           
-            Figlet figlet = new Figlet(font);
 
+            FigletFont font = FigletFont.Load("figlet/Small.flf");
+
+            Figlet figlet = new(font);
+            
             Console.WriteLine(figlet.ToAscii(str), ColorTranslator.FromHtml("#8AFFEF"));
+
         }
 
 
