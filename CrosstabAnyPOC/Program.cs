@@ -247,7 +247,12 @@ namespace CrosstabAnyPOC
 
         private static void BigPrint(string str)
         {
-            FigletFont font = FigletFont.Load("figlet/Straight.flf");
+            //FigletFont font = FigletFont.Load("figlet/Stick Letters.flf");
+            //FigletFont font = FigletFont.Load("figlet/JS Stick Letters.flf");
+            //FigletFont font = FigletFont.Load("figlet/Cybermedium.flf");
+            FigletFont font = FigletFont.Load("figlet/Small.flf");
+            //FigletFont font = FigletFont.Load("figlet/Graceful.flf");
+           
             Figlet figlet = new Figlet(font);
 
             Console.WriteLine(figlet.ToAscii(str), ColorTranslator.FromHtml("#8AFFEF"));
