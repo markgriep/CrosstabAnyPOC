@@ -24,7 +24,8 @@ namespace CrosstabAnyPOC.Models
         public int TestNumber { get; set; }
         public string TestOperatorName { get; set; } = string.Empty;
         public DateTime RequestDateTime { get; set; }
-        public string TestType { get; set; } = string.Empty;
+        public TestType TestType { get; set; } 
+        //public string TestType { get; set; } = string.Empty;
         public string Group { get; set; } = string.Empty;
         public TestSubjectSelectionMethod TestSubjectSelectionMethod { get; set; }
 

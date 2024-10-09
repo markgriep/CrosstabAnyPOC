@@ -11,17 +11,18 @@ namespace CrosstabAnyPOC
 
 
 
-
-        private static HashSet<int> GetHashsetForEmployees(int numberOfElements)
+        /// <summary>
+        /// This is to get a blob of random non duplicated numbers between zero and X
+        /// </summary>
+        /// <param name="numberOfElements"></param>
+        /// <returns></returns>
+        public static HashSet<int> GetRandomHashset(int numberOfElements)
         {
-            // create a hashset to hold that number of random numbers
-            HashSet<int> randomNumbers = new HashSet<int>();
+            HashSet<int> randomNumbers = new HashSet<int>();        // create a hashset to hold X random numbers
 
-            // create a random number generator
-            Random rand = new Random();
-
-            //put that number of random numbers in the hashset
-            while (randomNumbers.Count < numberOfElements)
+            Random rand = new Random();                             // create a random number generator
+            
+            while (randomNumbers.Count < numberOfElements)          // put X random numbers in the hashset
             {
                 randomNumbers.Add(rand.Next(0, numberOfElements));
             }

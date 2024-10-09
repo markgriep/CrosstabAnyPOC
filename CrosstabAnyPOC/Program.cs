@@ -15,25 +15,6 @@ namespace CrosstabAnyPOC
             #region Variables
 
 
-            var _mappings = JobToDepartmentMapping.GetMockMappings();
-
-            
-            List<WorkDayEmployee> _employees = WorkDayEmployee.GenerateEmployeeList(2900);     // Generate a list of N employees
-
-
-
-            // these are the settings for the test
-            var _settings = new DrugTestSettings                                               
-            {
-                TestNumber = 1,
-                TestOperatorName = "Mark G",
-                RequestDateTime = DateTime.Now,
-                TestType = "Random",
-                Group = "All Employees",
-                TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
-                PercentageOfEmployeesToTest = 0.12,  // X percent 
-                NumberOfEmployeesToTest = 0,         // 0 employees
-            };
 
 
 
@@ -46,6 +27,43 @@ namespace CrosstabAnyPOC
             //var grp = transit; // "T" for Transit
             //var grp = nonTransit; // "T" for Transit
             var grp = dot; // "T" for Transit
+
+
+
+
+            //// Enumerations for Test Types
+            //var drugTest = TestType.Drug;
+            //var alcoholTest = TestType.Alcohol;
+            //var bothTests =   TestType.Both;
+
+            
+            //var tst = drugTest; 
+            ////var tst = alcoholTest; 
+            ////var tst = bothTests; 
+
+
+
+
+
+            var _mappings = JobToDepartmentMapping.GetMockMappings();
+            var _employees = WorkDayEmployee.GenerateEmployeeList(2900);     // Generate a list of N employees
+
+
+
+            // these are the settings for the test
+            var _settings = new DrugTestSettings                                               
+            {
+                TestNumber = 1,
+                TestOperatorName = "Mark G",
+                RequestDateTime = DateTime.Now,
+                TestType = TestType.Both,
+                Group = "All Employees",
+                TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
+                PercentageOfEmployeesToTest = 0.12,  // X percent 
+                NumberOfEmployeesToTest = 0,         // 0 employees
+            };
+
+
 
 
 
@@ -74,25 +92,21 @@ namespace CrosstabAnyPOC
             var totalInPool = SelectionPool.Count;
 
 
-            // if SelectionMethod is Automatic, then calculate the number of employees to test
-            if (_settings.TestSubjectSelectionMethod == TestSubjectSelectionMethod.Automatic)
+           
+            if (_settings.TestSubjectSelectionMethod == TestSubjectSelectionMethod.Automatic)                    // if Automatic, 
             {
-                _settings.NumberOfEmployeesToTest = (int)(_settings.PercentageOfEmployeesToTest * totalInPool);
+                _settings.NumberOfEmployeesToTest = (int)(_settings.PercentageOfEmployeesToTest * totalInPool);  // calculate the number of employees to test
             }
-            // otherwise do nothing because the number of employees to test is already set
+                                                                                                                 // otherwise number of employees is already set
 
 
-            // create a hashset to hold that number of random numbers
-            HashSet<int> randomNumbers = new HashSet<int>();
+            
+            HashSet<int> randomNumbers =  SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToTest);
 
-            // create a random number generator
-            Random rand = new Random();
 
-            //put that number of random numbers in the hashset
-            while (randomNumbers.Count < _settings.NumberOfEmployeesToTest)
-            {
-                randomNumbers.Add(rand.Next(0, totalInPool));
-            }
+
+
+
 
             // turn the hashset into a comma separated string
             string randomNumbersString = string.Join(",", randomNumbers);
@@ -121,7 +135,6 @@ namespace CrosstabAnyPOC
 
 
             #endregion
-
 
 
             #region PRINT DISPLAY
@@ -236,7 +249,6 @@ namespace CrosstabAnyPOC
 
 
             Console.ReadKey();
-
 
 
         }  // ----------- main()
