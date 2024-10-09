@@ -14,12 +14,12 @@ namespace CrosstabAnyPOC
         {
             #region Variables
 
-            var _mappings = JobToDepartmentMapping.GetMockMappings();       // Generate random mappings
-            var _employees = WorkDayEmployee.GetMockEmployees(300);         // Generate random list of N employees
+            var _mappings = JobToDepartmentMapping.GetMockMappings();                   // Generate random mappings
+            var _employees = WorkDayEmployee.GetMockEmployees(300);                     // Generate random list of N employees
 
 
-            // these are the settings for the test
-            var _settings = new DrugTestSettings                                               
+         
+            var _settings = new DrugTestSettings                                        // Configure some settings for the test                                             
             {
                 TestNumber = 1,
                 TestOperatorName = "Mark G",
@@ -40,18 +40,31 @@ namespace CrosstabAnyPOC
 
             #region ACTION
 
+            
+            
+            
+            
+            // STEP 1, __GET POOL__
 
-
+            // In: _mappings list, _employees list , _settings object
             // Create a ___POOL___
             // Simple Match employees with the active mappings
             var SelectionPool = _employees.Where(emp =>
                 _mappings.Any(map =>
-                    map.IsActive &&                                     // ONLY match active mappings                           -AND-
-                    map.CostCenterID == emp.DepartmentID &&             // CostCenter (departments) match each other            -AND-
-                    map.TestingGroup == TestingGroup.T.ToString() &&               // testing group matches one of the enums.  (n, t, d)   -AND-
-                    map.JobCodeID == emp.JobCode &&                     // Jobcodes match each other                            -AND-
-                    true))                                              // always true place holder so I can insert others above
+                    map.IsActive &&                                         // ONLY match active mappings                           -AND-
+                    map.CostCenterID == emp.DepartmentID &&                 // CostCenter (departments) match each other            -AND-
+                    map.TestingGroup == TestingGroup.T.ToString() &&        // testing group matches one of the enums.  (n, t, d)   -AND-
+                    map.JobCodeID == emp.JobCode &&                         // Jobcodes match each other                            -AND-
+                    true))                                                  // always true place holder so I can insert others above
                     .ToList();
+            // If I wanted to pull this linkq query out what would I need to do?
+
+
+
+
+
+
+
 
 
 
@@ -67,12 +80,15 @@ namespace CrosstabAnyPOC
                                                                                                                  // otherwise number of employees is already set
 
 
-            // make a call to get a random hashset            
+            // Based on pool zize, make a call to get a random hashset            
             HashSet<int> randomNumbers =  SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToTest, _settings.EmployeePoolSize);
 
         
             _settings.SelectionPattern = string.Join(",", randomNumbers);               // store the hashset as comma separated string
 
+
+
+            // STEP 2, __GET FROM POOL__   (SELECT Random EMPLOYEES)
 
             // create a linq query that selects the employees from the pool that match the random numbers
             var selectedEmployees = SelectionPool.Where((emp, index) => randomNumbers.Contains(index)).ToList();
@@ -98,7 +114,7 @@ namespace CrosstabAnyPOC
             #endregion
 
 
-            #region PRINT DISPLAY
+            #region PRINT UI interaction
 
 
 
@@ -214,14 +230,29 @@ namespace CrosstabAnyPOC
             //Utility.PrintEmployees(_employees);
 
 
+            Console.ReadKey();
 
             #endregion
 
 
-            Console.ReadKey();
 
 
         }  // ----------- main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         #region HELPERS

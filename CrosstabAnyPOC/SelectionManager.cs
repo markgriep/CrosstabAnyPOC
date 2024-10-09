@@ -20,7 +20,7 @@ namespace CrosstabAnyPOC
         public static HashSet<int> GetRandomHashset(int numberOfElements, int upperBound)
         {
             
-            if (numberOfElements > upperBound)      // prevents loop if numberOfElements is greater than upperBound
+            if (numberOfElements > upperBound)                      // prevents loop if numberOfElements is greater than upperBound
             {
                 throw new ArgumentException("RandomHashSet: numberOfElements cannot be greater than upperBound.");
             }
