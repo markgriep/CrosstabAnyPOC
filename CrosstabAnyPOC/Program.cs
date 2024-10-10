@@ -13,18 +13,7 @@ namespace CrosstabAnyPOC
         static void Main()
         {
 
-
-
-
-            List<char> chars = new List<char>()
-            {
-                'T', 'h', 'i', 's', ' ', 'i', 's', ' ', 'o', 'n', 'l', 'y', ' ', 'a', ' ',
-                't', 'e', 's', 't', '.', ' ', ' ', 'P', 'r', 'e', 's', 's', ' ', 'a', 'n',
-                'y', ' ', 'k', 'e', 'y', ' ', 't', 'o', ' ', 's', 't', 'a', 'r', 't', '.',
-                '.', '.'
-            };
-
-            Console.WriteWithGradient(chars, Color.Yellow, Color.Fuchsia, 14);
+            Console.Write("Press any key to cintinu...");
             
             Console.ReadKey();
 
