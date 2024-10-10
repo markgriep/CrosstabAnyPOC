@@ -12,6 +12,9 @@ namespace CrosstabAnyPOC
     {
         static void Main()
         {
+            Console.WriteLine("Just a pause before starting.  Press any key to start", ColorTranslator.FromHtml("#FFD700"));
+            Console.ReadLine();
+
             #region Variables
 
             var _mappings = JobToDepartmentMapping.GetMockMappings();                   // Generate random mappings
