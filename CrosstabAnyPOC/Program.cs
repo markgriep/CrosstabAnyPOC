@@ -20,7 +20,7 @@ namespace CrosstabAnyPOC
             #region Variables
 
             var _mappings = JobToDepartmentMapping.GetMockMappings();                   // Generate random mappings
-            var _employees = WorkDayEmployee.GetMockEmployees(1500);                     // Generate random list of N employees
+            var _employees = WorkDayEmployee.GetMockEmployees(9500);                     // Generate random list of N employees
 
 
          
@@ -134,7 +134,6 @@ namespace CrosstabAnyPOC
             Console.WriteLine("Matched Employees:");
             foreach (var emp in SelectionPool)
             {
-              
                Console.WriteLine($"{emp.Name,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
             }
 
