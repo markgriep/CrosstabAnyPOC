@@ -20,7 +20,7 @@ namespace CrosstabAnyPOC
             #region Variables
 
             var _mappings = JobToDepartmentMapping.GetMockMappings();                   // Generate random mappings
-            var _employees = WorkDayEmployee.GetMockEmployees(19500);                     // Generate random list of N employees
+            var _employees = WorkDayEmployee.GetMockEmployees(65000);                     // Generate random list of N employees
 
 
          
@@ -31,11 +31,11 @@ namespace CrosstabAnyPOC
                 RequestDateTime = DateTime.Now,
 
                 TestType = TestType.Both,
-                TestingGroup = TestingGroup.D,
+                TestingGroup = TestingGroup.N,
                 TestCategory = TestCategory.Random,
                 TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
                 
-                PercentageOfEmployeesToTest = 0.1M,                                     // X percent 
+                PercentageOfEmployeesToTest = 0.25M,                                     // X percent 
                 NumberOfEmployeesToTest = 0,                                            // 0 employees
             };
 
