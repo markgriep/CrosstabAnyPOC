@@ -12,7 +12,20 @@ namespace CrosstabAnyPOC
     {
         static void Main()
         {
-            Console.WriteLine("Just a pause before starting.  Press any key to start", ColorTranslator.FromHtml("#FFD700"));
+
+
+
+
+            List<char> chars = new List<char>()
+            {
+                'T', 'h', 'i', 's', ' ', 'i', 's', ' ', 'o', 'n', 'l', 'y', ' ', 'a', ' ',
+                't', 'e', 's', 't', '.', ' ', ' ', 'P', 'r', 'e', 's', 's', ' ', 'a', 'n',
+                'y', ' ', 'k', 'e', 'y', ' ', 't', 'o', ' ', 's', 't', 'a', 'r', 't', '.',
+                '.', '.'
+            };
+
+            Console.WriteWithGradient(chars, Color.Yellow, Color.Fuchsia, 14);
+            
             Console.ReadKey();
 
             #region Variables
