@@ -13,7 +13,7 @@ namespace CrosstabAnyPOC
         static void Main()
         {
             Console.WriteLine("Just a pause before starting.  Press any key to start", ColorTranslator.FromHtml("#FFD700"));
-            Console.ReadLine();
+            Console.ReadKey();
 
             #region Variables
 
