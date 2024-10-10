@@ -13,7 +13,7 @@ namespace CrosstabAnyPOC
         static void Main()
         {
 
-            Console.Write("Press any key to cintinu...");
+            Console.Write("Press any key to continue...");
             
             Console.ReadKey();
 
