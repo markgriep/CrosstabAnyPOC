@@ -20,7 +20,7 @@ namespace CrosstabAnyPOC
             #region Variables
 
             var _mappings = JobToDepartmentMapping.GetMockMappings();                   // Generate random mappings
-            var _employees = WorkDayEmployee.GetMockEmployees(9500);                     // Generate random list of N employees
+            var _employees = WorkDayEmployee.GetMockEmployees(19500);                     // Generate random list of N employees
 
 
          
