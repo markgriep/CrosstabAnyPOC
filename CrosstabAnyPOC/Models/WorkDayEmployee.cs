@@ -28,35 +28,48 @@
             return new List<WorkDayEmployee>
             {
                 //                    Name          DeptID       JobCode
-                new WorkDayEmployee("Alice",        990,           "001",   890291),
-                new WorkDayEmployee("X-Bob",        990,           "009",   890291),
-                new WorkDayEmployee("Charlie",      990,           "003",   890291),
+                new WorkDayEmployee("Alice",        990,           "001",  891234),
+                new WorkDayEmployee("X-Bob",        990,           "009",  890567),
+                new WorkDayEmployee("Charlie",      990,           "003",  890345),
                                                                            
-                new WorkDayEmployee("Diana",        119,           "002",   890291),
-                new WorkDayEmployee("Edward",       119,           "003",   890291),
-                new WorkDayEmployee("X-Fiona",      119,           "004",   890291),
-                new WorkDayEmployee("X-George",     119,           "009",   890291),
+                new WorkDayEmployee("Diana",        119,           "002",  892345),
+                new WorkDayEmployee("Edward",       119,           "003",  890211),
+                new WorkDayEmployee("X-Fiona",      119,           "004",  890156),
+                new WorkDayEmployee("X-George",     119,           "009",  890567),
                                                                            
-                new WorkDayEmployee("Hannah",       111,           "005",   890291),
-                new WorkDayEmployee("Ian",          111,           "005",   890291),
-                new WorkDayEmployee("Jonah",        111,           "005",   890291),
-                new WorkDayEmployee("Kevin",        111,           "005",   890291),
+                new WorkDayEmployee("Hannah",       111,           "005",  890401),
+                new WorkDayEmployee("Ian",          111,           "005",  890222),
+                new WorkDayEmployee("Jonah",        111,           "005",  890134),
+                new WorkDayEmployee("Kevin",        111,           "005",  890987),
                                                                            
-                new WorkDayEmployee("Lan",          005,           "022",   890291),
-                new WorkDayEmployee("X-Man",        005,           "029",   890291),
-                new WorkDayEmployee("X-Nud",        005,           "028",   890291),
+                new WorkDayEmployee("Lan",          005,           "022",  890250),
+                new WorkDayEmployee("X-Man",        005,           "029",  890123),
+                new WorkDayEmployee("X-Nud",        005,           "028",  890275),
 
                 
-                new WorkDayEmployee("Odd",          005,           "023",   890291),
+                new WorkDayEmployee("Odd",          005,           "023",  892001),
             };
         }
 
 
 
-        TO DO
-            See if the code will generate employee ids
 
-            https://chatgpt.com/c/67055bf3-16b4-800e-9ce8-c449a6df4506
+
+
+
+
+
+
+
+
+
+
+
+
+        //TODO
+        //    See if the code will generate employee ids
+
+            //https://chatgpt.com/c/67055bf3-16b4-800e-9ce8-c449a6df4506
 
 
 
@@ -146,7 +159,7 @@
         }
 
 
-        private static HashSet<int> GenerateUniqueEmployeeIDs(int count)
+        public static HashSet<int> GenerateUniqueEmployeeIDs(int count)
         {
             HashSet<int> employeeIDs = new HashSet<int>();
             Random random = new Random();
@@ -156,9 +169,11 @@
                 // Generate random value based on weighted probability
                 int randomValue = random.NextDouble() switch
                 {
-                    < 0.6 => random.Next(2000, 2251),      // 60% chance for range 2000-2250
-                    < 0.9 => random.Next(2251, 2501),      // 30% chance for range 2251-2500
-                    _ => random.Next(2501, 3000)           // 10% chance for range 2501-2999
+                    < 0.50 => random.Next(2000, 2551),      // 50% chance for range 2000-2250 (most likely)
+                    < 0.75 => random.Next(2551, 2700),      // 25% chance for range 2251-2399
+                    < 0.875 => random.Next(2701, 2950),     // 12.5% chance for range 2401-2549
+                    < 0.955 => random.Next(2951, 3700),     // 8% chance for range 2551-2699
+                    _ => random.Next(3701, 5999)            // 4.5% chance for range 2701-2998 (least likely)
                 };
 
                 int employeeID = 890000 + randomValue;     // Generate the final employee ID (e.g., 892345)

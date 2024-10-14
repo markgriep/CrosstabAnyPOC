@@ -1,5 +1,7 @@
 using CrosstabAnyPOC;
-using xunit;
+using CrosstabAnyPOC.Models;
+using System.Diagnostics;
+
 
 
 namespace TestVariousThings
@@ -37,11 +39,44 @@ namespace TestVariousThings
 
             for (int i = 0; i < 100; i++)
             {
-                x.Add(SelectionManager.GetRandomHashset(100).ToList());
+                x.Add(SelectionManager.GetRandomHashset(100, 1000).ToList());
             }
 
 
         }
+
+
+
+
+        [Fact]
+        public void TestGettingRandomishEmployeeIds_ShouldGetSomething()
+        {
+            var x = WorkDayEmployee.GenerateUniqueEmployeeIDs(200);
+            Assert.True(x.Count == 20);
+        }
+
+
+
+        [Fact]
+        public void TestGettingRandomEmployeesWithIds_ShouldGetSomething()
+        {
+            var x = WorkDayEmployee.GetMockEmployees(20);
+
+
+
+            Debug.WriteLine("#######################################################");
+            Debug.WriteLine(x.Count);
+
+            Debug.WriteLine(x[0].Name);
+            Debug.WriteLine(x[0].JobCode);
+            Debug.WriteLine(x[0].EmployeeId);
+
+            Assert.True(x.Count == 20);
+
+
+        }
+
+
 
 
 
