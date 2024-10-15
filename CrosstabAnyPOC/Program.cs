@@ -21,17 +21,17 @@ namespace CrosstabAnyPOC
          
             var _settings = new DrugTestSettings                                        // Configure some settings for the test                                             
             {
-                TestNumber = 1,
-                TestOperatorName = "Mark G",
-                RequestDateTime = DateTime.Now,
+                TestNumber                  = 1,
+                TestOperatorName            = "Mark G",
+                RequestDateTime             = DateTime.Now,
 
-                TestType = TestType.Both,
-                TestingGroup = TestingGroup.D,
-                TestCategory = TestCategory.Random,
-                TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
+                TestType                    = TestType.Both,
+                TestingGroup                = TestingGroup.N,
+                TestCategory                = TestCategory.Random,
+                TestSubjectSelectionMethod  = TestSubjectSelectionMethod.Automatic,
                 
                 PercentageOfEmployeesToTest = 0.1M,                                     // X percent 
-                NumberOfEmployeesToTest = 0,                                            // 0 employees
+                NumberOfEmployeesToTest     = 0,                                            // 0 employees
             };
 
 
@@ -58,6 +58,34 @@ namespace CrosstabAnyPOC
                     true))                                                  // always true place holder so I can insert others above
                     .ToList();
             // If I wanted to pull this linkq query out what would I need to do?
+
+            System.Console.WriteLine(SelectionPool.Count);
+
+            var threePeopleToDelete = SelectionPool.Take(3).Select(emp => emp.EmployeeId).ToList();  // get the first 3 names from the pool
+
+
+
+
+
+            SelectionPool = SelectionPool.Where(emp => !threePeopleToDelete.Contains(emp.EmployeeId)).ToList();
+            System.Console.WriteLine(SelectionPool.Count);
+
+            // delete people  Just simply delete the people that are in the Exclude table
+
+
+
+
+
+
+
+
+            // Insert people that both match the employee ID and the "RDT Group"
+
+            System.Console.WriteLine("insert people");
+
+
+
+
 
 
 

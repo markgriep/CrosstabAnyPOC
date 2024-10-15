@@ -9,8 +9,6 @@ namespace CrosstabAnyPOC
     public class SelectionManager
     {
 
-
-
         /// <summary>
         /// This is to get a blob of random non duplicated numbers between zero and X
         /// </summary>
