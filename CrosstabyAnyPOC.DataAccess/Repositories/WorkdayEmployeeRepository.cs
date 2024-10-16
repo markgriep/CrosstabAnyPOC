@@ -1,7 +1,7 @@
-﻿using RandomDrugTest.DataAccess.Data;
-using RandomDrugTest.DataAccess.Interfaces;
-using RandomDrugTest.DataAccess.Models;
-using RandomDrugTest.Core.Interfaces;
+﻿//using CrosstabAnyPOC.DataAccess.Data;
+using CrosstabAnyPOC.DataAccess.Interfaces;
+using CrosstabAnyPOC.DataAccess.Models;
+//using RandomDrugTest.Core.Interfaces;
 
 using System.Net.Http.Json;
 using System.Xml.Serialization;
@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
 using System.Diagnostics;
 
-namespace RandomDrugTest.DataAccess.Repositories
+namespace CrosstabAnyPOC.DataAccess.Repositories
 {
     public class WorkdayEmployeeRepository : IWorkdayEmployeeRepository
     {
