@@ -1,5 +1,6 @@
 ﻿using Colorful;
 using CrosstabAnyPOC.Models;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
@@ -31,7 +32,7 @@ namespace CrosstabAnyPOC
                 TestSubjectSelectionMethod  = TestSubjectSelectionMethod.Automatic,
                 
                 PercentageOfEmployeesToTest = 0.1M,                                     // X percent 
-                NumberOfEmployeesToTest     = 0,                                            // 0 employees
+                NumberOfEmployeesToTest     = 0,                                        // 0 employees
             };
 
 
@@ -55,22 +56,31 @@ namespace CrosstabAnyPOC
                     map.CostCenterID == emp.DepartmentID &&                 // CostCenter (departments) match each other            -AND-
                     map.TestingGroup == TestingGroup.T.ToString() &&        // testing group matches one of the enums.  (n, t, d)   -AND-
                     map.JobCodeID == emp.JobCode &&                         // Jobcodes match each other                            -AND-
-                    true))                                                  // always true place holder so I can insert others above
+                    true)).Select(ee => new { EmployeeID = ee.EmployeeId })                                                  // always true place holder so I can insert others above
                     .ToList();
-            // If I wanted to pull this linkq query out what would I need to do?
+         
 
+
+           System.Console.WriteLine(SelectionPool.Count);
+           var threePeopleToDelete = SelectionPool.Take(3).Select(emp => emp).ToList();  // get the first 3 from the pool
+
+
+
+
+
+          SelectionPool = SelectionPool.Where(emp => !threePeopleToDelete.Contains(emp)).ToList();
+          System.Console.WriteLine(SelectionPool.Count);
+
+
+
+
+
+
+            // create a list of 3 employeeIDs
+            var newIds = Enumerable.Range(990001, 100).Select(id => new { EmployeeID = id }).ToList();
+            SelectionPool.AddRange(newIds);
             System.Console.WriteLine(SelectionPool.Count);
 
-            var threePeopleToDelete = SelectionPool.Take(3).Select(emp => emp.EmployeeId).ToList();  // get the first 3 names from the pool
-
-
-
-
-
-            SelectionPool = SelectionPool.Where(emp => !threePeopleToDelete.Contains(emp.EmployeeId)).ToList();
-            System.Console.WriteLine(SelectionPool.Count);
-
-            // delete people  Just simply delete the people that are in the Exclude table
 
 
 
@@ -79,7 +89,6 @@ namespace CrosstabAnyPOC
 
 
 
-            // Insert people that both match the employee ID and the "RDT Group"
 
             System.Console.WriteLine("insert people");
 
@@ -159,7 +168,7 @@ namespace CrosstabAnyPOC
             foreach (var emp in SelectionPool)
             {      
                
-               Console.WriteLine($"{n++, -4} {emp.EmployeeId,-12} {emp.Name,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
+             //  Console.WriteLine($"{n++, -4} {emp.EmployeeId,-12} {emp.Name,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
             }
 
 
@@ -174,7 +183,7 @@ namespace CrosstabAnyPOC
             // now loop through and print the selected employees
             foreach (var emp in selectedEmployees)
             {
-                Console.WriteLine($"{emp.Name,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
+             //   Console.WriteLine($"{emp.Name,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
             }
 
 
