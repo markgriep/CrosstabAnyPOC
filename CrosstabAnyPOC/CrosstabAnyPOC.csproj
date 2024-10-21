@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CrosstabyAnyPOC.DataAccess\CrosstabyAnyPOC.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="figlet\ANSI Regular.flf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

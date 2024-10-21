@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Reflection;
+
 using Console = Colorful.Console;
 
 namespace CrosstabAnyPOC
@@ -39,7 +40,7 @@ namespace CrosstabAnyPOC
             #endregion
 
 
-            #region ACTION
+            #region ACTIONS
 
             
             
@@ -80,24 +81,6 @@ namespace CrosstabAnyPOC
             var newIds = Enumerable.Range(990001, 100).Select(id => new { EmployeeID = id }).ToList();
             SelectionPool.AddRange(newIds);
             System.Console.WriteLine(SelectionPool.Count);
-
-
-
-
-
-
-
-
-
-
-            System.Console.WriteLine("insert people");
-
-
-
-
-
-
-
 
 
 
@@ -155,34 +138,35 @@ namespace CrosstabAnyPOC
 
 
 
+            Printing.BigPrint("Drug Test Selection"); // Print the title
 
-
-
-            BigPrint("The  POOL"); 
-            BigPrint($"{GetEnumDisplayName(_settings.TestingGroup)}");
-            BigPrint($"{SelectionPool.Count}");
+            Printing.BigPrint("The  POOL");
+            Printing.BigPrint($"{Printing.GetEnumDisplayName(_settings.TestingGroup)}");
+            Printing.BigPrint($"{SelectionPool.Count}");
 
             // Print matched employees in the ___POOL___
             Console.WriteLine("Matched Employees:");
             var n = 0;
             foreach (var emp in SelectionPool)
-            {      
-               
-             //  Console.WriteLine($"{n++, -4} {emp.EmployeeId,-12} {emp.Name,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
+            {
+                Console.WriteLine($"{n++, -4} {emp.EmployeeID,-12} ");    // Print employee details with leading zeros intact
+                //Console.WriteLine($"{n++, -4} {emp.EmployeeID,-12} {emp.,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
             }
 
 
 
 
 
-            
-            BigPrint("");
-            BigPrint("SELECTED From the pool");
-            BigPrint($"{selectedEmployees.Count}");
+
+
+            Printing.BigPrint("");
+            Printing.BigPrint("SELECTED From the pool");
+            Printing.BigPrint($"{selectedEmployees.Count}");
 
             // now loop through and print the selected employees
             foreach (var emp in selectedEmployees)
             {
+                Console.WriteLine($"{emp.EmployeeID}");    // Print employee details with leading zeros intact
              //   Console.WriteLine($"{emp.Name,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
             }
 
@@ -192,8 +176,8 @@ namespace CrosstabAnyPOC
 
             // print all the _settings
 
-            BigPrint("");
-            BigPrint("SETTINGS");
+            Printing.BigPrint("");
+            Printing.BigPrint("SETTINGS");
             int labelWidth = 35; // Set to ensure all labels align
 
             Console.WriteLine($"{"Test Number:".PadLeft(labelWidth)} {_settings.TestNumber}");                      // Right justify label, left justify value
@@ -293,34 +277,7 @@ namespace CrosstabAnyPOC
 
 
 
-        #region HELPERS
-
-
-        private static void BigPrint(string str)
-        {
-            //FigletFont font = FigletFont.Load("figlet/Stick Letters.flf");
-            //FigletFont font = FigletFont.Load("figlet/JS Stick Letters.flf");
-            //FigletFont font = FigletFont.Load("figlet/Cybermedium.flf");
-            //FigletFont font = FigletFont.Load("figlet/Graceful.flf");
-
-            FigletFont font = FigletFont.Load("figlet/Small.flf");
-
-            Figlet figlet = new(font);
-            
-            Console.WriteLine(figlet.ToAscii(str), ColorTranslator.FromHtml("#8AFFEF"));
-
-        }
-
-
-        public static string GetEnumDisplayName(Enum value)
-        {
-            return value.GetType().GetField(value.ToString())?
-                       .GetCustomAttribute<DisplayAttribute>()?
-                       .Name ?? value.ToString();
-        }
-
-
-        #endregion
+     
 
     }//----------- class
 } //------------namespace 

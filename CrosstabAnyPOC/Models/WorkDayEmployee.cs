@@ -1,4 +1,6 @@
-﻿namespace CrosstabAnyPOC.Models
+﻿using CrosstabAnyPOC.Utilities;
+
+namespace CrosstabAnyPOC.Models
 {
     //#########################################################################
     public class WorkDayEmployee

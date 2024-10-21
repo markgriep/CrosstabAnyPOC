@@ -52,7 +52,7 @@ namespace CrosstabAnyPOC.Models
 
 
 
-    internal class DrugTestSettings
+    public class DrugTestSettings
     {
 
         
