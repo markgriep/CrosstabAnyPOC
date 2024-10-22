@@ -1,81 +1,57 @@
-﻿namespace CrosstabAnyPOC.Models
+﻿
+using CrosstabAnyPOC.DataAccess.Models;
+using DocumentFormat.OpenXml.Bibliography;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CrosstabAnyPOC.Utilities
 {
-    //#########################################################################
-    public class WorkDayEmployee
+    public static class MockEmployeeHelper
     {
-        public int EmployeeId { get; set; }      // EmployeeID (INTEGER)
-        public string Name { get; set; }            // Employee's Name
-        public int DepartmentID { get; set; }       // Department ID (integer)
-        public string JobCode { get; set; }         // Job Code (alphanumeric)
 
-        public WorkDayEmployee(string name, int departmentID, string jobCode, int employeeId)
+
+        /// <summary>
+        /// hacky hard coded employee list
+        /// </summary>
+        /// <returns></returns>
+        public static List<WorkdayEmployee> GetStaticEmployees()
         {
-            Name = name;
-            DepartmentID = departmentID;
-            JobCode = jobCode;
-            EmployeeId = employeeId;
-        }
+
+            return new List<WorkdayEmployee> {
+            new WorkdayEmployee { EmployeeName = "Alan-AT",   JobCode = "001", Department = "990", EmployeeId = "890567" }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Bob-AT",    JobCode = "002", Department = "990", EmployeeId = "897569" }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Charlie-T" ,JobCode = "099", Department = "990", EmployeeId = "890345" },
+            //
+            new WorkdayEmployee { EmployeeName = "Diana-AN",  JobCode = "002", Department = "119", EmployeeId = "892645" }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Edward-AN", JobCode = "003", Department = "119", EmployeeId = "890211" }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Fiona-AN",  JobCode = "004", Department = "119", EmployeeId = "890756" }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "George-N",  JobCode = "019", Department = "119", EmployeeId = "890867" },
+            //
+            new WorkdayEmployee { EmployeeName = "Hannah-AO", JobCode = "554", Department = "404", EmployeeId = "890401" }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Ian-O",     JobCode = "005", Department = "404", EmployeeId = "890222" },
+            new WorkdayEmployee { EmployeeName = "Jonah-AO",  JobCode = "552", Department = "404", EmployeeId = "890134" }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Kevin-O",   JobCode = "003", Department = "404", EmployeeId = "890987" },
+            //
+            new WorkdayEmployee { EmployeeName = "Lois-X",    JobCode = "022", Department = "005", EmployeeId = "890050" },
+        };
 
 
-
-        // HELPERS
-
-
-        // Method to create a list of mock employees
-
-        public static List<WorkDayEmployee> GetMockEmployees()
-        {
-            return new List<WorkDayEmployee>
-            {
-                //                    Name          DeptID       JobCode
-                new WorkDayEmployee("Alice",        990,           "001",  891234),
-                new WorkDayEmployee("X-Bob",        990,           "009",  890567),
-                new WorkDayEmployee("Charlie",      990,           "003",  890345),
-                                                                           
-                new WorkDayEmployee("Diana",        119,           "002",  892345),
-                new WorkDayEmployee("Edward",       119,           "003",  890211),
-                new WorkDayEmployee("X-Fiona",      119,           "004",  890156),
-                new WorkDayEmployee("X-George",     119,           "009",  890567),
-                                                                           
-                new WorkDayEmployee("Hannah",       111,           "005",  890401),
-                new WorkDayEmployee("Ian",          111,           "005",  890222),
-                new WorkDayEmployee("Jonah",        111,           "005",  890134),
-                new WorkDayEmployee("Kevin",        111,           "005",  890987),
-                                                                           
-                new WorkDayEmployee("Lan",          005,           "022",  890250),
-                new WorkDayEmployee("X-Man",        005,           "029",  890123),
-                new WorkDayEmployee("X-Nud",        005,           "028",  890275),
-
-                
-                new WorkDayEmployee("Odd",          005,           "023",  892001),
-            };
         }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        //TODO
-        //    See if the code will generate employee ids
-
-            //https://chatgpt.com/c/67055bf3-16b4-800e-9ce8-c449a6df4506
-
-
-
-        public static List<WorkDayEmployee> GetMockEmployees(int numberOfEmployees)
+        /// <summary>
+        /// dynamic, somewhat realistic list of mock employees
+        /// </summary>
+        /// <param name="numberOfEmployees"></param>
+        /// <returns></returns>
+        public static List<WorkdayEmployee> GetMockEmployees(int numberOfEmployees)
         {
-            List<WorkDayEmployee> employeeList = new List<WorkDayEmployee>();
+            List<WorkdayEmployee> employeeList = new List<WorkdayEmployee>();
 
             // Generate unique employee IDs before the for loop
             HashSet<int> employeeIDs = GenerateUniqueEmployeeIDs(numberOfEmployees);
@@ -96,7 +72,14 @@
                 int employeeID = employeeIDsArray[i];
 
                 // Create a new WorkDayEmployee and add to the list
-                employeeList.Add(new WorkDayEmployee(name, departmentID, jobCode, employeeID));
+                //employeeList.Add(new WorkdayEmployee(name, departmentID, jobCode, employeeID));
+                employeeList.Add(new WorkdayEmployee { 
+                    Id = i + 1,
+                    EmployeeName = name, 
+                    EmployeeId = employeeID.ToString(), 
+                    Department = departmentID.ToString(), 
+                    JobCode = jobCode 
+                });
             }
 
             return employeeList;                                                        // Return the complete list of employees
@@ -185,4 +168,4 @@
 
 
     }
-} // End of namespace CrosstabAnyPOC
+}

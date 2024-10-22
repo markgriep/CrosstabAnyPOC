@@ -1,4 +1,4 @@
-﻿using CrosstabAnyPOC.Models;
+﻿using CrosstabAnyPOC.DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,20 +12,21 @@ namespace CrosstabAnyPOC
 
 
 
-        public static void PrintEmployees(List<WorkDayEmployee> employees)
+        public static void PrintEmployees(List<WorkdayEmployee> employees)
         {
             foreach (var employee in employees)
             {
-                Console.WriteLine($"Name: {employee.Name}, Dept: {employee.DepartmentID}, JCod: {employee.JobCode}");
+                //Console.WriteLine($"Name: {employee.Name}, Dept: {employee.DepartmentID}, JCod: {employee.JobCode}");
+                Console.WriteLine($" JCod: {employee.JobCode}");
             }
         }
 
 
-        public static void PrintMapping(List<JobToDepartmentMapping> mappings)
+        public static void PrintMapping(List<JobCodeToDepartmentMapping> mappings)
         {
             foreach (var mapping in mappings)
             {
-                Console.WriteLine($"ID: {mapping.ID}, CostCenter: {mapping.CostCenterID}, JobCode: {mapping.JobCodeID}, " +
+                Console.WriteLine($"ID: {mapping.Id}, CostCenter: {mapping.CostCenterId}, JobCode: {mapping.JobCodeId}, " +
                                   $"TestingGroup: {mapping.TestingGroup}, EffectiveDate: {mapping.EffectiveDate.ToShortDateString()}, IsActive: {mapping.IsActive}");
             }
         }

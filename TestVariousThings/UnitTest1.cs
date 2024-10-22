@@ -1,5 +1,6 @@
 using CrosstabAnyPOC;
-using CrosstabAnyPOC.Models;
+using CrosstabAnyPOC.DataAccess.Models;
+using CrosstabAnyPOC.Utilities;
 using System.Diagnostics;
 
 
@@ -51,8 +52,8 @@ namespace TestVariousThings
         [Fact]
         public void TestGettingRandomishEmployeeIds_ShouldGetSomething()
         {
-            var x = WorkDayEmployee.GenerateUniqueEmployeeIDs(200);
-            Assert.True(x.Count == 20);
+            var x = MockEmployeeHelper.GenerateUniqueEmployeeIDs(200);
+            Assert.True(x.Count == 200);
         }
 
 
@@ -60,14 +61,14 @@ namespace TestVariousThings
         [Fact]
         public void TestGettingRandomEmployeesWithIds_ShouldGetSomething()
         {
-            var x = WorkDayEmployee.GetMockEmployees(20);
+            var x = MockEmployeeHelper.GetMockEmployees(20);
 
 
 
             Debug.WriteLine("#######################################################");
             Debug.WriteLine(x.Count);
 
-            Debug.WriteLine(x[0].Name);
+            Debug.WriteLine(x[0].EmployeeName);
             Debug.WriteLine(x[0].JobCode);
             Debug.WriteLine(x[0].EmployeeId);
 
