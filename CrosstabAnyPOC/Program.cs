@@ -18,7 +18,7 @@ namespace CrosstabAnyPOC
 
             #region Variables
 
-            var _mappings = MockJobToDepartment.GetMockMappings();  //.GetMockMappings();  
+            var _mappings = MockJobToDepartment.GetStaticMappings();  //.GetMockMappings();  
             var _employees = MockEmployeeHelper.GetMockEmployees(50);            // Generate random list of N employees
 
             var _settings = new DrugTestSettings                                        // Configure some settings for the test                                             

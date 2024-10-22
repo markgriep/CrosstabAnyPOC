@@ -23,8 +23,8 @@ namespace CrosstabAnyPOC.DataAccess.Models
         T,
         [Display(Name = "Non-Tranist")]
         N,
-        [Display(Name = "DOT")]
-        D
+        [Display(Name = "DOT-Other")]  
+        O
     }
 
 
@@ -58,34 +58,26 @@ namespace CrosstabAnyPOC.DataAccess.Models
         public DateTime RequestDateTime { get; set; }
 
 
+        public TestType TestType { get; set; }                                          // ENUM Drug, alcohol or both
 
-        // ENUM Drug, alcohol or both
-        public TestType TestType { get; set; }
+        public TestingGroup TestingGroup { get; set; }                                  // ENUM DOT, NonDOT or Transit
 
-        // ENUM DOT, NonDOT or Transit
-        public TestingGroup TestingGroup { get; set; }
+        public TestCategory TestCategory { get; set; }                                  // ENUM Random, FollowUp, Post-Accident, etc
 
-        // ENUM Random, FollowUp, Post-Accident, etc
-        public TestCategory TestCategory { get; set; }
+        public TestSubjectSelectionMethod TestSubjectSelectionMethod { get; set; }      // ENUM manual or automatic
 
-        // ENUM manual or automatic
-        public TestSubjectSelectionMethod TestSubjectSelectionMethod { get; set; }
+                                                                                       
+        public int NumberOfEmployeesToTest { get; set; }                                // Actual number to select 
 
+        public int EmployeePoolSize { get; set; }                                       // For MANUAL selection
 
+        public decimal PercentageOfEmployeesToDrugTest { get; set; }                    // For AUTOMATIC DRUG selection
 
-        // Nullable properties, one will be used based on SelectionMethod
-        public int NumberOfEmployeesToTest { get; set; }                    // For MANUAL selection
+        public decimal PercentageOfEmployeesToAlcoholTest { get; set; }                 // For AUTOMATIC ALC. selection
 
-        public int EmployeePoolSize { get; set; }                           // For MANUAL selection
+        public string? DrugSelectionPattern { get; set; }                               // To store the hashset for DRUG selecting employees
 
-
-        public decimal PercentageOfEmployeesToDrugTest { get; set; }        // For AUTOMATIC drug selection
-
-        public decimal PercentageOfEmployeesToAlcoholTest { get; set; }     // For AUTOMATIC alco selection
-
-        public string? DrugSelectionPattern { get; set; }                   // To store the hashset for drug selecting employees
-
-        public string? AlcoholSelectionPattern { get; set; }                // To store the hashset for alcohol selecting employees
+        public string? AlcoholSelectionPattern { get; set; }                            // To store the hashset for ALC. selecting employees
 
 
     }

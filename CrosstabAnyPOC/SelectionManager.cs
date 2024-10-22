@@ -10,16 +10,13 @@ namespace CrosstabAnyPOC
     public class SelectionManager
     {
 
-        #region Variables   
+        #region Variables/Properties   
 
 
         // Store the list of all employees that was passed in
         public List<WorkdayEmployee> _currentEmployees{ get; set; }
 
-
         public List<JobCodeToDepartmentMapping> _jobCodeToDepartmentMatrix { get; set; }
-
-
 
         // property to hols DrugTestSettings 
         public DrugTestSettings _drugTestSettings { get; set; }
@@ -67,10 +64,7 @@ namespace CrosstabAnyPOC
             var tDrugHash = _drugTestSettings.DrugSelectionPattern;                   // stringized hashset for drug selection
             var tAlcoHash = _drugTestSettings.AlcoholSelectionPattern;                // stringized hashset for alcohol selection
 
-
-
-
-
+   
             var x = tGroup.ToString();                                             // convert enum to string
 
             var SelectionPool = _currentEmployees.Where(emp =>

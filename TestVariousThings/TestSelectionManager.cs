@@ -33,35 +33,36 @@ namespace TestVariousThings
 
 
 
-        [Fact]
-        public void TestCountOfEmployees_ShouldBeApproximately120()
+
+
+
+
+        [Theory]
+        [InlineData(TestingGroup.T  ,new string[] { "Alan-AT", "Bob-AT" })]
+        [InlineData(TestingGroup.N  ,new string[] { "Diana-AO", "Fiona-AO", "Edward-AO" })]
+        [InlineData(TestingGroup.O  ,new string[] { "Hannah-AT", "Jonah-AT" })]
+        public void TestGettingStaticEmployeesAndJobDepartmentMapping_ShouldMatchExpectedNames(TestingGroup _testingGroup, string[] _expectedNames)
         {
-            var _mappings = MockJobToDepartment.GetMockMappings();
-            var _employees = MockEmployeeHelper.GetMockEmployees(200); 
+            var _mappings = MockJobToDepartment.GetStaticMappings();                                // Get some known-value of mappings
+            var _employees = MockEmployeeHelper.GetStaticEmployees();                               // Get some known-value of employees
 
-
-            var _settings = new DrugTestSettings                                        // Configure some settings for the test                                             
+            var _settings = new DrugTestSettings                                                    // setup some testing prameters
             {
-                TestNumber = 1,
-                TestOperatorName = "Mark G",
-                RequestDateTime = DateTime.Now,
-
-                TestType = TestType.Both,
-                TestingGroup = TestingGroup.N,
-                TestCategory = TestCategory.Random,
-                TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
-
-                PercentageOfEmployeesToDrugTest = 0.1M,                                     // X percent 
-                NumberOfEmployeesToTest = 0,                                        // 0 employees
+                TestingGroup = _testingGroup,                                                       // Only need this one esetting 
             };
 
-            var x = new SelectionManager(new DrugTestSettings());
+            var selectionManager = new SelectionManager(_settings);                                 // pass in settings
+            selectionManager.PopulateSelectionPool(_employees, _mappings);                          // pass in employees and mappings
 
-
-            x.PopulateSelectionPool(_employees,_mappings);
-
-
-
+            var selectedEmployees = selectionManager.GetSelectionPool().Select(e => e.EmployeeName).OrderDescending();
+           
+            Assert.Equal(_expectedNames.OrderDescending(), selectedEmployees);
         }
+
+
+
+
+
+
     }
 }
