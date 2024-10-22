@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrosstabAnyPOC.Models
+namespace CrosstabAnyPOC.DataAccess.Models
 {
 
     public enum TestSubjectSelectionMethod
@@ -26,9 +26,6 @@ namespace CrosstabAnyPOC.Models
         [Display(Name = "DOT")]
         D
     }
-
-
-
 
 
     public enum TestType
@@ -54,8 +51,6 @@ namespace CrosstabAnyPOC.Models
 
     public class DrugTestSettings
     {
-
-        
         public int TestNumber { get; set; }                                 // 
 
         public string TestOperatorName { get; set; } = string.Empty;
@@ -88,6 +83,4 @@ namespace CrosstabAnyPOC.Models
         public int EmployeePoolSize { get; set; }                   // For MANUAL selection
 
     }
-
-
 }

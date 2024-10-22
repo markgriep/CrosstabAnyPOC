@@ -1,5 +1,6 @@
 ﻿using Colorful;
-using CrosstabAnyPOC.Models;
+using CrosstabAnyPOC.DataAccess.Models;
+using CrosstabAnyPOC.Utilities;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,13 +15,12 @@ namespace CrosstabAnyPOC
     {
         static void Main()
         {
+
             #region Variables
 
-            var _mappings = JobToDepartmentMapping.GetMockMappings();                   // Generate random mappings
-            var _employees = WorkDayEmployee.GetMockEmployees(700);                     // Generate random list of N employees
+            var _mappings = MockJobToDepartment.GetMockMappings();  //.GetMockMappings();  
+            var _employees = MockEmployeeHelper.GetMockEmployees(50);            // Generate random list of N employees
 
-
-         
             var _settings = new DrugTestSettings                                        // Configure some settings for the test                                             
             {
                 TestNumber                  = 1,
@@ -36,15 +36,12 @@ namespace CrosstabAnyPOC
                 NumberOfEmployeesToTest     = 0,                                        // 0 employees
             };
 
-
             #endregion
 
 
-            #region ACTIONS
 
-            
-            
-            
+
+            #region ACTIONS
             
             // STEP 1, __GET POOL__
 
@@ -54,12 +51,11 @@ namespace CrosstabAnyPOC
             var SelectionPool = _employees.Where(emp =>
                 _mappings.Any(map =>
                     map.IsActive &&                                         // ONLY match active mappings                           -AND-
-                    map.CostCenterID == emp.DepartmentID &&                 // CostCenter (departments) match each other            -AND-
+                    map.CostCenterId.ToString() == emp.Department.ToString() &&                 // CostCenter (departments) match each other            -AND-
                     map.TestingGroup == TestingGroup.T.ToString() &&        // testing group matches one of the enums.  (n, t, d)   -AND-
-                    map.JobCodeID == emp.JobCode &&                         // Jobcodes match each other                            -AND-
+                    map.JobCodeId == emp.JobCode &&                         // Jobcodes match each other                            -AND-
                     true)).Select(ee => new { EmployeeID = ee.EmployeeId })                                                  // always true place holder so I can insert others above
                     .ToList();
-         
 
 
            System.Console.WriteLine(SelectionPool.Count);
@@ -78,7 +74,7 @@ namespace CrosstabAnyPOC
 
 
             // create a list of 3 employeeIDs
-            var newIds = Enumerable.Range(990001, 100).Select(id => new { EmployeeID = id }).ToList();
+            var newIds = Enumerable.Range(990001, 100).Select(id => new { EmployeeID = id.ToString() }).ToList();
             SelectionPool.AddRange(newIds);
             System.Console.WriteLine(SelectionPool.Count);
 
@@ -113,36 +109,18 @@ namespace CrosstabAnyPOC
             // create a linq query that selects the employees from the pool that match the random numbers
             var selectedEmployees = SelectionPool.Where((emp, index) => randomNumbers.Contains(index)).ToList();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             #endregion
 
 
+
             #region PRINT UI interaction
-
-
 
             Printing.BigPrint("Drug Test Selection"); // Print the title
 
             Printing.BigPrint("The  POOL");
             Printing.BigPrint($"{Printing.GetEnumDisplayName(_settings.TestingGroup)}");
             Printing.BigPrint($"{SelectionPool.Count}");
+            
 
             // Print matched employees in the ___POOL___
             Console.WriteLine("Matched Employees:");

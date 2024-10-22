@@ -11,7 +11,6 @@ namespace CrosstabAnyPOC.DataAccess.Models
 		public string JobCodeId { get; set; } = string.Empty;
 
 
-
 		public string TestingGroup { get; set; } = string.Empty;
 		public bool IsActive { get; set; }
 
