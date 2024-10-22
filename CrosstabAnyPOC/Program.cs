@@ -27,13 +27,16 @@ namespace CrosstabAnyPOC
                 TestOperatorName            = "Mark G",
                 RequestDateTime             = DateTime.Now,
 
-                TestType                    = TestType.Both,
+                TestType                    = TestType.Drug,
                 TestingGroup                = TestingGroup.N,
                 TestCategory                = TestCategory.Random,
                 TestSubjectSelectionMethod  = TestSubjectSelectionMethod.Automatic,
                 
-                PercentageOfEmployeesToTest = 0.1M,                                     // X percent 
-                NumberOfEmployeesToTest     = 0,                                        // 0 employees
+                PercentageOfEmployeesToDrugTest = 0.25M,                                 // DRUG test X percent (PER YEAR)
+
+                PercentageOfEmployeesToAlcoholTest = 0.1M,                              // ALCOHOL test x percent  (PER YEAR)
+
+                NumberOfEmployeesToTest     = 0,                                        // OR - # employees
             };
 
             #endregion
@@ -91,7 +94,7 @@ namespace CrosstabAnyPOC
            
             if (_settings.TestSubjectSelectionMethod == TestSubjectSelectionMethod.Automatic)                    // if Automatic, 
             {
-                _settings.NumberOfEmployeesToTest = (int)Math.Ceiling(_settings.PercentageOfEmployeesToTest * _settings.EmployeePoolSize);  // calculate the number of employees to test
+                _settings.NumberOfEmployeesToTest = (int)Math.Ceiling(_settings.PercentageOfEmployeesToDrugTest * _settings.EmployeePoolSize);  // calculate the number of employees to test
             }
                                                                                                                  // otherwise number of employees is already set
 
@@ -100,7 +103,7 @@ namespace CrosstabAnyPOC
             HashSet<int> randomNumbers =  SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToTest, _settings.EmployeePoolSize);
 
         
-            _settings.SelectionPattern = string.Join(",", randomNumbers);               // store the hashset as comma separated string
+            _settings.DrugSelectionPattern = string.Join(",", randomNumbers);               // store the hashset as comma separated string
 
 
 
@@ -169,9 +172,9 @@ namespace CrosstabAnyPOC
             
 
             Console.WriteLine($"{"Pool size:".PadLeft(labelWidth)} {_settings.EmployeePoolSize}"); // Right justify label, left justify value
-            Console.WriteLine($"{"Percentage of Employees to Test:".PadLeft(labelWidth)} {_settings.PercentageOfEmployeesToTest}"); // Right justify label, left justify value
+            Console.WriteLine($"{"Percentage of Employees to Test:".PadLeft(labelWidth)} {_settings.PercentageOfEmployeesToDrugTest}"); // Right justify label, left justify value
             Console.WriteLine($"{"Number of Employees to Test:".PadLeft(labelWidth)} {_settings.NumberOfEmployeesToTest}"); // Right justify label, left justify value
-            Console.WriteLine($"{"Random Numbers:".PadLeft(labelWidth)} {_settings.SelectionPattern}\n");
+            Console.WriteLine($"{"Random Numbers:".PadLeft(labelWidth)} {_settings.DrugSelectionPattern}\n");
 
            
 
@@ -179,10 +182,10 @@ namespace CrosstabAnyPOC
             // _settings.NumberOfEmployeesToTest = (int)(_settings.PercentageOfEmployeesToTest * totalInPool);
 
             Console.WriteLine($"\nPool  {_settings.EmployeePoolSize}");
-            Console.WriteLine($"   X  {_settings.PercentageOfEmployeesToTest}");
+            Console.WriteLine($"   X  {_settings.PercentageOfEmployeesToDrugTest}");
 
 
-            Console.WriteLine($"   =  {_settings.EmployeePoolSize * _settings.PercentageOfEmployeesToTest:0.00}");
+            Console.WriteLine($"   =  {_settings.EmployeePoolSize * _settings.PercentageOfEmployeesToDrugTest:0.00}");
 
 
 

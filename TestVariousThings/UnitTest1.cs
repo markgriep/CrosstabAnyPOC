@@ -53,7 +53,7 @@ namespace TestVariousThings
         public void TestGettingRandomishEmployeeIds_ShouldGetSomething()
         {
             var x = MockEmployeeHelper.GenerateUniqueEmployeeIDs(200);
-            Assert.True(x.Count == 20);
+            Assert.True(x.Count == 200);
         }
 
 

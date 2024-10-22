@@ -74,13 +74,19 @@ namespace CrosstabAnyPOC.DataAccess.Models
 
 
         // Nullable properties, one will be used based on SelectionMethod
-        public int NumberOfEmployeesToTest { get; set; }            // For MANUAL selection
+        public int NumberOfEmployeesToTest { get; set; }                    // For MANUAL selection
 
-        public decimal PercentageOfEmployeesToTest { get; set; }    // For AUTOMATIC selection
+        public int EmployeePoolSize { get; set; }                           // For MANUAL selection
 
-        public string? SelectionPattern { get; set; }               // To store the hashset for selecting employees
 
-        public int EmployeePoolSize { get; set; }                   // For MANUAL selection
+        public decimal PercentageOfEmployeesToDrugTest { get; set; }        // For AUTOMATIC drug selection
+
+        public decimal PercentageOfEmployeesToAlcoholTest { get; set; }     // For AUTOMATIC alco selection
+
+        public string? DrugSelectionPattern { get; set; }                   // To store the hashset for drug selecting employees
+
+        public string? AlcoholSelectionPattern { get; set; }                // To store the hashset for alcohol selecting employees
+
 
     }
 }

@@ -49,33 +49,39 @@ namespace CrosstabAnyPOC
         /// <param name="jobCodeToDepartmentMatrix"></param>
         public void PopulateSelectionPool(List<WorkdayEmployee> currentEmployees, List<JobCodeToDepartmentMapping> jobCodeToDepartmentMatrix)
         {
-            _currentEmployees = currentEmployees;                               // Employees
-            _jobCodeToDepartmentMatrix = jobCodeToDepartmentMatrix;             // Matrix
+            _currentEmployees = currentEmployees;                                     // Employees
+            _jobCodeToDepartmentMatrix = jobCodeToDepartmentMatrix;                   // Matrix
 
-            var a = _drugTestSettings.TestSubjectSelectionMethod;               // enum - auto or manual
-            var b = _drugTestSettings.TestType;                                 // enum - drug, alcohol, both
-            var c = _drugTestSettings.TestCategory;                             // enum - random, followup, postaccident, etc
-            var grp = _drugTestSettings.TestingGroup;                             // enum - transit, non-transit, dot
+            var tSelMethod = _drugTestSettings.TestSubjectSelectionMethod;            // enum - auto or manual
+            var tType = _drugTestSettings.TestType;                                   // enum - drug, alcohol, both
+            var tCategory = _drugTestSettings.TestCategory;                           // enum - random, followup, postaccident, etc
+            var tGroup = _drugTestSettings.TestingGroup;                              // enum - transit, non-transit, dot
 
-            var e = _drugTestSettings.TestNumber;                               // test number
-            var f = _drugTestSettings.TestOperatorName;                         // test operator name
-            var g = _drugTestSettings.RequestDateTime;                          // request date time    
-            var h = _drugTestSettings.NumberOfEmployeesToTest;                  // number of employees to test
-            var i = _drugTestSettings.PercentageOfEmployeesToTest;              // percentage of employees to test
-            var j = _drugTestSettings.EmployeePoolSize;                         // might be duplicate of _currentEmployees.Count
+            var tNumber = _drugTestSettings.TestNumber;                               // test number
+            var tOperator = _drugTestSettings.TestOperatorName;                       // test operator name
+            var tReqDtTim = _drugTestSettings.RequestDateTime;                        // request date time
+            var tNumEmplo = _drugTestSettings.NumberOfEmployeesToTest;                // number of employees to test
+            var tEmpPoolSz = _drugTestSettings.EmployeePoolSize;                      // pool size
+            var tAlcPerct = _drugTestSettings.PercentageOfEmployeesToAlcoholTest;     // percent to Alcohol test
+            var tDrugPerc = _drugTestSettings.PercentageOfEmployeesToDrugTest;        // percent to Drug test
+            var tDrugHash = _drugTestSettings.DrugSelectionPattern;                   // stringized hashset for drug selection
+            var tAlcoHash = _drugTestSettings.AlcoholSelectionPattern;                // stringized hashset for alcohol selection
 
-            var x = grp.ToString();                                             // convert enum to string
+
+
+
+
+            var x = tGroup.ToString();                                             // convert enum to string
 
             var SelectionPool = _currentEmployees.Where(emp =>
                 _jobCodeToDepartmentMatrix.Any(map =>
-                    map.IsActive &&                                         // ONLY match active mappings                           -AND-
-                    map.CostCenterId.ToString() == emp.Department &&        // CostCenter (departments) match each other            -AND-
+                    map.IsActive &&                                           // ONLY match active mappings                           -AND-
+                    map.CostCenterId.ToString() == emp.Department &&          // CostCenter (departments) match each other            -AND-
+
+                    map.TestingGroup == tGroup.ToString() &&                  // testing group matches one of the enums.  (n, t, d)   -AND-
                     
-                    map.TestingGroup == grp.ToString() &&        // testing group matches one of the enums.  (n, t, d)   -AND-
-                    //map.TestingGroup == TestingGroup.T.ToString() &&        // testing group matches one of the enums.  (n, t, d)   -AND-
-                    
-                    map.JobCodeId == emp.JobCode &&                         // Jobcodes match each other                            -AND-
-                    true)).Select(ee => new { EmployeeID = ee.EmployeeId })                                                  // always true place holder so I can insert others above
+                    map.JobCodeId == emp.JobCode &&                           // Jobcodes match each other                            -AND-
+                    true)).Select(ee => new { EmployeeID = ee.EmployeeId })   // always true place holder so I can insert others above
                     .ToList();
 
             _selectionPool = new List<WorkdayEmployee>();

@@ -17,24 +17,27 @@ namespace CrosstabAnyPOC.Utilities
         /// hacky hard coded employee list
         /// </summary>
         /// <returns></returns>
-        public static List<WorkdayEmployee> GetMockEmployees()
+        public static List<WorkdayEmployee> GetStaticEmployees()
         {
 
             return new List<WorkdayEmployee> {
-                new WorkdayEmployee { EmployeeName = "X-Alan", EmployeeId = "009", Department = "990", JobCode = "890567" },
-                new WorkdayEmployee { EmployeeName = "X-Bob", EmployeeId = "009", Department = "990", JobCode = "890567" },
-                new WorkdayEmployee { EmployeeName = "Charlie", EmployeeId = "003", Department = "990", JobCode = "890345" },
-                new WorkdayEmployee { EmployeeName = "Diana", EmployeeId = "002", Department = "119", JobCode = "892345" },
-                new WorkdayEmployee { EmployeeName = "Edward", EmployeeId = "003", Department = "119", JobCode = "890211" },
-                new WorkdayEmployee { EmployeeName = "X-Fiona", EmployeeId = "004", Department = "119", JobCode = "890156" },
-                new WorkdayEmployee { EmployeeName = "X-George", EmployeeId = "009", Department = "119", JobCode = "890567" },
-                new WorkdayEmployee { EmployeeName = "Hannah", EmployeeId = "005", Department = "111", JobCode = "890401" },
-                new WorkdayEmployee { EmployeeName = "Ian", EmployeeId = "005", Department = "111", JobCode = "890222" },
-                new WorkdayEmployee { EmployeeName = "Jonah", EmployeeId = "005", Department = "111", JobCode = "890134" },
-                new WorkdayEmployee { EmployeeName = "Kevin", EmployeeId = "005", Department = "111", JobCode = "890987" },
-                new WorkdayEmployee { EmployeeName = "Lan", EmployeeId = "022", Department = "005", JobCode = "890250" },
+            new WorkdayEmployee { EmployeeName = "Alan-T",   JobCode = "009", Department = "990", EmployeeId = "890567" },
+            new WorkdayEmployee { EmployeeName = "Bob-T",    JobCode = "009", Department = "990", EmployeeId = "897569" },
+            new WorkdayEmployee { EmployeeName = "Charlie-T",JobCode = "003", Department = "990", EmployeeId = "890345" },
+            //
+            new WorkdayEmployee { EmployeeName = "Diana-O",  JobCode = "002", Department = "119", EmployeeId = "892645" },
+            new WorkdayEmployee { EmployeeName = "Edward-O", JobCode = "003", Department = "119", EmployeeId = "890211" },
+            new WorkdayEmployee { EmployeeName = "Fiona-O",  JobCode = "004", Department = "119", EmployeeId = "890756" },
+            new WorkdayEmployee { EmployeeName = "George-O", JobCode = "009", Department = "119", EmployeeId = "890867" },
+            //
+            new WorkdayEmployee { EmployeeName = "Hannah-N", JobCode = "005", Department = "111", EmployeeId = "890401" },
+            new WorkdayEmployee { EmployeeName = "Ian-N",    JobCode = "005", Department = "111", EmployeeId = "890222" },
+            new WorkdayEmployee { EmployeeName = "Jonah-N",  JobCode = "005", Department = "111", EmployeeId = "890134" },
+            new WorkdayEmployee { EmployeeName = "Kevin-N",  JobCode = "005", Department = "111", EmployeeId = "890987" },
+            //
+            new WorkdayEmployee { EmployeeName = "LoisX",    JobCode = "022", Department = "005", EmployeeId = "890050" },
+        };
 
-            };
 
         }
 
@@ -71,6 +74,7 @@ namespace CrosstabAnyPOC.Utilities
                 // Create a new WorkDayEmployee and add to the list
                 //employeeList.Add(new WorkdayEmployee(name, departmentID, jobCode, employeeID));
                 employeeList.Add(new WorkdayEmployee { 
+                    Id = i + 1,
                     EmployeeName = name, 
                     EmployeeId = employeeID.ToString(), 
                     Department = departmentID.ToString(), 

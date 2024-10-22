@@ -37,7 +37,7 @@ namespace TestVariousThings
         public void TestCountOfEmployees_ShouldBeApproximately120()
         {
             var _mappings = MockJobToDepartment.GetMockMappings();
-            var _employees = MockEmployeeHelper.GetMockEmployees(); 
+            var _employees = MockEmployeeHelper.GetMockEmployees(200); 
 
 
             var _settings = new DrugTestSettings                                        // Configure some settings for the test                                             
@@ -51,7 +51,7 @@ namespace TestVariousThings
                 TestCategory = TestCategory.Random,
                 TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
 
-                PercentageOfEmployeesToTest = 0.1M,                                     // X percent 
+                PercentageOfEmployeesToDrugTest = 0.1M,                                     // X percent 
                 NumberOfEmployeesToTest = 0,                                        // 0 employees
             };
 
