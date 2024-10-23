@@ -1,5 +1,4 @@
 ﻿using CrosstabAnyPOC.DataAccess.Models;
-using CrosstabyAnyPOC.DataAccess.Models.DTOs;
 using DocumentFormat.OpenXml.Bibliography;
 using System;
 using System.Collections.Generic;
