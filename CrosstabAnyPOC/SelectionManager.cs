@@ -100,16 +100,6 @@ namespace CrosstabAnyPOC
             // AND if the group code matches the test group code
             // This list will be the same for every run.
 
-
-            //_selectionPool.AddRange(specialAssignmentEmployees                                               // Add employees to _selectionPool
-            //        .Where(sa => sa.SpecialAssignmentGroup == _drugTestSettings.TestingGroup.ToString())     // Filter employees that match the defined GroupCode
-            //        .Where(sa => !_selectionPool.Any(sp => sp.EmployeeId == sa.EmployeeId))
-            //        .Select(sa => new WorkdayEmployee                                                        // Create a new WorkdayEmployee object
-            //        {
-            //            EmployeeId = sa.EmployeeId,                                                          // Add the EmployeeId from SpecialAssignment
-            //        }));
-
-
             // Step 1: Filter employees based on the GroupCode
             var groupCode = _drugTestSettings.TestingGroup.ToString();                      // Convert TestingGroup enum to string
 
@@ -131,8 +121,6 @@ namespace CrosstabAnyPOC
             // Step 4: Add the new employees to the selection pool
             _selectionPool.AddRange(newWorkdayEmployees);                                   // Add the new WorkdayEmployee list to _selectionPool
 
-
-
             Debug.WriteLine($"In MGR Count: {_selectionPool.Count}");
 
         }
@@ -142,13 +130,15 @@ namespace CrosstabAnyPOC
 
             public void RemoveNotEligiblesFromSelectionPool(List<int> notEligibleEmployees)
         {
-
             // Just a plain REMOVE, regardless of the group code or any other criteria.
-            //_selectionPool.RemoveAll(emp => notEligibleEmployees.Any(sa => sa.EmployeeId == emp.EmployeeId));
+            // in other words, just get those Employee IDs out of the selection pool.
+            _selectionPool.RemoveAll(emp => notEligibleEmployees.Any(sa => sa == emp.EmployeeId));
+
+            Debug.WriteLine($"In MGR Count: {_selectionPool.Count}");
         }
 
 
-
+    
 
 
 
