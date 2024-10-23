@@ -1,5 +1,5 @@
-﻿
-using CrosstabAnyPOC.DataAccess.Models;
+﻿using CrosstabAnyPOC.DataAccess.Models;
+using CrosstabyAnyPOC.DataAccess.Models.DTOs;
 using DocumentFormat.OpenXml.Bibliography;
 using System;
 using System.Collections.Generic;
@@ -19,27 +19,26 @@ namespace CrosstabAnyPOC.Utilities
         /// <returns></returns>
         public static List<WorkdayEmployee> GetStaticEmployees()
         {
-
             return new List<WorkdayEmployee> {
-            new WorkdayEmployee { EmployeeName = "Alan-AT",   JobCode = "001", Department = "990", EmployeeId = "890567" }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Bob-AT",    JobCode = "002", Department = "990", EmployeeId = "897569" }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Charlie-T" ,JobCode = "099", Department = "990", EmployeeId = "890345" },
-            //
-            new WorkdayEmployee { EmployeeName = "Diana-AN",  JobCode = "002", Department = "119", EmployeeId = "892645" }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Edward-AN", JobCode = "003", Department = "119", EmployeeId = "890211" }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Fiona-AN",  JobCode = "004", Department = "119", EmployeeId = "890756" }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "George-N",  JobCode = "019", Department = "119", EmployeeId = "890867" },
-            //
-            new WorkdayEmployee { EmployeeName = "Hannah-AO", JobCode = "554", Department = "404", EmployeeId = "890401" }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Ian-O",     JobCode = "005", Department = "404", EmployeeId = "890222" },
-            new WorkdayEmployee { EmployeeName = "Jonah-AO",  JobCode = "552", Department = "404", EmployeeId = "890134" }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Kevin-O",   JobCode = "003", Department = "404", EmployeeId = "890987" },
-            //
-            new WorkdayEmployee { EmployeeName = "Lois-X",    JobCode = "022", Department = "005", EmployeeId = "890050" },
-        };
+            new WorkdayEmployee { EmployeeName = "Alan-AT",   JobCode = "001", Department = "990", EmployeeId = 890567 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Bob-AT",    JobCode = "002", Department = "990", EmployeeId = 897569 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Charlie-T" ,JobCode = "099", Department = "990", EmployeeId = 890345 },
 
+            new WorkdayEmployee { EmployeeName = "Diana-AN",  JobCode = "002", Department = "119", EmployeeId = 892645 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Edward-AN", JobCode = "003", Department = "119", EmployeeId = 890211 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Fiona-AN",  JobCode = "004", Department = "119", EmployeeId = 890756 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "George-N",  JobCode = "019", Department = "119", EmployeeId = 890867 },
 
+            new WorkdayEmployee { EmployeeName = "Hannah-AO", JobCode = "554", Department = "404", EmployeeId = 890401 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Ian-O",     JobCode = "005", Department = "404", EmployeeId = 890222 },
+            new WorkdayEmployee { EmployeeName = "Jonah-AO",  JobCode = "552", Department = "404", EmployeeId = 890134 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Kevin-O",   JobCode = "003", Department = "404", EmployeeId = 890987 },
+
+            new WorkdayEmployee { EmployeeName = "Lois-X",    JobCode = "022", Department = "005", EmployeeId = 890050 },
+            };
         }
+
+
 
 
 
@@ -76,7 +75,7 @@ namespace CrosstabAnyPOC.Utilities
                 employeeList.Add(new WorkdayEmployee { 
                     Id = i + 1,
                     EmployeeName = name, 
-                    EmployeeId = employeeID.ToString(), 
+                    EmployeeId = employeeID, 
                     Department = departmentID.ToString(), 
                     JobCode = jobCode 
                 });

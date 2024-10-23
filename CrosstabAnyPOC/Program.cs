@@ -77,7 +77,7 @@ namespace CrosstabAnyPOC
 
 
             // create a list of 3 employeeIDs
-            var newIds = Enumerable.Range(990001, 100).Select(id => new { EmployeeID = id.ToString() }).ToList();
+            var newIds = Enumerable.Range(990001, 100).Select(id => new { EmployeeID = id }).ToList();
             SelectionPool.AddRange(newIds);
             System.Console.WriteLine(SelectionPool.Count);
 

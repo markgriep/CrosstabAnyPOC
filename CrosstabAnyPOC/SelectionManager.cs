@@ -1,4 +1,5 @@
 ﻿using CrosstabAnyPOC.DataAccess.Models;
+using CrosstabyAnyPOC.DataAccess.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,21 +14,24 @@ namespace CrosstabAnyPOC
         #region Variables/Properties   
 
 
-        // Store the list of all employees that was passed in
+        // Holds the list of all employees that was passed in
         public List<WorkdayEmployee> _currentEmployees{ get; set; }
 
+
+        // Holds the matrix of jobcodes to departments
         public List<JobCodeToDepartmentMapping> _jobCodeToDepartmentMatrix { get; set; }
 
-        // property to hols DrugTestSettings 
+        // property to hold the settings for this test 
         public DrugTestSettings _drugTestSettings { get; set; }
 
-
+        // Holds the 
         private List<WorkdayEmployee> _selectionPool { get; set; }
 
 
         #endregion
 
 
+        #region CTOR
 
 
         // CTOR that takes in TestSettings
@@ -35,6 +39,9 @@ namespace CrosstabAnyPOC
         {
             _drugTestSettings = drugTestSettings;
         }
+
+
+        #endregion
 
 
 
@@ -81,6 +88,40 @@ namespace CrosstabAnyPOC
             _selectionPool = new List<WorkdayEmployee>();
             _selectionPool.AddRange(_currentEmployees.Where(emp => SelectionPool.Any(sp => sp.EmployeeID == emp.EmployeeId)).ToList());
         }
+
+
+
+
+        public void AddSpecialAssignmentsToSelectionPool(List<SpecialAssignment> specialAssignmentEmployees)
+        {
+            // will get in a list of employee IDs that have a Special Assignment group code (T, N, O,)
+            // ONLY add them to the selection pool if they are not already in the pool
+            // AND if the group code matches the test group code
+            // This list will be the same for every run.
+
+            _selectionPool.AddRange(specialAssignmentEmployees                                               // Add employees to _selectionPool
+                    .Where(sa => sa.SpecialAssignmentGroup == _drugTestSettings.TestingGroup.ToString())     // Filter employees that match the defined GroupCode
+                    .Select(sa => new WorkdayEmployee                                                        // Create a new WorkdayEmployee object
+                    {
+                        EmployeeId = sa.EmployeeId,                                               // Add the EmployeeId from SpecialAssignment
+                    }));
+                    //.ToList());                                                                              // Convert the filtered and mapped results to a list and add
+
+        }
+
+
+
+
+            public void RemoveNotEligiblesFromSelectionPool(List<int> notEligibleEmployees)
+        {
+
+            // Just a plain REMOVE, regardless of the group code or any other criteria.
+            //_selectionPool.RemoveAll(emp => notEligibleEmployees.Any(sa => sa.EmployeeId == emp.EmployeeId));
+        }
+
+
+
+
 
 
         public List<WorkdayEmployee> GetSelectionPool()
