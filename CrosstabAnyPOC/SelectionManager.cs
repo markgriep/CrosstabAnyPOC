@@ -2,6 +2,7 @@
 using CrosstabyAnyPOC.DataAccess.Models.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -99,13 +100,40 @@ namespace CrosstabAnyPOC
             // AND if the group code matches the test group code
             // This list will be the same for every run.
 
-            _selectionPool.AddRange(specialAssignmentEmployees                                               // Add employees to _selectionPool
-                    .Where(sa => sa.SpecialAssignmentGroup == _drugTestSettings.TestingGroup.ToString())     // Filter employees that match the defined GroupCode
-                    .Select(sa => new WorkdayEmployee                                                        // Create a new WorkdayEmployee object
-                    {
-                        EmployeeId = sa.EmployeeId,                                               // Add the EmployeeId from SpecialAssignment
-                    }));
-                    //.ToList());                                                                              // Convert the filtered and mapped results to a list and add
+
+            //_selectionPool.AddRange(specialAssignmentEmployees                                               // Add employees to _selectionPool
+            //        .Where(sa => sa.SpecialAssignmentGroup == _drugTestSettings.TestingGroup.ToString())     // Filter employees that match the defined GroupCode
+            //        .Where(sa => !_selectionPool.Any(sp => sp.EmployeeId == sa.EmployeeId))
+            //        .Select(sa => new WorkdayEmployee                                                        // Create a new WorkdayEmployee object
+            //        {
+            //            EmployeeId = sa.EmployeeId,                                                          // Add the EmployeeId from SpecialAssignment
+            //        }));
+
+
+            // Step 1: Filter employees based on the GroupCode
+            var groupCode = _drugTestSettings.TestingGroup.ToString();                      // Convert TestingGroup enum to string
+
+            var filteredByGroup = specialAssignmentEmployees
+                .Where(sa => sa.SpecialAssignmentGroup == groupCode);                       // Employees matching the group code
+
+            // Step 2: Filter out employees that are already in the selection pool
+            var notInSelectionPool = filteredByGroup
+                .Where(sa => !_selectionPool.Any(sp => sp.EmployeeId == sa.EmployeeId));    // Exclude employees already in _selectionPool
+
+            // Step 3: Convert SpecialAssignment objects to WorkdayEmployee objects
+            var newWorkdayEmployees = notInSelectionPool
+                .Select(sa => new WorkdayEmployee                                           // Create new WorkdayEmployee objects
+                {
+                    EmployeeId = sa.EmployeeId                                              // Add EmployeeId from SpecialAssignment
+                })
+                .ToList();                                                                  // Convert to a list
+
+            // Step 4: Add the new employees to the selection pool
+            _selectionPool.AddRange(newWorkdayEmployees);                                   // Add the new WorkdayEmployee list to _selectionPool
+
+
+
+            Debug.WriteLine($"In MGR Count: {_selectionPool.Count}");
 
         }
 

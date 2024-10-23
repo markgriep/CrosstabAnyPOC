@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CrosstabyAnyPOC.DataAccess.Models.DTOs;
+using System.Diagnostics;
 
 namespace TestVariousThings
 {
@@ -72,7 +73,7 @@ namespace TestVariousThings
             var _mappings = MockJobToDepartment.GetStaticMappings();                               // Get some known-value of mappings
             var _employees = MockEmployeeHelper.GetStaticEmployees();                              // Get some known-value of employees
 
-            List<WorkdayEmployee> _selectionPool = new List<WorkdayEmployee>();                    // Initialize the selection pool
+            List<WorkdayEmployee> _localSelectionPool = new List<WorkdayEmployee>();               // Initialize a NEW selection pool
 
             var _settings = new DrugTestSettings                                                   // setup some testing prameters
             {
@@ -84,14 +85,23 @@ namespace TestVariousThings
 
             var specialAssignmentEmployees = GetSpecialAssignmentMockList();                       // Get mock SpecialAssignment list
 
-
-
             selectionManager.AddSpecialAssignmentsToSelectionPool(specialAssignmentEmployees);     // Call the method to test
 
-                                                                                                   // Assert
-            Assert.Contains(_selectionPool, emp => emp.EmployeeId == 003);                       // Ensure "003" was added
-            Assert.DoesNotContain(_selectionPool, emp => emp.EmployeeId == 001);                 // Ensure "001" (GroupCode "T") was not added
-            Assert.DoesNotContain(_selectionPool, emp => emp.EmployeeId == 002);                 // Ensure "002" (GroupCode "N") was not added
+
+            _localSelectionPool = selectionManager.GetSelectionPool();                             // Assign the selection pool to the local
+                                                                                                   
+
+            Assert.Contains(_localSelectionPool, emp => emp.EmployeeId == 100000);                 // Ensure n was added
+
+            Assert.DoesNotContain(_localSelectionPool, emp => emp.EmployeeId == 777777);           // Ensure "001" (GroupCode "T") was not added
+            Assert.DoesNotContain(_localSelectionPool, emp => emp.EmployeeId == 999999);           // Ensure "002" (GroupCode "N") was not added
+            Assert.DoesNotContain(_localSelectionPool, emp => emp.EmployeeId == 890567);           // Ensure "002" (GroupCode "N") was not added
+            Assert.DoesNotContain(_localSelectionPool, emp => emp.EmployeeId == 890211);           // Ensure "002" (GroupCode "N") was not added
+
+            Assert.Single(_localSelectionPool, emp => emp.EmployeeId == 890134);                   // Assert that only one EmployeeId "890567" exists
+          
+
+           
 
         }
 
@@ -108,27 +118,15 @@ namespace TestVariousThings
         {
             return new List<SpecialAssignment>
             {
-                new SpecialAssignment { EmployeeId = 999097, SpecialAssignmentGroup = "T" },  // GroupCode "T"
-                new SpecialAssignment { EmployeeId = 999098, SpecialAssignmentGroup = "N" },  // GroupCode "N"
-                new SpecialAssignment { EmployeeId = 999099, SpecialAssignmentGroup = "O" },   // GroupCode "O"
+                 // Each of these _SHOULD_ be added
+                new SpecialAssignment { EmployeeId = 777777, SpecialAssignmentGroup = "T" },  // GroupCode "T"
+                new SpecialAssignment { EmployeeId = 999999, SpecialAssignmentGroup = "N" },  // GroupCode "N"
+                new SpecialAssignment { EmployeeId = 100000, SpecialAssignmentGroup = "O" },  // GroupCode "O"
 
-
-                // these are duplicated, thus shouldn't be added
-                new SpecialAssignment { EmployeeId = 999097, SpecialAssignmentGroup = "T" },  // GroupCode "T"
-                new SpecialAssignment { EmployeeId = 999098, SpecialAssignmentGroup = "N" },  // GroupCode "N"
-                new SpecialAssignment { EmployeeId = 999099, SpecialAssignmentGroup = "O" },   // GroupCode "O"
-
-                new SpecialAssignment { EmployeeId = 999097, SpecialAssignmentGroup = "T" },  // GroupCode "T"
-                new SpecialAssignment { EmployeeId = 999098, SpecialAssignmentGroup = "N" },  // GroupCode "N"
-                new SpecialAssignment { EmployeeId = 999099, SpecialAssignmentGroup = "O" },   // GroupCode "O"
-                
-                new SpecialAssignment { EmployeeId = 999097, SpecialAssignmentGroup = "T" },  // GroupCode "T"
-                new SpecialAssignment { EmployeeId = 999098, SpecialAssignmentGroup = "N" },  // GroupCode "N"
-                new SpecialAssignment { EmployeeId = 999099, SpecialAssignmentGroup = "O" },   // GroupCode "O"
-                
-                new SpecialAssignment { EmployeeId = 999097, SpecialAssignmentGroup = "T" },  // GroupCode "T"
-                new SpecialAssignment { EmployeeId = 999098, SpecialAssignmentGroup = "N" },  // GroupCode "N"
-                new SpecialAssignment { EmployeeId = 999099, SpecialAssignmentGroup = "O" },   // GroupCode "O"
+                // these exist in the list (or should), thus should _NOT_ be added
+                new SpecialAssignment { EmployeeId = 890567, SpecialAssignmentGroup = "T" },  // GroupCode "T"
+                new SpecialAssignment { EmployeeId = 890211, SpecialAssignmentGroup = "N" },  // GroupCode "N"
+                new SpecialAssignment { EmployeeId = 890134, SpecialAssignmentGroup = "O" },   // GroupCode "O"
             };
         }
 
