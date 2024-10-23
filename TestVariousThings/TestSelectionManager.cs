@@ -67,7 +67,7 @@ namespace TestVariousThings
 
 
         [Fact]
-        public void AddSpecialAssignmentsToSelectionPool_OnlyMatchingGroupCodeAdded()
+        public void AddSpecialAssignmentsToSelectionPoolSimple_OnlyMatchingIdIsAdded()
         {
             // Arrange
             var _mappings = MockJobToDepartment.GetStaticMappings();                               // Get some known-value of mappings
@@ -99,11 +99,58 @@ namespace TestVariousThings
             Assert.DoesNotContain(_localSelectionPool, emp => emp.EmployeeId == 890211);           // Ensure "002" (GroupCode "N") was not added
 
             Assert.Single(_localSelectionPool, emp => emp.EmployeeId == 890134);                   // Assert that only one EmployeeId "890567" exists
-          
-
-           
-
         }
+
+
+
+
+        [Theory]
+        // positionally:   Group    _SHOULD_  exist                  Should  _ N O T _ exist          
+        [InlineData(TestingGroup.T, new[] { 777777 }, new[] {         999999, 100000,         890211, 890134 })]
+        [InlineData(TestingGroup.N, new[] { 999999 }, new[] { 777777,         100000, 890567,         890134 })]
+        [InlineData(TestingGroup.O, new[] { 100000 }, new[] { 777777, 999999,         890567, 890211         })]
+        public void AddSpecialAssignmentsToSelectionPool_VariousScenarios(
+                        TestingGroup testingGroup,                                                  // Pass the group code to test
+                        int[] existsIds,                                                            // IDs that should exist in the pool
+                        int[] notExistsIds)                                                         // IDs that should not exist in the pool
+        {
+
+            var _mappings = MockJobToDepartment.GetStaticMappings();                                // get and assign some mock objects
+            var _employees = MockEmployeeHelper.GetStaticEmployees();
+
+            List<WorkdayEmployee> _localSelectionPool = new List<WorkdayEmployee>();                // instantiate a new selection pool
+
+            var _settings = new DrugTestSettings                                                    // instantiate a new DrugTestSettings object
+            {
+                TestingGroup = testingGroup,                                                        // Use the passed TestingGroup
+            };
+
+            var selectionManager = new SelectionManager(_settings);                                 // instantiate and setup a new SelectionManager
+            selectionManager.PopulateSelectionPool(_employees, _mappings);                          // kick off the main method to populate the selection pool
+
+            var specialAssignmentEmployees = GetSpecialAssignmentMockList();                        // get and assign some mock objects
+
+            selectionManager.AddSpecialAssignmentsToSelectionPool(specialAssignmentEmployees);      //CODE UNDER TEST
+
+            _localSelectionPool = selectionManager.GetSelectionPool();                              // assign the results
+
+
+            foreach (var id in existsIds)                                                           // loop through the IDs that _SHOULD_ exist
+            {
+                Assert.Contains(_localSelectionPool, emp => emp.EmployeeId == id);
+            }
+
+            foreach (var id in notExistsIds)                                                        // loop through the IDs that _SHOULD_NOT_!_ exist
+            {
+                Assert.DoesNotContain(_localSelectionPool, emp => emp.EmployeeId == id);
+            }
+        }
+
+
+
+
+
+
 
 
 
