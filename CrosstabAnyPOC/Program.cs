@@ -4,6 +4,7 @@ using CrosstabAnyPOC.Utilities;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 
@@ -43,18 +44,38 @@ namespace CrosstabAnyPOC
         {
 
 
+
             // Get a list of employees
-            //List<WorkdayEmployee> employees = SimulateGettingEmployeesFromDB(50);                   // Generate random list of N employees
-            List<WorkdayEmployee> employees2 = MockEmployeeHelper.GetMockEmployees(50);                   // Generate random list of N employees
+            List<WorkdayEmployee> _employees = MockEmployeeHelper.GetMockEmployees(400);                   
 
 
             // Get a list of mappings
+            List<JobCodeToDepartmentMapping> _mappings = MockJobToDepartment.GetStaticMappings();                   
+
 
             // Get a settings object
+            DrugTestSettings _settings = new DrugTestSettings();
+
+
+            // create a mock Include/exclue object
+            var x = new MockIncludeExclude();
+            var y = x.NotEligibleList;
+            var z = x.SpecialAssignmentsList;
 
 
 
+            SelectionManager sm = new SelectionManager(_settings);  // Create a new SelectionManager object
+            
+            sm.PrintSelection();
 
+            sm.PopulateSelectionPool(_employees, _mappings);  // Populate the selection pool
+            sm.PrintSelection();
+
+            sm.RemoveNotEligiblesFromSelectionPool(x.NotEligibleList);  // Remove not eligible employees from the selection pool
+            sm.PrintSelection();
+
+            sm.AddSpecialAssignmentsToSelectionPool(x.SpecialAssignmentsList);  // Add special assignments to the selection pool
+            sm.PrintSelection();
 
 
         }

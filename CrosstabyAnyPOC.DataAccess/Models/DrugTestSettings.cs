@@ -51,34 +51,32 @@ namespace CrosstabAnyPOC.DataAccess.Models
 
     public class DrugTestSettings
     {
-        public int TestNumber { get; set; }                                 // 
+        public int TestNumber { get; set; }                                             // 
 
         public string TestOperatorName { get; set; } = string.Empty;
         
         public DateTime RequestDateTime { get; set; }
 
-
         public TestType TestType { get; set; }                                          // ENUM Drug, alcohol or both
 
-        public TestingGroup TestingGroup { get; set; }                                  // ENUM DOT, NonDOT or Transit
+        public TestingGroup TestingGroup { get; set; }                                  // ENUM Transit, NonTransit, Other-DOT
 
         public TestCategory TestCategory { get; set; }                                  // ENUM Random, FollowUp, Post-Accident, etc
 
         public TestSubjectSelectionMethod TestSubjectSelectionMethod { get; set; }      // ENUM manual or automatic
-
                                                                                        
-        public int NumberOfEmployeesToTest { get; set; }                                // Actual number to select 
-
-        public int EmployeePoolSize { get; set; }                                       // For MANUAL selection
+        public int NumberOfEmployeesToTest { get; set; }                                // Actual number to select, or dependent on percentage
 
         public decimal PercentageOfEmployeesToDrugTest { get; set; }                    // For AUTOMATIC DRUG selection
 
         public decimal PercentageOfEmployeesToAlcoholTest { get; set; }                 // For AUTOMATIC ALC. selection
 
+
+        // Read only properties
+        public int EmployeePoolSize { get; set; }                                       // For MANUAL selection
+
         public string? DrugSelectionPattern { get; set; }                               // To store the hashset for DRUG selecting employees
 
         public string? AlcoholSelectionPattern { get; set; }                            // To store the hashset for ALC. selecting employees
-
-
     }
 }
