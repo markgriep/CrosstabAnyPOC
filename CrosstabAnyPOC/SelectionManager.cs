@@ -16,20 +16,52 @@ namespace CrosstabAnyPOC
 
 
         // Holds the list of all employees that was passed in
-        public List<WorkdayEmployee> _currentEmployees{ get; set; }
+        private List<WorkdayEmployee> _currentEmployees{ get; set; }
+        public IReadOnlyList<WorkdayEmployee> CurrentEmployees => _currentEmployees;
+
 
 
         // Holds the matrix of jobcodes to departments
-        public List<JobCodeToDepartmentMapping> _jobCodeToDepartmentMatrix { get; set; }
+        private List<JobCodeToDepartmentMapping> _jobCodeToDepartmentMatrix { get; set; }
+        public List<JobCodeToDepartmentMapping> JobCodeToDepartmentMatrix => _jobCodeToDepartmentMatrix;
+
+
+
 
         // property to hold the settings for this test 
-        public DrugTestSettings _drugTestSettings { get; set; }
+        private DrugTestSettings _drugTestSettings { get; set; }
+        public DrugTestSettings DrugTestSettings => _drugTestSettings;
+
 
 
 
 
         // Holds the POOL
         private List<WorkdayEmployee> _selectionPool { get; set; }
+        public List<WorkdayEmployee> SelectionPool => _selectionPool;
+       
+        
+
+
+
+
+
+        private List<WorkdayEmployee> _selectedForTesting { get; set; }
+        public List<WorkdayEmployee> SelectedForTesting => _selectedForTesting;
+
+
+        private List<int> _notEligibleEmployees { get; set; }
+        public List<int> NotEligibleEmployees => _notEligibleEmployees;
+
+
+
+
+
+        private List<SpecialAssignment> _specialAssignments { get; set; }
+        public List<SpecialAssignment> SpecialAssignments => _specialAssignments;
+
+
+
 
 
         #endregion
@@ -80,6 +112,8 @@ namespace CrosstabAnyPOC
 
         public void AddSpecialAssignmentsToSelectionPool(List<SpecialAssignment> specialAssignmentEmployees)
         {
+
+            _specialAssignments = specialAssignmentEmployees;
             // will get in a list of employee IDs that have a Special Assignment group code (T, N, O,)
             // ONLY add them to the selection pool if they are not already in the pool
             // AND if the group code matches the test group code
@@ -88,7 +122,7 @@ namespace CrosstabAnyPOC
             // Step 1: Filter employees based on the GroupCode
             var groupCode = _drugTestSettings.TestingGroup.ToString();                      // Convert TestingGroup enum to string
 
-            var filteredByGroup = specialAssignmentEmployees
+            var filteredByGroup = _specialAssignments
                 .Where(sa => sa.SpecialAssignmentGroup == groupCode);                       // Employees matching the group code
 
             // Step 2: Filter out employees that are already in the selection pool
@@ -117,7 +151,10 @@ namespace CrosstabAnyPOC
         {
             // Just a plain REMOVE, regardless of the group code or any other criteria.
             // in other words, just get those Employee IDs out of the selection pool.
-            _selectionPool.RemoveAll(emp => notEligibleEmployees.Any(sa => sa == emp.EmployeeId));
+
+            _notEligibleEmployees = notEligibleEmployees;
+
+            _selectionPool.RemoveAll(emp => _notEligibleEmployees.Any(sa => sa == emp.EmployeeId));
 
             Debug.WriteLine($"In MGR Count: {_selectionPool.Count}");
         }
@@ -126,11 +163,6 @@ namespace CrosstabAnyPOC
     
 
 
-
-        public List<WorkdayEmployee> GetSelectionPool()
-        {
-            return _selectionPool;
-        }
 
 
         /// <summary>
