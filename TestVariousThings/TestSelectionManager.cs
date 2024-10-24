@@ -47,7 +47,7 @@ namespace TestVariousThings
             var selectionManager = new SelectionManager(_settings);                                 // pass in settings
             selectionManager.PopulateSelectionPool(_employees, _mappings);                          // pass in employees and mappings
 
-            var selectedEmployees = selectionManager.GetSelectionPool().Select(e => e.EmployeeName).OrderDescending();
+            var selectedEmployees = selectionManager.SelectionPool.Select(e => e.EmployeeName).OrderDescending();
            
             Assert.Equal(_expectedNames.OrderDescending(), selectedEmployees);
         }
@@ -75,7 +75,7 @@ namespace TestVariousThings
             selectionManager.AddSpecialAssignmentsToSelectionPool(specialAssignmentEmployees);     // Call the method to test
 
 
-            _localSelectionPool = selectionManager.GetSelectionPool();                             // Assign the selection pool to the local
+            _localSelectionPool = selectionManager.SelectionPool;                             // Assign the selection pool to the local
                                                                                                    
 
             Assert.Contains(_localSelectionPool, emp => emp.EmployeeId == 100000);                 // Ensure n was added
@@ -117,7 +117,7 @@ namespace TestVariousThings
 
             selectionManager.AddSpecialAssignmentsToSelectionPool(specialAssignmentEmployees);      //CODE UNDER TEST
 
-            _localSelectionPool = selectionManager.GetSelectionPool();                              // assign the results
+            _localSelectionPool = selectionManager.SelectionPool;                              // assign the results
 
 
             foreach (var id in existsIds)                                                           // loop through the IDs that _SHOULD_ exist
@@ -169,7 +169,7 @@ namespace TestVariousThings
 
             selectionManager.RemoveNotEligiblesFromSelectionPool(removeThese);                      //CODE UNDER TEST
 
-             _localSelectionPool = selectionManager.GetSelectionPool();                             // assign the results
+             _localSelectionPool = selectionManager.SelectionPool;                             // assign the results
 
             foreach (var id in existsIds)                                                           // loop through the IDs that _SHOULD_ exist
             {

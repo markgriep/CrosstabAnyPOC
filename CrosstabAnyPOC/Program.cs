@@ -46,7 +46,7 @@ namespace CrosstabAnyPOC
 
 
             // Get a list of employees
-            List<WorkdayEmployee> _employees = MockEmployeeHelper.GetMockEmployees(400);                   
+            List<WorkdayEmployee> _employees = MockEmployeeHelper.GetMockEmployees(100);                   
 
 
             // Get a list of mappings
@@ -64,18 +64,35 @@ namespace CrosstabAnyPOC
 
 
 
-            SelectionManager sm = new SelectionManager(_settings);  // Create a new SelectionManager object
-            
+            SelectionManager sm = new SelectionManager(_settings);      // Create a new SelectionManager object
+
+
+            sm.PrintSelection();                                        // should be empty
+
+
+            sm.PopulateSelectionPool(_employees, _mappings);            // Populate the selection pool
+
+            sm.PrintEmployees();                                        // should show ALL employees that were just passed in
             sm.PrintSelection();
 
-            sm.PopulateSelectionPool(_employees, _mappings);  // Populate the selection pool
-            sm.PrintSelection();
 
+
+            sm.PrintNotEligible();
             sm.RemoveNotEligiblesFromSelectionPool(x.NotEligibleList);  // Remove not eligible employees from the selection pool
             sm.PrintSelection();
 
             sm.AddSpecialAssignmentsToSelectionPool(x.SpecialAssignmentsList);  // Add special assignments to the selection pool
+            sm.PrintSpecialAssignments();
+
+
             sm.PrintSelection();
+
+
+
+
+
+
+
 
 
         }
