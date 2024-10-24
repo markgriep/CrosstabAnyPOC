@@ -6,15 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CrosstabyAnyPOC.DataAccess.Models.DTOs;
 using System.Diagnostics;
 
 namespace TestVariousThings
 {
     public class TestSelectionManager
     {
-
-
 
         [Fact]
         public void TestHashSetCreatorRandomeness_ShouldBeEvenlyDistributed()
@@ -31,12 +28,6 @@ namespace TestVariousThings
             Assert.True(duplicatesCount == 0);
 
         }
-
-
-
-
-
-
 
 
         [Theory]
@@ -60,10 +51,6 @@ namespace TestVariousThings
            
             Assert.Equal(_expectedNames.OrderDescending(), selectedEmployees);
         }
-
-
-
-
 
 
         [Fact]
@@ -100,8 +87,6 @@ namespace TestVariousThings
 
             Assert.Single(_localSelectionPool, emp => emp.EmployeeId == 890134);                   // Assert that only one EmployeeId "890567" exists
         }
-
-
 
 
         [Theory]
@@ -147,17 +132,59 @@ namespace TestVariousThings
         }
 
 
+        [Theory]
+        //          grp   _SHOULD_ exist             Should  _ N O T _ exist          
+        [InlineData("A", new[] { 890401, 890134 }, new[] { 6666666, 6666667, 6666668 })]
+
+        public void RemoveEmployeeIDsFromSelectionPool_VariousScenarios(
+                string groupCodeOfThoseToRemove,                                                    // Employee IDs to remove
+                int[] existsIds,                                                                    // IDs that should exist in the pool
+                int[] notExistsIds)                                                                 // IDs that should not exist in the pool
+        {
+
+
+            List<int> removeThese = GetEmployeeIdsToRemove(groupCodeOfThoseToRemove);               // get the list of IDs to remove
+
+            var _mappings = MockJobToDepartment.GetStaticMappings();                                // get and assign some mock objects
+            var _employees = MockEmployeeHelper.GetStaticEmployees();
+
+            List<WorkdayEmployee> _localSelectionPool = new List<WorkdayEmployee>();                // instantiate a new selection pool
+
+            var _settings = new DrugTestSettings                                                    // instantiate a new DrugTestSettings object
+            {
+                TestingGroup = TestingGroup.O,                                                      // Use the passed TestingGroup
+            };
+
+            var selectionManager = new SelectionManager(_settings);                                 // instantiate and setup a new SelectionManager
+
+            selectionManager.PopulateSelectionPool(_employees, _mappings);                          // kick off the main method to populate the selection pool
+
+            selectionManager.AddSpecialAssignmentsToSelectionPool(
+                             new List<SpecialAssignment>
+                             {
+                                new SpecialAssignment { EmployeeId = 6666666, SpecialAssignmentGroup = "O" },
+                                new SpecialAssignment { EmployeeId = 6666667, SpecialAssignmentGroup = "O" },
+                                new SpecialAssignment { EmployeeId = 6666668, SpecialAssignmentGroup = "O" },
+                             });
+
+            selectionManager.RemoveNotEligiblesFromSelectionPool(removeThese);                      //CODE UNDER TEST
+
+             _localSelectionPool = selectionManager.GetSelectionPool();                             // assign the results
+
+            foreach (var id in existsIds)                                                           // loop through the IDs that _SHOULD_ exist
+            {
+                Assert.Contains(_localSelectionPool, emp => emp.EmployeeId == id);
+            }
+
+            foreach (var id in notExistsIds)                                                        // loop through the IDs that _SHOULD_NOT_!_ exist
+            {
+                Assert.DoesNotContain(_localSelectionPool, emp => emp.EmployeeId == id);
+            }
+        }
 
 
 
-
-
-
-
-
-
-
-        #region HELPER METHODS
+        #region HELPER METHODS   ---------------------------------------------------------------------------------------------------
 
 
         // Helper method to create mock SpecialAssignment list
@@ -166,18 +193,28 @@ namespace TestVariousThings
             return new List<SpecialAssignment>
             {
                  // Each of these _SHOULD_ be added
-                new SpecialAssignment { EmployeeId = 777777, SpecialAssignmentGroup = "T" },  // GroupCode "T"
-                new SpecialAssignment { EmployeeId = 999999, SpecialAssignmentGroup = "N" },  // GroupCode "N"
-                new SpecialAssignment { EmployeeId = 100000, SpecialAssignmentGroup = "O" },  // GroupCode "O"
+                new SpecialAssignment { EmployeeId = 777777, SpecialAssignmentGroup = "T" },        // GroupCode "Transit"
+                new SpecialAssignment { EmployeeId = 999999, SpecialAssignmentGroup = "N" },        // GroupCode "Non-Transit"
+                new SpecialAssignment { EmployeeId = 100000, SpecialAssignmentGroup = "O" },        // GroupCode "Other - DOT"
 
                 // these exist in the list (or should), thus should _NOT_ be added
-                new SpecialAssignment { EmployeeId = 890567, SpecialAssignmentGroup = "T" },  // GroupCode "T"
-                new SpecialAssignment { EmployeeId = 890211, SpecialAssignmentGroup = "N" },  // GroupCode "N"
-                new SpecialAssignment { EmployeeId = 890134, SpecialAssignmentGroup = "O" },   // GroupCode "O"
+                new SpecialAssignment { EmployeeId = 890567, SpecialAssignmentGroup = "T" },
+                new SpecialAssignment { EmployeeId = 890211, SpecialAssignmentGroup = "N" },
+                new SpecialAssignment { EmployeeId = 890134, SpecialAssignmentGroup = "O" },
             };
         }
 
-    
+
+
+        private static List<int> GetEmployeeIdsToRemove(string groupCode)
+        {
+            return groupCode switch
+            {
+                "A" => new List<int> { 6666666, 6666667, 6666668 },
+                "B" => new List<int> { 123456, 654321, 789012 },
+                _   => new List<int> { 890567, 890211, 890134 },  
+            };
+        }
 
 
         #endregion
