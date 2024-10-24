@@ -16,7 +16,7 @@ namespace CrosstabAnyPOC
         static void Main()
         {
 
-            RunStepByStepA();
+            RunSelectionManager();
 
 
 
@@ -29,9 +29,35 @@ namespace CrosstabAnyPOC
 
             #endregion
 
-        }  
+        }
 
 
+
+
+
+
+        /// <summary>
+        /// This method takes advantage of the SelectionManager class to run the selection process
+        /// </summary>
+        private static void RunSelectionManager()
+        {
+
+
+            // Get a list of employees
+            //List<WorkdayEmployee> employees = SimulateGettingEmployeesFromDB(50);                   // Generate random list of N employees
+            List<WorkdayEmployee> employees2 = MockEmployeeHelper.GetMockEmployees(50);                   // Generate random list of N employees
+
+
+            // Get a list of mappings
+
+            // Get a settings object
+
+
+
+
+
+
+        }
 
 
 
