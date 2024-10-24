@@ -75,10 +75,13 @@ namespace CrosstabAnyPOC
             sm.PrintEmployees();                                        // should show ALL employees that were just passed in
             sm.PrintSelection();
 
+            
+            // for sanity, include of one of the selected employees in to the not eligible list
+            x.NotEligibleList.Add(sm.SelectionPool[0].EmployeeId);      // Add the first employee to the not eligible list
 
-
-            sm.PrintNotEligible();
+            
             sm.RemoveNotEligiblesFromSelectionPool(x.NotEligibleList);  // Remove not eligible employees from the selection pool
+            sm.PrintNotEligible();
             sm.PrintSelection();
 
             sm.AddSpecialAssignmentsToSelectionPool(x.SpecialAssignmentsList);  // Add special assignments to the selection pool
