@@ -149,13 +149,11 @@ namespace CrosstabAnyPOC.Utilities
             {
                 // Generate random value based on weighted probability
                 int randomValue = random.NextDouble() switch
-                {
-                    < 0.50 => random.Next(2000, 2551),      // 50% chance for range 2000-2250 (most likely)
-                    < 0.75 => random.Next(2551, 2700),      // 25% chance for range 2251-2399
-                    < 0.875 => random.Next(2701, 2950),     // 12.5% chance for range 2401-2549
-                    < 0.955 => random.Next(2951, 3700),     // 8% chance for range 2551-2699
-                    _ => random.Next(3701, 5999)            // 4.5% chance for range 2701-2998 (least likely)
-                };
+                    {
+                        < 0.10 => random.Next(3701, 9551),      // 10% chance for range 3701-9551
+                        < 0.30 => random.Next(2501, 3700),      // 20% chance for range 2501-3700
+                        _ => random.Next(2000, 2500)            // 70% chance for range 2000-2500
+                    };
 
                 int employeeID = 890000 + randomValue;     // Generate the final employee ID (e.g., 892345)
                 employeeIDs.Add(employeeID);               // Add to HashSet for uniqueness
