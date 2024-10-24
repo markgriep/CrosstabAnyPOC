@@ -16,36 +16,60 @@ namespace CrosstabAnyPOC
         static void Main()
         {
 
-            #region Variables
+            RunStepByStepA();
 
-            var _mappings = MockJobToDepartment.GetStaticMappings();  //.GetMockMappings();  
-            var _employees = MockEmployeeHelper.GetMockEmployees(50);            // Generate random list of N employees
+
+
+
+
+
+            #region Finalize  --------------------------------------------------------------------------------------------------------------------------
+
+            Console.ReadKey();
+
+            #endregion
+
+        }  
+
+
+
+
+
+
+
+        /// <summary>
+        /// This LONG method runs the selection process explicityly, one step at a time
+        /// </summary>
+        private static void RunStepByStepA()
+        {
+            #region Variables  --------------------------------------------------------------------------------------------------------------------------
+
+            var _mappings = MockJobToDepartment.GetStaticMappings();                    //.GetMockMappings();  
+            var _employees = MockEmployeeHelper.GetMockEmployees(50);                   // Generate random list of N employees
 
             var _settings = new DrugTestSettings                                        // Configure some settings for the test                                             
             {
-                TestNumber                  = 1,
-                TestOperatorName            = "Mark G",
-                RequestDateTime             = DateTime.Now,
+                TestNumber = 1,
+                TestOperatorName = "Mark G",
+                RequestDateTime = DateTime.Now,
 
-                TestType                    = TestType.Drug,
-                TestingGroup                = TestingGroup.N,
-                TestCategory                = TestCategory.Random,
-                TestSubjectSelectionMethod  = TestSubjectSelectionMethod.Automatic,
-                
+                TestType = TestType.Drug,
+                TestingGroup = TestingGroup.N,
+                TestCategory = TestCategory.Random,
+                TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic,
+
                 PercentageOfEmployeesToDrugTest = 0.25M,                                 // DRUG test X percent (PER YEAR)
 
                 PercentageOfEmployeesToAlcoholTest = 0.1M,                              // ALCOHOL test x percent  (PER YEAR)
 
-                NumberOfEmployeesToTest     = 0,                                        // OR - # employees
+                NumberOfEmployeesToTest = 0,                                        // OR - # employees
             };
 
             #endregion
 
 
+            #region ACTIONS     --------------------------------------------------------------------------------------------------------------------------
 
-
-            #region ACTIONS
-            
             // STEP 1, __GET POOL__
 
             // In: _mappings list, _employees list , _settings object
@@ -61,15 +85,15 @@ namespace CrosstabAnyPOC
                     .ToList();
 
 
-           System.Console.WriteLine(SelectionPool.Count);
-           var threePeopleToDelete = SelectionPool.Take(3).Select(emp => emp).ToList();  // get the first 3 from the pool
+            System.Console.WriteLine(SelectionPool.Count);
+            var threePeopleToDelete = SelectionPool.Take(3).Select(emp => emp).ToList();  // get the first 3 from the pool
 
 
 
 
 
-          SelectionPool = SelectionPool.Where(emp => !threePeopleToDelete.Contains(emp)).ToList();
-          System.Console.WriteLine(SelectionPool.Count);
+            SelectionPool = SelectionPool.Where(emp => !threePeopleToDelete.Contains(emp)).ToList();
+            System.Console.WriteLine(SelectionPool.Count);
 
 
 
@@ -91,18 +115,18 @@ namespace CrosstabAnyPOC
             //int  totalInPool = SelectionPool.Count;
             _settings.EmployeePoolSize = SelectionPool.Count;
 
-           
+
             if (_settings.TestSubjectSelectionMethod == TestSubjectSelectionMethod.Automatic)                    // if Automatic, 
             {
                 _settings.NumberOfEmployeesToTest = (int)Math.Ceiling(_settings.PercentageOfEmployeesToDrugTest * _settings.EmployeePoolSize);  // calculate the number of employees to test
             }
-                                                                                                                 // otherwise number of employees is already set
+            // otherwise number of employees is already set
 
 
             // Based on pool zize, make a call to get a random hashset            
-            HashSet<int> randomNumbers =  SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToTest, _settings.EmployeePoolSize);
+            HashSet<int> randomNumbers = SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToTest, _settings.EmployeePoolSize);
 
-        
+
             _settings.DrugSelectionPattern = string.Join(",", randomNumbers);               // store the hashset as comma separated string
 
 
@@ -115,22 +139,21 @@ namespace CrosstabAnyPOC
             #endregion
 
 
-
-            #region PRINT UI interaction
+            #region PRINT UI interaction  -------------------------------------------------------------------------------------------------------------------
 
             Printing.BigPrint("Drug Test Selection"); // Print the title
 
             Printing.BigPrint("The  POOL");
             Printing.BigPrint($"{Printing.GetEnumDisplayName(_settings.TestingGroup)}");
             Printing.BigPrint($"{SelectionPool.Count}");
-            
+
 
             // Print matched employees in the ___POOL___
             Console.WriteLine("Matched Employees:");
             var n = 0;
             foreach (var emp in SelectionPool)
             {
-                Console.WriteLine($"{n++, -4} {emp.EmployeeID,-12} ");    // Print employee details with leading zeros intact
+                Console.WriteLine($"{n++,-4} {emp.EmployeeID,-12} ");    // Print employee details with leading zeros intact
                 //Console.WriteLine($"{n++, -4} {emp.EmployeeID,-12} {emp.,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
             }
 
@@ -148,7 +171,7 @@ namespace CrosstabAnyPOC
             foreach (var emp in selectedEmployees)
             {
                 Console.WriteLine($"{emp.EmployeeID}");    // Print employee details with leading zeros intact
-             //   Console.WriteLine($"{emp.Name,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
+                                                           //   Console.WriteLine($"{emp.Name,-25} Dept: {emp.DepartmentID,-5} JobCode: {emp.JobCode,-5}");    // Print employee details with leading zeros intact
             }
 
 
@@ -164,19 +187,19 @@ namespace CrosstabAnyPOC
             Console.WriteLine($"{"Test Number:".PadLeft(labelWidth)} {_settings.TestNumber}");                      // Right justify label, left justify value
             Console.WriteLine($"{"Test Operator:".PadLeft(labelWidth)} {_settings.TestOperatorName}");              // Right justify label, left justify value
             Console.WriteLine($"{"Request Date:".PadLeft(labelWidth)} {_settings.RequestDateTime}");                // Right justify label, left justify value
-            
+
             Console.WriteLine($"{"Test Type:".PadLeft(labelWidth)} {_settings.TestType}");                          // Right justify label, left justify value
             Console.WriteLine($"{"Group:".PadLeft(labelWidth)} {_settings.TestingGroup}");                          // Right justify label, left justify value
             Console.WriteLine($"{"Category:".PadLeft(labelWidth)} {_settings.TestCategory}");                       // Right justify label, left justify value
             Console.WriteLine($"{"Selection Method:".PadLeft(labelWidth)} {_settings.TestSubjectSelectionMethod}"); // Right justify label, left justify value
-            
+
 
             Console.WriteLine($"{"Pool size:".PadLeft(labelWidth)} {_settings.EmployeePoolSize}"); // Right justify label, left justify value
             Console.WriteLine($"{"Percentage of Employees to Test:".PadLeft(labelWidth)} {_settings.PercentageOfEmployeesToDrugTest}"); // Right justify label, left justify value
             Console.WriteLine($"{"Number of Employees to Test:".PadLeft(labelWidth)} {_settings.NumberOfEmployeesToTest}"); // Right justify label, left justify value
             Console.WriteLine($"{"Random Numbers:".PadLeft(labelWidth)} {_settings.DrugSelectionPattern}\n");
 
-           
+
 
 
             // _settings.NumberOfEmployeesToTest = (int)(_settings.PercentageOfEmployeesToTest * totalInPool);
@@ -187,9 +210,10 @@ namespace CrosstabAnyPOC
 
             Console.WriteLine($"   =  {_settings.EmployeePoolSize * _settings.PercentageOfEmployeesToDrugTest:0.00}");
 
+            #endregion
 
 
-
+            #region Junk/old code   --------------------------------------------------------------------------------------------------------------------------
 
 
             //BigPrint("ALL EMPLOYEES");
@@ -232,15 +256,9 @@ namespace CrosstabAnyPOC
             //Utility.PrintMapping(_mappings);
             //Utility.PrintEmployees(_employees);
 
-
-            Console.ReadKey();
-
             #endregion
 
-
-
-
-        }  // ----------- main()
+        }
 
 
 
@@ -258,7 +276,6 @@ namespace CrosstabAnyPOC
 
 
 
-     
 
-    }//----------- class
-} //------------namespace 
+    }
+} 
