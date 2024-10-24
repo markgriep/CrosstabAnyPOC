@@ -25,14 +25,17 @@ namespace CrosstabAnyPOC
         // property to hold the settings for this test 
         public DrugTestSettings _drugTestSettings { get; set; }
 
-        // Holds the 
+
+
+
+        // Holds the POOL
         private List<WorkdayEmployee> _selectionPool { get; set; }
 
 
         #endregion
 
 
-        #region CTOR
+        #region CTOR  -----------------------------------------------------------------------------------------------
 
 
         // CTOR that takes in TestSettings
@@ -57,30 +60,12 @@ namespace CrosstabAnyPOC
             _currentEmployees = currentEmployees;                                     // Employees
             _jobCodeToDepartmentMatrix = jobCodeToDepartmentMatrix;                   // Matrix
 
-            var tSelMethod = _drugTestSettings.TestSubjectSelectionMethod;            // enum - auto or manual
-            var tType = _drugTestSettings.TestType;                                   // enum - drug, alcohol, both
-            var tCategory = _drugTestSettings.TestCategory;                           // enum - random, followup, postaccident, etc
-            var tGroup = _drugTestSettings.TestingGroup;                              // enum - transit, non-transit, dot
-
-            var tNumber = _drugTestSettings.TestNumber;                               // test number
-            var tOperator = _drugTestSettings.TestOperatorName;                       // test operator name
-            var tReqDtTim = _drugTestSettings.RequestDateTime;                        // request date time
-            var tNumEmplo = _drugTestSettings.NumberOfEmployeesToTest;                // number of employees to test
-            var tEmpPoolSz = _drugTestSettings.EmployeePoolSize;                      // pool size
-            var tAlcPerct = _drugTestSettings.PercentageOfEmployeesToAlcoholTest;     // percent to Alcohol test
-            var tDrugPerc = _drugTestSettings.PercentageOfEmployeesToDrugTest;        // percent to Drug test
-            var tDrugHash = _drugTestSettings.DrugSelectionPattern;                   // stringized hashset for drug selection
-            var tAlcoHash = _drugTestSettings.AlcoholSelectionPattern;                // stringized hashset for alcohol selection
-
-   
-            var x = tGroup.ToString();                                             // convert enum to string
-
             var SelectionPool = _currentEmployees.Where(emp =>
                 _jobCodeToDepartmentMatrix.Any(map =>
                     map.IsActive &&                                           // ONLY match active mappings                           -AND-
                     map.CostCenterId.ToString() == emp.Department &&          // CostCenter (departments) match each other            -AND-
 
-                    map.TestingGroup == tGroup.ToString() &&                  // testing group matches one of the enums.  (n, t, d)   -AND-
+                    map.TestingGroup == this._drugTestSettings.TestingGroup.ToString() &&                  // testing group matches one of the enums.  (n, t, d)   -AND-
                     
                     map.JobCodeId == emp.JobCode &&                           // Jobcodes match each other                            -AND-
                     true)).Select(ee => new { EmployeeID = ee.EmployeeId })   // always true place holder so I can insert others above
@@ -128,7 +113,7 @@ namespace CrosstabAnyPOC
 
 
 
-            public void RemoveNotEligiblesFromSelectionPool(List<int> notEligibleEmployees)
+        public void RemoveNotEligiblesFromSelectionPool(List<int> notEligibleEmployees)
         {
             // Just a plain REMOVE, regardless of the group code or any other criteria.
             // in other words, just get those Employee IDs out of the selection pool.
@@ -146,19 +131,6 @@ namespace CrosstabAnyPOC
         {
             return _selectionPool;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         /// <summary>
