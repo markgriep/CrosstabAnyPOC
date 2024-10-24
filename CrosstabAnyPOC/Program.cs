@@ -4,6 +4,7 @@ using CrosstabAnyPOC.Utilities;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 
@@ -16,7 +17,7 @@ namespace CrosstabAnyPOC
         static void Main()
         {
 
-            RunStepByStepA();
+            RunSelectionManager();
 
 
 
@@ -29,9 +30,55 @@ namespace CrosstabAnyPOC
 
             #endregion
 
-        }  
+        }
 
 
+
+
+
+
+        /// <summary>
+        /// This method takes advantage of the SelectionManager class to run the selection process
+        /// </summary>
+        private static void RunSelectionManager()
+        {
+
+
+
+            // Get a list of employees
+            List<WorkdayEmployee> _employees = MockEmployeeHelper.GetMockEmployees(400);                   
+
+
+            // Get a list of mappings
+            List<JobCodeToDepartmentMapping> _mappings = MockJobToDepartment.GetStaticMappings();                   
+
+
+            // Get a settings object
+            DrugTestSettings _settings = new DrugTestSettings();
+
+
+            // create a mock Include/exclue object
+            var x = new MockIncludeExclude();
+            var y = x.NotEligibleList;
+            var z = x.SpecialAssignmentsList;
+
+
+
+            SelectionManager sm = new SelectionManager(_settings);  // Create a new SelectionManager object
+            
+            sm.PrintSelection();
+
+            sm.PopulateSelectionPool(_employees, _mappings);  // Populate the selection pool
+            sm.PrintSelection();
+
+            sm.RemoveNotEligiblesFromSelectionPool(x.NotEligibleList);  // Remove not eligible employees from the selection pool
+            sm.PrintSelection();
+
+            sm.AddSpecialAssignmentsToSelectionPool(x.SpecialAssignmentsList);  // Add special assignments to the selection pool
+            sm.PrintSelection();
+
+
+        }
 
 
 

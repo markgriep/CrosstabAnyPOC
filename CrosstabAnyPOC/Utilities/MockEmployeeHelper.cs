@@ -19,19 +19,19 @@ namespace CrosstabAnyPOC.Utilities
         public static List<WorkdayEmployee> GetStaticEmployees()
         {
             return new List<WorkdayEmployee> {
-            new WorkdayEmployee { EmployeeName = "Alan-AT",   JobCode = "001", Department = "990", EmployeeId = 890567 }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Bob-AT",    JobCode = "002", Department = "990", EmployeeId = 897569 }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Charlie-T" ,JobCode = "099", Department = "990", EmployeeId = 890345 },
+            new WorkdayEmployee { EmployeeName = "Alan-Transit",   JobCode = "001", Department = "990", EmployeeId = 890567 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Bob-Transit",    JobCode = "002", Department = "990", EmployeeId = 897569 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Charlie-Transit" ,JobCode = "099", Department = "990", EmployeeId = 890345 },
 
-            new WorkdayEmployee { EmployeeName = "Diana-AN",  JobCode = "002", Department = "119", EmployeeId = 892645 }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Edward-AN", JobCode = "003", Department = "119", EmployeeId = 890211 }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Fiona-AN",  JobCode = "004", Department = "119", EmployeeId = 890756 }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "George-N",  JobCode = "019", Department = "119", EmployeeId = 890867 },
+            new WorkdayEmployee { EmployeeName = "Diana-Non",  JobCode = "002", Department = "119", EmployeeId = 892645 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Edward-Non", JobCode = "003", Department = "119", EmployeeId = 890211 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Fiona-Non",  JobCode = "004", Department = "119", EmployeeId = 890756 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "George-Non",  JobCode = "019", Department = "119", EmployeeId = 890867 },
 
-            new WorkdayEmployee { EmployeeName = "Hannah-AO", JobCode = "554", Department = "404", EmployeeId = 890401 }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Ian-O",     JobCode = "005", Department = "404", EmployeeId = 890222 },
-            new WorkdayEmployee { EmployeeName = "Jonah-AO",  JobCode = "552", Department = "404", EmployeeId = 890134 }, // SELECTED
-            new WorkdayEmployee { EmployeeName = "Kevin-O",   JobCode = "003", Department = "404", EmployeeId = 890987 },
+            new WorkdayEmployee { EmployeeName = "Hannah-Other", JobCode = "554", Department = "404", EmployeeId = 890401 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Ian-Other",     JobCode = "005", Department = "404", EmployeeId = 890222 },
+            new WorkdayEmployee { EmployeeName = "Jonah-Other",  JobCode = "552", Department = "404", EmployeeId = 890134 }, // SELECTED
+            new WorkdayEmployee { EmployeeName = "Kevin-Other",   JobCode = "003", Department = "404", EmployeeId = 890987 },
 
             new WorkdayEmployee { EmployeeName = "Lois-X",    JobCode = "022", Department = "005", EmployeeId = 890050 },
             };
@@ -149,13 +149,11 @@ namespace CrosstabAnyPOC.Utilities
             {
                 // Generate random value based on weighted probability
                 int randomValue = random.NextDouble() switch
-                {
-                    < 0.50 => random.Next(2000, 2551),      // 50% chance for range 2000-2250 (most likely)
-                    < 0.75 => random.Next(2551, 2700),      // 25% chance for range 2251-2399
-                    < 0.875 => random.Next(2701, 2950),     // 12.5% chance for range 2401-2549
-                    < 0.955 => random.Next(2951, 3700),     // 8% chance for range 2551-2699
-                    _ => random.Next(3701, 5999)            // 4.5% chance for range 2701-2998 (least likely)
-                };
+                    {
+                        < 0.10 => random.Next(3701, 9551),      // 10% chance for range 3701-9551
+                        < 0.30 => random.Next(2501, 3700),      // 20% chance for range 2501-3700
+                        _ => random.Next(2000, 2500)            // 70% chance for range 2000-2500
+                    };
 
                 int employeeID = 890000 + randomValue;     // Generate the final employee ID (e.g., 892345)
                 employeeIDs.Add(employeeID);               // Add to HashSet for uniqueness

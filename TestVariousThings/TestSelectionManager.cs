@@ -31,9 +31,9 @@ namespace TestVariousThings
 
 
         [Theory]
-        [InlineData(TestingGroup.T  ,new string[] { "Alan-AT", "Bob-AT" })]
-        [InlineData(TestingGroup.N  ,new string[] { "Diana-AN", "Fiona-AN", "Edward-AN" })]
-        [InlineData(TestingGroup.O  ,new string[] { "Hannah-AO", "Jonah-AO" })]
+        [InlineData(TestingGroup.T  ,new string[] { "Alan-Transit", "Bob-Transit" })]
+        [InlineData(TestingGroup.N  ,new string[] { "Diana-Non", "Fiona-Non", "Edward-Non" })]
+        [InlineData(TestingGroup.O  ,new string[] { "Hannah-Other", "Jonah-Other" })]
         public void TestGettingStaticEmployeesAndJobDepartmentMapping_ShouldMatchExpectedNames(TestingGroup _testingGroup, string[] _expectedNames)
         {
             var _mappings = MockJobToDepartment.GetStaticMappings();                                // Get some known-value of mappings
