@@ -9,12 +9,7 @@ namespace TestVariousThings
 {
     public class UnitTest1
     {
-        [Fact]
-        public void Test1()
-        {
-
-        }
-
+     
 
         [Fact] public void TestHashSetCreatorRandomeness_ShouldBeEvenlyDistributed()
         {
@@ -63,8 +58,6 @@ namespace TestVariousThings
         {
             var x = MockEmployeeHelper.GetMockEmployees(20);
 
-
-
             Debug.WriteLine("#######################################################");
             Debug.WriteLine(x.Count);
 
@@ -73,14 +66,7 @@ namespace TestVariousThings
             Debug.WriteLine(x[0].EmployeeId);
 
             Assert.True(x.Count == 20);
-
-
         }
-
-
-
-
-
 
     }
 }
