@@ -78,10 +78,12 @@ namespace CrosstabAnyPOC.DataAccess.Models
         public int NumberOfEmployeesToAlcoholTest { get; set; }                         // INT actual number to Alco test, -OR- set via code based on percentage
 
 
+        //todo  Make this RO
+        public int EmployeePoolSize { get; set;  }                                            // INT R/O For MANUAL selection
 
-        public int EmployeePoolSize { get; }                                            // INT R/O For MANUAL selection
 
-        public string? DrugSelectionPattern { get; }                                   // STRING R/O, store hashset for DRUG selecting employees
+        //todo  Make this RO
+        public string? DrugSelectionPattern { get; set; }                                   // STRING R/O, store hashset for DRUG selecting employees
 
         public string? AlcoholSelectionPattern { get; }                                // STRING  R/O, store hashset for ALC. selecting employees
     }

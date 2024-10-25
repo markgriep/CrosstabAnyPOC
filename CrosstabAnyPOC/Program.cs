@@ -129,7 +129,7 @@ namespace CrosstabAnyPOC
 
                 PercentageOfEmployeesToAlcoholTest = 0.1M,                              // ALCOHOL test x percent  (PER YEAR)
 
-                NumberOfEmployeesToTest = 0,                                        // OR - # employees
+                NumberOfEmployeesToDrugTest = 0,                                        // OR - # employees
             };
 
             #endregion
@@ -177,23 +177,24 @@ namespace CrosstabAnyPOC
 
 
 
-
             // get total in the pool
             //int  totalInPool = SelectionPool.Count;
+            //TODO MAKE THIS R/O in the source.  Shouldn't be directly settable
             _settings.EmployeePoolSize = SelectionPool.Count;
 
 
             if (_settings.TestSubjectSelectionMethod == TestSubjectSelectionMethod.Automatic)                    // if Automatic, 
             {
-                _settings.NumberOfEmployeesToTest = (int)Math.Ceiling(_settings.PercentageOfEmployeesToDrugTest * _settings.EmployeePoolSize);  // calculate the number of employees to test
+                _settings.NumberOfEmployeesToDrugTest = (int)Math.Ceiling(_settings.PercentageOfEmployeesToDrugTest * _settings.EmployeePoolSize);  // calculate the number of employees to test
             }
             // otherwise number of employees is already set
 
 
             // Based on pool zize, make a call to get a random hashset            
-            HashSet<int> randomNumbers = SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToTest, _settings.EmployeePoolSize);
+            HashSet<int> randomNumbers = SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToDrugTest, _settings.EmployeePoolSize);
 
 
+            // TODO This should be done in the SelectionManager not externally here.
             _settings.DrugSelectionPattern = string.Join(",", randomNumbers);               // store the hashset as comma separated string
 
 
@@ -263,7 +264,7 @@ namespace CrosstabAnyPOC
 
             Console.WriteLine($"{"Pool size:".PadLeft(labelWidth)} {_settings.EmployeePoolSize}"); // Right justify label, left justify value
             Console.WriteLine($"{"Percentage of Employees to Test:".PadLeft(labelWidth)} {_settings.PercentageOfEmployeesToDrugTest}"); // Right justify label, left justify value
-            Console.WriteLine($"{"Number of Employees to Test:".PadLeft(labelWidth)} {_settings.NumberOfEmployeesToTest}"); // Right justify label, left justify value
+            Console.WriteLine($"{"Number of Employees to Test:".PadLeft(labelWidth)} {_settings.NumberOfEmployeesToDrugTest}"); // Right justify label, left justify value
             Console.WriteLine($"{"Random Numbers:".PadLeft(labelWidth)} {_settings.DrugSelectionPattern}\n");
 
 
