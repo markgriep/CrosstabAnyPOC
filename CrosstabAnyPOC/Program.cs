@@ -57,7 +57,7 @@ namespace CrosstabAnyPOC
             DrugTestSettings _settings = new DrugTestSettings();
 
 
-            // create a mock Include/exclue object
+            // create a mock Include/exclude object
             var x = new MockIncludeExclude();
             var y = x.NotEligibleList;
             var z = x.SpecialAssignmentsList;

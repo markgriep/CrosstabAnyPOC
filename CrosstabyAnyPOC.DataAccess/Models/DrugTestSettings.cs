@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 namespace CrosstabAnyPOC.DataAccess.Models
 {
 
-    public enum TestSubjectSelectionMethod
+
+
+    public enum TestSubjectSelectionMethod      // AUTO, MANUAL
     {
         [Display(Name = "Automatic")]
         Automatic,
@@ -17,7 +19,8 @@ namespace CrosstabAnyPOC.DataAccess.Models
     }
 
 
-    public enum TestingGroup
+
+    public enum TestingGroup                    // TRANSIT, NON-TRANSIT, OTHER-DOT
     {
         [Display(Name = "Transit")]
         T,
@@ -28,7 +31,7 @@ namespace CrosstabAnyPOC.DataAccess.Models
     }
 
 
-    public enum TestType
+    public enum TestType                        // DRUG, ALCOHOL, BOTH
     {
         Drug,
         Alcohol,
@@ -36,7 +39,7 @@ namespace CrosstabAnyPOC.DataAccess.Models
     }
 
 
-    public enum TestCategory
+    public enum TestCategory                    // RANDOM, FOLLOW-UP, POST-ACCIDENT, etc
     {
         Random,
         FollowUp,
@@ -51,32 +54,35 @@ namespace CrosstabAnyPOC.DataAccess.Models
 
     public class DrugTestSettings
     {
-        public int TestNumber { get; set; }                                             // 
+        public int TestNumber { get; set; }                                             //  421
 
-        public string TestOperatorName { get; set; } = string.Empty;
+        public string TestOperatorName { get; set; } = string.Empty;                    //  JDOE
         
-        public DateTime RequestDateTime { get; set; }
+        public DateTime RequestDateTime { get; set; }                                   // 2021-07-01 12:00:00
 
-        public TestType TestType { get; set; }                                          // ENUM Drug, alcohol or both
+        public TestType TestType { get; set; }                                          // ENUM - Drug, alcohol or both
 
-        public TestingGroup TestingGroup { get; set; }                                  // ENUM Transit, NonTransit, Other-DOT
+        public TestingGroup TestingGroup { get; set; }                                  // ENUM - Transit, NonTransit, Other-DOT
 
-        public TestCategory TestCategory { get; set; }                                  // ENUM Random, FollowUp, Post-Accident, etc
+        public TestCategory TestCategory { get; set; }                                  // ENUM - Random, FollowUp, Post-Accident, etc
 
-        public TestSubjectSelectionMethod TestSubjectSelectionMethod { get; set; }      // ENUM manual or automatic
-                                                                                       
-        public int NumberOfEmployeesToTest { get; set; }                                // Actual number to select, or dependent on percentage
-
-        public decimal PercentageOfEmployeesToDrugTest { get; set; }                    // For AUTOMATIC DRUG selection
-
-        public decimal PercentageOfEmployeesToAlcoholTest { get; set; }                 // For AUTOMATIC ALC. selection
+        public TestSubjectSelectionMethod TestSubjectSelectionMethod { get; set; }      // ENUM - manual or automatic
 
 
-        // Read only properties
-        public int EmployeePoolSize { get; set; }                                       // For MANUAL selection
+        public decimal PercentageOfEmployeesToDrugTest { get; set; }                    // DECIMAL % DRUG selection
 
-        public string? DrugSelectionPattern { get; set; }                               // To store the hashset for DRUG selecting employees
+        public decimal PercentageOfEmployeesToAlcoholTest { get; set; }                 // DECIMAL % ALC. selection
 
-        public string? AlcoholSelectionPattern { get; set; }                            // To store the hashset for ALC. selecting employees
+        public int NumberOfEmployeesToDrugTest { get; set; }                            // INT actual number to Drug test, -OR- set via code based on percentage
+
+        public int NumberOfEmployeesToAlcoholTest { get; set; }                         // INT actual number to Alco test, -OR- set via code based on percentage
+
+
+
+        public int EmployeePoolSize { get; }                                            // INT R/O For MANUAL selection
+
+        public string? DrugSelectionPattern { get; }                                   // STRING R/O, store hashset for DRUG selecting employees
+
+        public string? AlcoholSelectionPattern { get; }                                // STRING  R/O, store hashset for ALC. selecting employees
     }
 }
