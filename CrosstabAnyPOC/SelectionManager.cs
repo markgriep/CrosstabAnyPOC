@@ -23,13 +23,13 @@ namespace CrosstabAnyPOC
 
         // Holds the matrix of jobcodes to departments
         private List<JobCodeToDepartmentMapping> _jobCodeToDepartmentMatrix { get; set; }
-        public List<JobCodeToDepartmentMapping> JobCodeToDepartmentMatrix => _jobCodeToDepartmentMatrix;
+        public IReadOnlyList<JobCodeToDepartmentMapping> JobCodeToDepartmentMatrix => _jobCodeToDepartmentMatrix;
 
 
 
 
         // property to hold the settings for this test 
-        private DrugTestSettings _drugTestSettings { get; set; }
+        private DrugTestSettings _drugTestSettings { get; }
         public DrugTestSettings DrugTestSettings => _drugTestSettings;
 
 
@@ -38,7 +38,7 @@ namespace CrosstabAnyPOC
 
         // Holds the POOL
         private List<WorkdayEmployee> _selectionPool { get; set; }
-        public List<WorkdayEmployee> SelectionPool => _selectionPool;
+        public IReadOnlyList<WorkdayEmployee> SelectionPool => _selectionPool;
        
         
 
@@ -47,18 +47,18 @@ namespace CrosstabAnyPOC
 
 
         private List<WorkdayEmployee> _selectedForTesting { get; set; }
-        public List<WorkdayEmployee> SelectedForTesting => _selectedForTesting;
+        public IReadOnlyList<WorkdayEmployee> SelectedForTesting => _selectedForTesting;
 
 
         private List<int> _notEligibleEmployees { get; set; }
-        public List<int> NotEligibleEmployees => _notEligibleEmployees;
+        public IReadOnlyList<int> NotEligibleEmployees => _notEligibleEmployees;
 
 
 
 
 
         private List<SpecialAssignment> _specialAssignments { get; set; }
-        public List<SpecialAssignment> SpecialAssignments => _specialAssignments;
+        public IReadOnlyList<SpecialAssignment> SpecialAssignments => _specialAssignments;
 
 
 
