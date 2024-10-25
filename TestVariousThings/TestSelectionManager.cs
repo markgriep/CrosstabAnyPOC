@@ -184,6 +184,35 @@ namespace TestVariousThings
 
 
 
+
+        [Fact]
+        public void TestSetSettingsInsideOfSelectionsManager()
+        {
+            var _mappings = MockJobToDepartment.GetStaticMappings();                                // get and assign some mock objects
+            var _employees = MockEmployeeHelper.GetStaticEmployees();
+
+            var _settings = new DrugTestSettings                                                    // instantiate a new DrugTestSettings object
+            {
+                TestingGroup = TestingGroup.O,                                                      // Use the passed TestingGroup
+            };
+
+            var selectionManager = new SelectionManager(_settings);                                 // instantiate and setup a new SelectionManager
+
+            selectionManager.PopulateSelectionPool(_employees, _mappings);                          // kick off the main method to populate the selection pool
+
+            Assert.Equal(6, selectionManager.SelectionPool.Count);                                   // Assert that the selection pool has 6 items
+
+            selectionManager.SetSettings(new DrugTestSettings { TestingGroup = TestingGroup.T });   // Set the settings to a different group
+
+            selectionManager.PopulateSelectionPool(_employees, _mappings);                          // kick off the main method to populate the selection pool
+
+            Assert.Equal(6, selectionManager.SelectionPool.Count);                                   // Assert that the selection pool has 6 items
+        }
+
+
+
+
+
         #region HELPER METHODS   ---------------------------------------------------------------------------------------------------
 
 

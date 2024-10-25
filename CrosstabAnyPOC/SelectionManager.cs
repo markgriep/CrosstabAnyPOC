@@ -29,36 +29,38 @@ namespace CrosstabAnyPOC
 
 
         // property to hold the settings for this test 
-        private DrugTestSettings _drugTestSettings { get; }
+        private DrugTestSettings _drugTestSettings { get; set; }
         public DrugTestSettings DrugTestSettings => _drugTestSettings;
 
 
 
 
 
-        // Holds the POOL
+        // Holds the INTIAL POOL and will be added to and subtracted from as we go
         private List<WorkdayEmployee> _selectionPool { get; set; }
         public IReadOnlyList<WorkdayEmployee> SelectionPool => _selectionPool;
-       
-        
 
 
 
 
 
-        private List<WorkdayEmployee> _selectedForTesting { get; set; }
-        public IReadOnlyList<WorkdayEmployee> SelectedForTesting => _selectedForTesting;
-
-
+        // These will be REMOVED from the selection pool
         private List<int> _notEligibleEmployees { get; set; }
         public IReadOnlyList<int> NotEligibleEmployees => _notEligibleEmployees;
 
 
 
 
-
+        // These will be ADDED to the selection pool
         private List<SpecialAssignment> _specialAssignments { get; set; }
         public IReadOnlyList<SpecialAssignment> SpecialAssignments => _specialAssignments;
+
+
+
+
+        // This is the FINAL POOL that will hold those who will be tested
+        private List<WorkdayEmployee> _selectedForTesting { get; set; }
+        public IReadOnlyList<WorkdayEmployee> SelectedForTesting => _selectedForTesting;
 
 
 
@@ -160,7 +162,22 @@ namespace CrosstabAnyPOC
         }
 
 
-    
+        
+        public void PopulateSettings()
+        {
+            _drugTestSettings.EmployeePoolSize = _selectionPool.Count;
+
+          
+            _drugTestSettings.NumberOfEmployeesToDrugTest = 
+                 (int)(_drugTestSettings.EmployeePoolSize * _drugTestSettings.PercentageOfEmployeesToDrugTest / 12);
+          
+            _drugTestSettings.NumberOfEmployeesToAlcoholTest = 
+                        (int)(_drugTestSettings.EmployeePoolSize * _drugTestSettings.PercentageOfEmployeesToAlcoholTest / 12 );
+            
+
+
+        }
+
 
 
 
@@ -190,9 +207,6 @@ namespace CrosstabAnyPOC
 
             return randomNumbers;
         }
-
-
-
 
 
 
