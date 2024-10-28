@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace TestVariousThings
 {
-    public class TestSelectionManager
+    public class UnitTestSelectionManager
     {
 
         [Fact]
