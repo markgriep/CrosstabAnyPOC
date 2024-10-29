@@ -221,47 +221,32 @@ namespace CrosstabAnyPOC
         public static HashSet<int> GetRandomHashSet(int numberOfElementsNeeded, int upperBoundIndex)
         {
 
-
-
             if (numberOfElementsNeeded < 1 || upperBoundIndex < 0)
             {
                 throw new ArgumentException("Invalid input: Number of elements must be at least 1, and upper bound index at least 0.");
             }
+
 
             if (numberOfElementsNeeded > upperBoundIndex + 1)
             {
                 throw new ArgumentException("Number of elements cannot exceed the range of unique values.");
             }
 
-            // Additional check to ensure enough unique numbers are possible
+            
             if (numberOfElementsNeeded > 1000)
             {
                 throw new ArgumentException("Number of elements asked for should be less than 1000 or less.");
             }
 
 
+            HashSet<int> randomNumbers = new HashSet<int>();          // instantiate create a hashset
 
+            Random rand = new Random();                               // create a random number generator
 
-            HashSet<int> randomNumbers = new HashSet<int>();        // instantiate create a hashset
-
-            Random rand = new Random();                             // create a random number generator
-            
-            while (randomNumbers.Count < numberOfElementsNeeded)          // put X random numbers in the hashset
+            while (randomNumbers.Count < numberOfElementsNeeded)      // Loop and put X random numbers in the hashset
             {
-                var x = rand.Next(0, upperBoundIndex + 1);                      // get a random number between 0 and upper bound
-                randomNumbers.Add(x);                                       // add it to the hashset
-
-
-
-                //Debug.WriteLine($"#########################   Next Random Number: {x}");
-
-                //Debug.WriteLine(   $"Random numbers:  \n{string.Join(", ", randomNumbers)}"    );
-                //Debug.WriteLine(   $"Orderednumbers:  \n{string.Join(" ", randomNumbers.OrderBy(t => t))}"    );
-
-
-
-               
-                //randomNumbers.Add(rand.Next(0, upperBoundIndex));
+                var x = rand.Next(0, upperBoundIndex + 1);            // get a random number between 0 and upper bound
+                randomNumbers.Add(x);                                 // add it to the hashset
             }
 
             return randomNumbers;
