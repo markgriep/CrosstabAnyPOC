@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -162,18 +163,42 @@ namespace CrosstabAnyPOC
         }
 
 
-        
+        //Poplulates the settings that are dependent on the selection pool
         public void PopulateSettings()
         {
+
+            // record the pool size
             _drugTestSettings.EmployeePoolSize = _selectionPool.Count;
 
           
+            // Calcualate the NUMBER of employees to DRUG Test,  bBased on the percentage for this testing group
             _drugTestSettings.NumberOfEmployeesToDrugTest = 
-                 (int)(_drugTestSettings.EmployeePoolSize * _drugTestSettings.PercentageOfEmployeesToDrugTest / 12);
-          
+                 (int)Math.Ceiling(_drugTestSettings.EmployeePoolSize * _drugTestSettings.PercentageOfEmployeesToDrugTest / 12);
+
+
+            // caculate the NUMBER of employees to ALCOHOL test, based on the percentage for this testing group
             _drugTestSettings.NumberOfEmployeesToAlcoholTest = 
-                        (int)(_drugTestSettings.EmployeePoolSize * _drugTestSettings.PercentageOfEmployeesToAlcoholTest / 12 );
-            
+                        (int)Math.Ceiling(_drugTestSettings.EmployeePoolSize * _drugTestSettings.PercentageOfEmployeesToAlcoholTest / 12 );
+
+
+            //get a list of ints, based on the number of employees to drug test
+            var drugTestHashSet = 
+                GetRandomHashSet(_drugTestSettings.NumberOfEmployeesToDrugTest, _drugTestSettings.EmployeePoolSize -1);
+
+
+
+            // get a list of ints, based on the number of employees to alcohol test
+            // number based on size of previous list and upper bound based on size of previos   list
+            var alcoholTestHashSet = 
+                GetRandomHashSet(_drugTestSettings.NumberOfEmployeesToAlcoholTest, drugTestHashSet.Count);
+
+            _drugTestSettings.DrugSelectionPattern = 
+                string.Join(" ", drugTestHashSet);
+
+            _drugTestSettings.AlcoholSelectionPattern = 
+                string.Join(" ", alcoholTestHashSet);
+
+
 
 
         }
@@ -185,24 +210,58 @@ namespace CrosstabAnyPOC
         /// <summary>
         /// This is to get a blob of random non duplicated numbers between zero and X
         /// </summary>
-        /// <param name="numberOfElements"></param>
+        /// <param name="numberOfElementsNeeded"></param>
         /// <returns></returns>
         /// <remarks>Note this is zero based because it's working with the index of a list</remarks>
-        public static HashSet<int> GetRandomHashset(int numberOfElements, int upperBound)
+        /// <example> If you want 100 elements, the upper bound would be 99. Thus the zero-th element 
+        /// to the 99th element would be 100.
+        /// 
+        /// </example>
+        /// 
+        public static HashSet<int> GetRandomHashSet(int numberOfElementsNeeded, int upperBoundIndex)
         {
-            
-            if (numberOfElements > upperBound)                      // prevents loop if numberOfElements is greater than upperBound
+
+
+
+            if (numberOfElementsNeeded < 1 || upperBoundIndex < 0)
             {
-                throw new ArgumentException("RandomHashSet: numberOfElements cannot be greater than upperBound.");
+                throw new ArgumentException("Invalid input: Number of elements must be at least 1, and upper bound index at least 0.");
             }
 
-            HashSet<int> randomNumbers = new HashSet<int>();        // create a hashset to hold X random numbers
+            if (numberOfElementsNeeded > upperBoundIndex + 1)
+            {
+                throw new ArgumentException("Number of elements cannot exceed the range of unique values.");
+            }
+
+            // Additional check to ensure enough unique numbers are possible
+            if (numberOfElementsNeeded > 1000)
+            {
+                throw new ArgumentException("Number of elements asked for should be less than 1000 or less.");
+            }
+
+
+
+
+            HashSet<int> randomNumbers = new HashSet<int>();        // instantiate create a hashset
 
             Random rand = new Random();                             // create a random number generator
             
-            while (randomNumbers.Count < numberOfElements)          // put X random numbers in the hashset
+            while (randomNumbers.Count < numberOfElementsNeeded)          // put X random numbers in the hashset
             {
-                randomNumbers.Add(rand.Next(0, upperBound));
+                var x = rand.Next(0, upperBoundIndex + 1);                      // get a random number between 0 and upper bound
+                randomNumbers.Add(x);                                       // add it to the hashset
+
+
+
+                //Debug.WriteLine($"#########################   Next Random Number: {x}");
+
+                //Debug.WriteLine(   $"Random numbers:  \n{string.Join(", ", randomNumbers)}"    );
+                //Debug.WriteLine(   $"Orderednumbers:  \n{string.Join(" ", randomNumbers.OrderBy(t => t))}"    );
+
+
+
+               
+                //randomNumbers.Add(rand.Next(0, upperBoundIndex));
             }
 
             return randomNumbers;
@@ -213,3 +272,6 @@ namespace CrosstabAnyPOC
 
     }
 }
+
+
+

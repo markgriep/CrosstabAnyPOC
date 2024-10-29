@@ -42,19 +42,31 @@ namespace CrosstabAnyPOC
         /// </summary>
         private static void RunSelectionManager()
         {
-            // Get a list of employees
-            List<WorkdayEmployee> _employees = MockEmployeeHelper.GetMockEmployees(100);                   
+            // Get a MOCK list of employees
+            List<WorkdayEmployee> _employees = MockEmployeeHelper.GetMockEmployees(1000);                   
 
 
-            // Get a list of mappings
+            // Get a MOCK list of mappings
             List<JobCodeToDepartmentMapping> _mappings = MockJobToDepartment.GetStaticMappings();                   
 
 
-            // Get a settings object
+            // Instantiate a new settings object
             DrugTestSettings _settings = new DrugTestSettings();
 
+            _settings.TestNumber = 2468;
+            _settings.TestOperatorName = "Mark G";
+            _settings.RequestDateTime = System.DateTime.Now;
+            _settings.TestType = TestType.Drug;
+            _settings.TestingGroup = TestingGroup.N;
 
-            // create a mock Include/exclude object
+            _settings.TestCategory = TestCategory.Random;
+            _settings.TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic;
+            _settings.PercentageOfEmployeesToDrugTest = 0.25M;
+            _settings.PercentageOfEmployeesToAlcoholTest = 0.1M;
+
+
+
+            // create a MOCK  (BOTH Include/exclude objects)
             var x = new MockIncludeExclude();
             var y = x.NotEligibleList;
             var z = x.SpecialAssignmentsList;
@@ -70,6 +82,7 @@ namespace CrosstabAnyPOC
             sm.PopulateSelectionPool(_employees, _mappings);            // Populate the selection pool
 
             sm.PrintEmployees();                                        // should show ALL employees that were just passed in
+
             sm.PrintSelection();
 
             
@@ -88,10 +101,10 @@ namespace CrosstabAnyPOC
             sm.PrintSelection();
 
 
+            sm.PopulateSettings();                                      // Populate the settings object
 
 
-
-
+            sm.PrintDrugTestSettings();
 
 
 

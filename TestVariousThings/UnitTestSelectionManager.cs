@@ -17,7 +17,7 @@ namespace TestVariousThings
         public void TestHashSetCreatorRandomeness_ShouldBeEvenlyDistributed()
         {
 
-            var hashset = SelectionManager.GetRandomHashset(20, 200);
+            var hashset = SelectionManager.GetRandomHashSet(20, 200);
 
             // get duplicate count
             int duplicatesCount = hashset

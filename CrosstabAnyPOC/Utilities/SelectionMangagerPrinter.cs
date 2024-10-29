@@ -125,8 +125,35 @@ namespace CrosstabAnyPOC.Utilities
 
 
 
+        public static void PrintDrugTestSettings(this SelectionManager sm)
+        {
+            var x = Console.WindowWidth;
+            Console.WriteLine();
+            Console.WriteLine(new string('=', x));
+            Console.WriteLine("Drug Test Settings:");
 
 
+            Console.WriteLine($"{"Test Number:"     , 22} {sm.DrugTestSettings.TestNumber,-10}");
+            Console.WriteLine($"{"operator:"        , 22} {sm.DrugTestSettings.TestOperatorName,-10}");
+            Console.WriteLine($"{"Date:"            , 22} {sm.DrugTestSettings.RequestDateTime,-10}");
+            Console.WriteLine($"{"Test Type:"       , 22} {sm.DrugTestSettings.TestType,-10}");
+            Console.WriteLine($"{"Testing Group:"   , 22} {sm.DrugTestSettings.TestingGroup,-10}");
+            Console.WriteLine($"{"Category:"        , 22} {sm.DrugTestSettings.TestCategory,-10}");
+            Console.WriteLine($"{"Selection Method:", 22} {sm.DrugTestSettings.TestSubjectSelectionMethod.ToString(),-10}");
+
+            Console.WriteLine($"{"% drug:"          , 22} {sm.DrugTestSettings.PercentageOfEmployeesToDrugTest,-10}");
+            Console.WriteLine($"{"# drug test:"       , 22} {sm.DrugTestSettings.NumberOfEmployeesToDrugTest,-10}");
+            Console.WriteLine($"{"% alcohol:"          , 22} {sm.DrugTestSettings.PercentageOfEmployeesToAlcoholTest,-10}");
+            Console.WriteLine($"{"# alcohol:"       , 22} {sm.DrugTestSettings.NumberOfEmployeesToAlcoholTest,-10}");
+                                                      
+            Console.WriteLine($"{"Pool size:"     , 22} {sm.DrugTestSettings.EmployeePoolSize,-10}");
+            Console.WriteLine($"{"Drug pattern:"    , 22} {sm.DrugTestSettings.DrugSelectionPattern,-10}");
+            Console.WriteLine($"{"Alcohol pattern:" , 22} {sm.DrugTestSettings.AlcoholSelectionPattern,-10}");
+
+
+
+
+        }
 
     }
 }
