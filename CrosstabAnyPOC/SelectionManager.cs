@@ -111,6 +111,30 @@ namespace CrosstabAnyPOC
         }
 
 
+        /// <summary>
+        /// this is for testing.  It will force the selection pool to be a certain size
+        /// </summary>
+        /// <param name="currentEmployees"></param>
+        /// <param name="blindSelectNumberOfRandomEmployees"></param>
+        //[Obsolete("This is for testing only.  Do not use in production code.")]
+       // [Conditional("DEBUG")]
+        public void PopulateSelectionPool(List<WorkdayEmployee> currentEmployees, 
+            int blindSelectNumberOfRandomEmployees)
+        {
+            _currentEmployees = currentEmployees;
+
+            // Get a HashSet of unique random indices
+            HashSet<int> randomIndices = GetRandomHashSet(blindSelectNumberOfRandomEmployees, _currentEmployees.Count);
+
+            // Select employees based on the random indices
+            _selectionPool = _currentEmployees
+                .Where((emp, index) => randomIndices.Contains(index))
+                .ToList();
+        }
+
+
+
+
 
 
         public void AddSpecialAssignmentsToSelectionPool(List<SpecialAssignment> specialAssignmentEmployees)
@@ -163,47 +187,59 @@ namespace CrosstabAnyPOC
         }
 
 
-        //Poplulates the settings that are dependent on the selection pool
+
+        //Poplulates the settings that are dependent something that happens in this class
         public void PopulateSettings()
         {
 
             // record the pool size
             _drugTestSettings.EmployeePoolSize = _selectionPool.Count;
 
-          
-            // Calcualate the NUMBER of employees to DRUG Test,  bBased on the percentage for this testing group
+
+            // Calcualate the NUMBER of employees to DRUG Test, based on the percentage for this testing group and the pool size
             _drugTestSettings.NumberOfEmployeesToDrugTest = 
                  (int)Math.Ceiling(_drugTestSettings.EmployeePoolSize * _drugTestSettings.PercentageOfEmployeesToDrugTest / 12);
 
 
             // caculate the NUMBER of employees to ALCOHOL test, based on the percentage for this testing group
             _drugTestSettings.NumberOfEmployeesToAlcoholTest = 
-                        (int)Math.Ceiling(_drugTestSettings.EmployeePoolSize * _drugTestSettings.PercentageOfEmployeesToAlcoholTest / 12 );
+                 (int)Math.Ceiling(_drugTestSettings.EmployeePoolSize * _drugTestSettings.PercentageOfEmployeesToAlcoholTest / 12 );
 
 
-            //get a list of ints, based on the number of employees to drug test
+            //get a list of ints, based on the number of employees to DRUG test
             var drugTestHashSet = 
                 GetRandomHashSet(_drugTestSettings.NumberOfEmployeesToDrugTest, _drugTestSettings.EmployeePoolSize -1);
+            _drugTestSettings.DrugTestHashset = drugTestHashSet.ToList();
 
-
-
-            // get a list of ints, based on the number of employees to alcohol test
+            // get a list of ints, based on the number of employees to ALCOHOL test
             // number based on size of previous list and upper bound based on size of previos   list
             var alcoholTestHashSet = 
                 GetRandomHashSet(_drugTestSettings.NumberOfEmployeesToAlcoholTest, drugTestHashSet.Count);
+            _drugTestSettings.AlcoholTestHashset = alcoholTestHashSet.ToList();
 
+            // populate the string properties with the hashsets
             _drugTestSettings.DrugSelectionPattern = 
                 string.Join(" ", drugTestHashSet);
 
             _drugTestSettings.AlcoholSelectionPattern = 
                 string.Join(" ", alcoholTestHashSet);
 
+        }
+
+
+
+        public void PopluateSelectedForTesting()
+        {
+            // Assuming 'hashSet' is your HashSet<int> and '_selectionPool' is your list
+            var selectedEmployees = _selectionPool.OrderBy(x => x.EmployeeName)
+                .Where((employee, index) => _drugTestSettings.DrugTestHashset.Contains(index))
+                .ToList();
+
+            _selectedForTesting = selectedEmployees;
 
 
 
         }
-
-
 
 
 

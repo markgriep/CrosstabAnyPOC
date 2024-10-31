@@ -80,6 +80,11 @@ namespace CrosstabAnyPOC.DataAccess.Models
 
         public int EmployeePoolSize { get; set; }                                          
 
+
+        public List<int>    DrugTestHashset { get; set; } = new List<int>();
+        public List<int> AlcoholTestHashset { get; set; } = new List<int>();
+
+
         public string? DrugSelectionPattern { get; set; }                                   
 
         public string? AlcoholSelectionPattern { get; set; }                                
