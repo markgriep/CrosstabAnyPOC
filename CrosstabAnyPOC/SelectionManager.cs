@@ -16,37 +16,37 @@ namespace CrosstabAnyPOC
         #region Variables/Properties
 
 
-        // Holds the LIST of ALL CURRENT EMPLOYEES
+        // ALL EMPLOYEES: Holds the list of all current employees
         private List<WorkdayEmployee> _currentEmployees{ get; set; }
         public IReadOnlyList<WorkdayEmployee> CurrentEmployees => _currentEmployees;
 
 
-        // Holds the MATRIX of JOB CODES to DEPARTMENTS
+        // MATRIX: Holds the job code to departments matrix
         private List<JobCodeToDepartmentMapping> _jobCodeToDepartmentMatrix { get; set; }
-        public IReadOnlyList<JobCodeToDepartmentMapping> JobCodeToDepartmentMatrix => _jobCodeToDepartmentMatrix;
+        public IReadOnlyList<JobCodeToDepartmentMapping> JobCodeToDepartmentMatrix => _jobCodeToDepartmentMatrix;               
 
 
-        // property to hold the SETTINGS for this test
+        // SETTINGS: Holds the settings for this test
         private DrugTestSettings _drugTestSettings { get; set; }
         public DrugTestSettings DrugTestSettings => _drugTestSettings;
 
 
-        // Holds the INTIAL POOL and will be added to and subtracted from as we go
+        // INITAL POOL: Holds the list of employees that will be added to and subtracted from as we go
         private List<WorkdayEmployee> _selectionPool { get; set; }
         public IReadOnlyList<WorkdayEmployee> SelectionPool => _selectionPool;
 
 
-        // These will be REMOVED from the selection pool
+        // NOT ELIGIBLE: These people/employee IDs will be removed from the pool
         private List<int> _notEligibleEmployees { get; set; }
         public IReadOnlyList<int> NotEligibleEmployees => _notEligibleEmployees;
 
 
-        // These will be ADDED to the selection pool
+        // SPECIAL ASSIGNMENT: These people/employee ids be added to the selection pool
         private List<SpecialAssignment> _specialAssignments { get; set; }
         public IReadOnlyList<SpecialAssignment> SpecialAssignments => _specialAssignments;
 
 
-        // This is the FINAL POOL that will hold those who will be tested
+        // FINAL POOL: This holds the list of those who will be tested
         private List<WorkdayEmployee> _selectedForTesting { get; set; }
         public IReadOnlyList<WorkdayEmployee> SelectedForTesting => _selectedForTesting;
 
@@ -66,6 +66,8 @@ namespace CrosstabAnyPOC
         #endregion
 
 
+
+        #region METHODS  ------------------------------------------------------------------------------------
 
 
         /// <summary>
@@ -270,6 +272,9 @@ namespace CrosstabAnyPOC
 
             return randomNumbers;
         }
+
+
+        #endregion
     }
 }
 
