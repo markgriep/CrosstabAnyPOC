@@ -102,11 +102,11 @@ namespace CrosstabAnyPOC
 
 
 
-            sm.RemoveNotEligiblesFromSelectionPool(x.NotEligibleList);  // Remove not eligible employees from the selection pool
+            sm.RemoveNotEligibleEmployeesFromPool(x.NotEligibleList);  // Remove not eligible employees from the selection pool
 //            sm.PrintNotEligible();
 //            sm.PrintSelectionPool();
 
-            sm.AddSpecialAssignmentsToSelectionPool(x.SpecialAssignmentsList);  // Add special assignments to the selection pool
+            sm.AddSpecialAssignmentEmployeesToPool(x.SpecialAssignmentsList);  // Add special assignments to the selection pool
   //          sm.PrintSpecialAssignments();
 
 
@@ -117,7 +117,7 @@ namespace CrosstabAnyPOC
             sm.PrintDrugTestSettings();
 
 
-            sm.PopluateSelectedForTesting();                            // Populate the selected for testing list
+            sm.PopulateSelectedForTesting();                            // Populate the selected for testing list
             sm.PrintSelectedForTesting();
 
         }

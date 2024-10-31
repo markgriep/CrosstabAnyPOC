@@ -72,7 +72,7 @@ namespace TestVariousThings
 
             var specialAssignmentEmployees = GetSpecialAssignmentMockList();                       // Get mock SpecialAssignment list
 
-            selectionManager.AddSpecialAssignmentsToSelectionPool(specialAssignmentEmployees);     // Call the method to test
+            selectionManager.AddSpecialAssignmentEmployeesToPool(specialAssignmentEmployees);     // Call the method to test
 
 
             _localSelectionPool = selectionManager.SelectionPool.ToList();                             // Assign the selection pool to the local
@@ -115,7 +115,7 @@ namespace TestVariousThings
 
             var specialAssignmentEmployees = GetSpecialAssignmentMockList();                        // get and assign some mock objects
 
-            selectionManager.AddSpecialAssignmentsToSelectionPool(specialAssignmentEmployees);      //CODE UNDER TEST
+            selectionManager.AddSpecialAssignmentEmployeesToPool(specialAssignmentEmployees);      //CODE UNDER TEST
 
            // _localSelectionPool = selectionManager.SelectionPool;                              // assign the results
             _localSelectionPool = selectionManager.SelectionPool.ToList();                              // assign the results
@@ -163,7 +163,7 @@ namespace TestVariousThings
 
             selectionManager.PopulateSelectionPool(_employees, _mappings);                          // kick off the main method to populate the selection pool
 
-            selectionManager.AddSpecialAssignmentsToSelectionPool(
+            selectionManager.AddSpecialAssignmentEmployeesToPool(
                              new List<SpecialAssignment>
                              {
                                 new SpecialAssignment { EmployeeId = 6666666, SpecialAssignmentGroup = "O" },
@@ -171,7 +171,7 @@ namespace TestVariousThings
                                 new SpecialAssignment { EmployeeId = 6666668, SpecialAssignmentGroup = "O" },
                              });
 
-            selectionManager.RemoveNotEligiblesFromSelectionPool(removeThese);                      //CODE UNDER TEST
+            selectionManager.RemoveNotEligibleEmployeesFromPool(removeThese);                      //CODE UNDER TEST
 
             _localSelectionPool = selectionManager.SelectionPool.ToList();                             // assign the results
 
