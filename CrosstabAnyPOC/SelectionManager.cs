@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -29,36 +30,38 @@ namespace CrosstabAnyPOC
 
 
         // property to hold the settings for this test 
-        private DrugTestSettings _drugTestSettings { get; }
+        private DrugTestSettings _drugTestSettings { get; set; }
         public DrugTestSettings DrugTestSettings => _drugTestSettings;
 
 
 
 
 
-        // Holds the POOL
+        // Holds the INTIAL POOL and will be added to and subtracted from as we go
         private List<WorkdayEmployee> _selectionPool { get; set; }
         public IReadOnlyList<WorkdayEmployee> SelectionPool => _selectionPool;
-       
-        
 
 
 
 
 
-        private List<WorkdayEmployee> _selectedForTesting { get; set; }
-        public IReadOnlyList<WorkdayEmployee> SelectedForTesting => _selectedForTesting;
-
-
+        // These will be REMOVED from the selection pool
         private List<int> _notEligibleEmployees { get; set; }
         public IReadOnlyList<int> NotEligibleEmployees => _notEligibleEmployees;
 
 
 
 
-
+        // These will be ADDED to the selection pool
         private List<SpecialAssignment> _specialAssignments { get; set; }
         public IReadOnlyList<SpecialAssignment> SpecialAssignments => _specialAssignments;
+
+
+
+
+        // This is the FINAL POOL that will hold those who will be tested
+        private List<WorkdayEmployee> _selectedForTesting { get; set; }
+        public IReadOnlyList<WorkdayEmployee> SelectedForTesting => _selectedForTesting;
 
 
 
@@ -106,6 +109,30 @@ namespace CrosstabAnyPOC
             _selectionPool = new List<WorkdayEmployee>();
             _selectionPool.AddRange(_currentEmployees.Where(emp => SelectionPool.Any(sp => sp.EmployeeID == emp.EmployeeId)).ToList());
         }
+
+
+        /// <summary>
+        /// this is for testing.  It will force the selection pool to be a certain size
+        /// </summary>
+        /// <param name="currentEmployees"></param>
+        /// <param name="blindSelectNumberOfRandomEmployees"></param>
+        //[Obsolete("This is for testing only.  Do not use in production code.")]
+       // [Conditional("DEBUG")]
+        public void PopulateSelectionPool(List<WorkdayEmployee> currentEmployees, 
+            int blindSelectNumberOfRandomEmployees)
+        {
+            _currentEmployees = currentEmployees;
+
+            // Get a HashSet of unique random indices
+            HashSet<int> randomIndices = GetRandomHashSet(blindSelectNumberOfRandomEmployees, _currentEmployees.Count);
+
+            // Select employees based on the random indices
+            _selectionPool = _currentEmployees
+                .Where((emp, index) => randomIndices.Contains(index))
+                .ToList();
+        }
+
+
 
 
 
@@ -160,32 +187,102 @@ namespace CrosstabAnyPOC
         }
 
 
-    
 
+        //Poplulates the settings that are dependent something that happens in this class
+        public void PopulateSettings()
+        {
+
+            // record the pool size
+            _drugTestSettings.EmployeePoolSize = _selectionPool.Count;
+
+
+            // Calcualate the NUMBER of employees to DRUG Test, based on the percentage for this testing group and the pool size
+            _drugTestSettings.NumberOfEmployeesToDrugTest = 
+                 (int)Math.Ceiling(_drugTestSettings.EmployeePoolSize * _drugTestSettings.PercentageOfEmployeesToDrugTest / 12);
+
+
+            // caculate the NUMBER of employees to ALCOHOL test, based on the percentage for this testing group
+            _drugTestSettings.NumberOfEmployeesToAlcoholTest = 
+                 (int)Math.Ceiling(_drugTestSettings.EmployeePoolSize * _drugTestSettings.PercentageOfEmployeesToAlcoholTest / 12 );
+
+
+            //get a list of ints, based on the number of employees to DRUG test
+            var drugTestHashSet = 
+                GetRandomHashSet(_drugTestSettings.NumberOfEmployeesToDrugTest, _drugTestSettings.EmployeePoolSize -1);
+            _drugTestSettings.DrugTestHashset = drugTestHashSet.ToList();
+
+            // get a list of ints, based on the number of employees to ALCOHOL test
+            // number based on size of previous list and upper bound based on size of previos   list
+            var alcoholTestHashSet = 
+                GetRandomHashSet(_drugTestSettings.NumberOfEmployeesToAlcoholTest, drugTestHashSet.Count);
+            _drugTestSettings.AlcoholTestHashset = alcoholTestHashSet.ToList();
+
+            // populate the string properties with the hashsets
+            _drugTestSettings.DrugSelectionPattern = 
+                string.Join(" ", drugTestHashSet);
+
+            _drugTestSettings.AlcoholSelectionPattern = 
+                string.Join(" ", alcoholTestHashSet);
+
+        }
+
+
+
+        public void PopluateSelectedForTesting()
+        {
+            // Assuming 'hashSet' is your HashSet<int> and '_selectionPool' is your list
+            var selectedEmployees = _selectionPool.OrderBy(x => x.EmployeeName)
+                .Where((employee, index) => _drugTestSettings.DrugTestHashset.Contains(index))
+                .ToList();
+
+            _selectedForTesting = selectedEmployees;
+
+
+
+        }
 
 
 
         /// <summary>
         /// This is to get a blob of random non duplicated numbers between zero and X
         /// </summary>
-        /// <param name="numberOfElements"></param>
+        /// <param name="numberOfElementsNeeded"></param>
         /// <returns></returns>
         /// <remarks>Note this is zero based because it's working with the index of a list</remarks>
-        public static HashSet<int> GetRandomHashset(int numberOfElements, int upperBound)
+        /// <example> If you want 100 elements, the upper bound would be 99. Thus the zero-th element 
+        /// to the 99th element would be 100.
+        /// 
+        /// </example>
+        /// 
+        public static HashSet<int> GetRandomHashSet(int numberOfElementsNeeded, int upperBoundIndex)
         {
-            
-            if (numberOfElements > upperBound)                      // prevents loop if numberOfElements is greater than upperBound
+
+            if (numberOfElementsNeeded < 1 || upperBoundIndex < 0)
             {
-                throw new ArgumentException("RandomHashSet: numberOfElements cannot be greater than upperBound.");
+                throw new ArgumentException("Invalid input: Number of elements must be at least 1, and upper bound index at least 0.");
             }
 
-            HashSet<int> randomNumbers = new HashSet<int>();        // create a hashset to hold X random numbers
 
-            Random rand = new Random();                             // create a random number generator
-            
-            while (randomNumbers.Count < numberOfElements)          // put X random numbers in the hashset
+            if (numberOfElementsNeeded > upperBoundIndex + 1)
             {
-                randomNumbers.Add(rand.Next(0, upperBound));
+                throw new ArgumentException("Number of elements cannot exceed the range of unique values.");
+            }
+
+            
+            if (numberOfElementsNeeded > 1000)
+            {
+                throw new ArgumentException("Number of elements asked for should be less than 1000 or less.");
+            }
+
+
+            HashSet<int> randomNumbers = new HashSet<int>();          // instantiate create a hashset
+
+            Random rand = new Random();                               // create a random number generator
+
+            while (randomNumbers.Count < numberOfElementsNeeded)      // Loop and put X random numbers in the hashset
+            {
+                var x = rand.Next(0, upperBoundIndex + 1);            // get a random number between 0 and upper bound
+                randomNumbers.Add(x);                                 // add it to the hashset
             }
 
             return randomNumbers;
@@ -194,8 +291,8 @@ namespace CrosstabAnyPOC
 
 
 
-
-
-
     }
 }
+
+
+

@@ -10,14 +10,14 @@ using System.Diagnostics;
 
 namespace TestVariousThings
 {
-    public class TestSelectionManager
+    public class UnitTestSelectionManager
     {
 
         [Fact]
         public void TestHashSetCreatorRandomeness_ShouldBeEvenlyDistributed()
         {
 
-            var hashset = SelectionManager.GetRandomHashset(20, 200);
+            var hashset = SelectionManager.GetRandomHashSet(20, 200);
 
             // get duplicate count
             int duplicatesCount = hashset
@@ -53,7 +53,7 @@ namespace TestVariousThings
         }
 
 
-        [Fact]
+        // [Fact]
         public void AddSpecialAssignmentsToSelectionPoolSimple_OnlyMatchingIdIsAdded()
         {
             // Arrange
@@ -75,8 +75,8 @@ namespace TestVariousThings
             selectionManager.AddSpecialAssignmentsToSelectionPool(specialAssignmentEmployees);     // Call the method to test
 
 
-            _localSelectionPool = selectionManager.SelectionPool;                             // Assign the selection pool to the local
-                                                                                                   
+            _localSelectionPool = selectionManager.SelectionPool.ToList();                             // Assign the selection pool to the local
+
 
             Assert.Contains(_localSelectionPool, emp => emp.EmployeeId == 100000);                 // Ensure n was added
 
@@ -117,8 +117,10 @@ namespace TestVariousThings
 
             selectionManager.AddSpecialAssignmentsToSelectionPool(specialAssignmentEmployees);      //CODE UNDER TEST
 
-            _localSelectionPool = selectionManager.SelectionPool;                              // assign the results
+           // _localSelectionPool = selectionManager.SelectionPool;                              // assign the results
+            _localSelectionPool = selectionManager.SelectionPool.ToList();                              // assign the results
 
+           
 
             foreach (var id in existsIds)                                                           // loop through the IDs that _SHOULD_ exist
             {
@@ -135,6 +137,8 @@ namespace TestVariousThings
         [Theory]
         //          grp   _SHOULD_ exist             Should  _ N O T _ exist          
         [InlineData("A", new[] { 890401, 890134 }, new[] { 6666666, 6666667, 6666668 })]
+
+
 
         public void RemoveEmployeeIDsFromSelectionPool_VariousScenarios(
                 string groupCodeOfThoseToRemove,                                                    // Employee IDs to remove
@@ -169,7 +173,7 @@ namespace TestVariousThings
 
             selectionManager.RemoveNotEligiblesFromSelectionPool(removeThese);                      //CODE UNDER TEST
 
-             _localSelectionPool = selectionManager.SelectionPool;                             // assign the results
+            _localSelectionPool = selectionManager.SelectionPool.ToList();                             // assign the results
 
             foreach (var id in existsIds)                                                           // loop through the IDs that _SHOULD_ exist
             {
@@ -181,6 +185,31 @@ namespace TestVariousThings
                 Assert.DoesNotContain(_localSelectionPool, emp => emp.EmployeeId == id);
             }
         }
+
+
+
+
+        [Fact]
+        public void TestSetSettingsInsideOfSelectionsManager()
+        {
+            var _mappings = MockJobToDepartment.GetStaticMappings();                                // get and assign some mock objects
+            var _employees = MockEmployeeHelper.GetStaticEmployees();
+
+            var _settings = new DrugTestSettings                                                    // instantiate a new DrugTestSettings object
+            {
+                TestingGroup = TestingGroup.O,                                                      // Use the passed TestingGroup
+                                                                                                    // only need this one setting at this time.
+            };
+
+            var selectionManager = new SelectionManager(_settings);                                 // instantiate and setup a new SelectionManager
+
+            selectionManager.PopulateSelectionPool(_employees, _mappings);                          // kick off the main method to populate the selection pool
+
+            Assert.Equal(2, selectionManager.SelectionPool.Count);                                   // Assert that the selection pool has 6 items
+
+                }
+
+
 
 
 

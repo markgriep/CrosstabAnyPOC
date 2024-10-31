@@ -16,16 +16,20 @@ namespace CrosstabAnyPOC
     {
         static void Main()
         {
+            #region Setup  ---------------------------------------------------------------------------------------------------------------------
+            Console.SetWindowSize(180, 25);
+            Console.SetBufferSize(180, 1255); // Match buffer to avoid scroll bars
+            #endregion
+
+
 
             RunSelectionManager();
 
 
 
-
-
-
             #region Finalize  --------------------------------------------------------------------------------------------------------------------------
 
+            Console.WriteLine("### FINISHED...  press any key to continue.");
             Console.ReadKey();
 
             #endregion
@@ -42,19 +46,31 @@ namespace CrosstabAnyPOC
         /// </summary>
         private static void RunSelectionManager()
         {
-            // Get a list of employees
-            List<WorkdayEmployee> _employees = MockEmployeeHelper.GetMockEmployees(100);                   
+            // Get a MOCK list of employees
+            List<WorkdayEmployee> _employees = MockEmployeeHelper.GetMockEmployees(1000);
 
 
-            // Get a list of mappings
-            List<JobCodeToDepartmentMapping> _mappings = MockJobToDepartment.GetStaticMappings();                   
+            // Get a MOCK list of mappings
+            List<JobCodeToDepartmentMapping> _mappings = MockJobToDepartment.GetStaticMappings();
 
 
-            // Get a settings object
+            // Instantiate a new settings object
             DrugTestSettings _settings = new DrugTestSettings();
 
+            _settings.TestNumber = 2468;
+            _settings.TestOperatorName = "Mark G";
+            _settings.RequestDateTime = System.DateTime.Now;
+            _settings.TestType = TestType.Drug;
+            _settings.TestingGroup = TestingGroup.N;
 
-            // create a mock Include/exclude object
+            _settings.TestCategory = TestCategory.Random;
+            _settings.TestSubjectSelectionMethod = TestSubjectSelectionMethod.Automatic;
+            _settings.PercentageOfEmployeesToDrugTest = 0.55M;
+            _settings.PercentageOfEmployeesToAlcoholTest = 0.25M;
+
+
+
+            // create a MOCK  (BOTH Include/exclude objects)
             var x = new MockIncludeExclude();
             var y = x.NotEligibleList;
             var z = x.SpecialAssignmentsList;
@@ -64,36 +80,45 @@ namespace CrosstabAnyPOC
             SelectionManager sm = new SelectionManager(_settings);      // Create a new SelectionManager object
 
 
-            sm.PrintSelection();                                        // should be empty
+           // sm.PrintSelectionPool();                                        // should be empty
 
 
-            sm.PopulateSelectionPool(_employees, _mappings);            // Populate the selection pool
+            //sm.PopulateSelectionPool(_employees, _mappings);      // OPT 1  Populate the selection pool
+            sm.PopulateSelectionPool(_employees, 600);            // OPT 2  Populate the selection pool with a hard number
 
-            sm.PrintEmployees();                                        // should show ALL employees that were just passed in
-            sm.PrintSelection();
+            //sm.PrintEmployees();                                        // should show ALL employees that were just passed in
 
-            
+  //          sm.PrintSelectionPool();
+
+
             // for sanity, include of one of the selected employees in to the not eligible list
             x.NotEligibleList.Add(sm.SelectionPool[0].EmployeeId);      // Add the first employee to the not eligible list
 
-            
+            for (int i = 2; i < 12; i++)
+            {
+                x.NotEligibleList.Add(sm.SelectionPool[1].EmployeeId);      // Add the first employee to the not eligible list
+            }
+
+
+
+
             sm.RemoveNotEligiblesFromSelectionPool(x.NotEligibleList);  // Remove not eligible employees from the selection pool
-            sm.PrintNotEligible();
-            sm.PrintSelection();
+//            sm.PrintNotEligible();
+//            sm.PrintSelectionPool();
 
             sm.AddSpecialAssignmentsToSelectionPool(x.SpecialAssignmentsList);  // Add special assignments to the selection pool
-            sm.PrintSpecialAssignments();
+  //          sm.PrintSpecialAssignments();
 
 
-            sm.PrintSelection();
+            sm.PrintSelectionPool();
 
 
+            sm.PopulateSettings();                                      // Populate the settings object
+            sm.PrintDrugTestSettings();
 
 
-
-
-
-
+            sm.PopluateSelectedForTesting();                            // Populate the selected for testing list
+            sm.PrintSelectedForTesting();
 
         }
 
@@ -108,10 +133,10 @@ namespace CrosstabAnyPOC
         //{
         //    #region Variables  --------------------------------------------------------------------------------------------------------------------------
 
-        //    var _mappings = MockJobToDepartment.GetStaticMappings();                    //.GetMockMappings();  
+        //    var _mappings = MockJobToDepartment.GetStaticMappings();                    //.GetMockMappings();
         //    var _employees = MockEmployeeHelper.GetMockEmployees(50);                   // Generate random list of N employees
 
-        //    var _settings = new DrugTestSettings                                        // Configure some settings for the test                                             
+        //    var _settings = new DrugTestSettings                                        // Configure some settings for the test
         //    {
         //        TestNumber = 1,
         //        TestOperatorName = "Mark G",
@@ -180,14 +205,14 @@ namespace CrosstabAnyPOC
         //    _settings.EmployeePoolSize = SelectionPool.Count;
 
 
-        //    if (_settings.TestSubjectSelectionMethod == TestSubjectSelectionMethod.Automatic)                    // if Automatic, 
+        //    if (_settings.TestSubjectSelectionMethod == TestSubjectSelectionMethod.Automatic)                    // if Automatic,
         //    {
         //        _settings.NumberOfEmployeesToDrugTest = (int)Math.Ceiling(_settings.PercentageOfEmployeesToDrugTest * _settings.EmployeePoolSize);  // calculate the number of employees to test
         //    }
         //    // otherwise number of employees is already set
 
 
-        //    // Based on pool zize, make a call to get a random hashset            
+        //    // Based on pool zize, make a call to get a random hashset
         //    HashSet<int> randomNumbers = SelectionManager.GetRandomHashset((int)_settings.NumberOfEmployeesToDrugTest, _settings.EmployeePoolSize);
 
 
@@ -343,4 +368,4 @@ namespace CrosstabAnyPOC
 
 
     }
-} 
+}

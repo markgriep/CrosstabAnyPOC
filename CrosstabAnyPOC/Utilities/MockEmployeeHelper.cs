@@ -86,7 +86,8 @@ namespace CrosstabAnyPOC.Utilities
 
         private static int GetRandomDepartment()
         {
-            List<int> departmentIDs = new List<int> { 990, 119, 111, 500, 404, 200, 222, 123, 456, 789 };
+            //List<int> departmentIDs = new List<int> { 990, 119, 111, 500, 404, 200, 222, 123, 456, 789 };
+            List<int> departmentIDs = new List<int> { 990, 119, 111, 500, 404, 789 };
             Random random = new Random();
             return departmentIDs[random.Next(departmentIDs.Count)];
         }
@@ -94,7 +95,16 @@ namespace CrosstabAnyPOC.Utilities
 
         private static string GetRandomJobCode()
         {
-            List<string> jobCodes = new List<string> { "001", "009", "003", "002", "004", "005", "022", "029", "028", "023" };
+            //List<string> jobCodes = new List<string> { "001", "009", "003", "002", "004", "005", "022", "029", "028", "023" };
+            List<string> jobCodes = new List<string> { 
+                "001", "002", "004", "005", 
+                "001", "002", "004", "005", 
+                "001", "002", "004", "005", 
+                "001", "002", "004", "005", 
+                "001", "002", "004", "005", 
+                "001", "002", "004", "005", 
+                "901", "029", "028", "023", "901", "337", "930",
+                "554", "035", "055", "553","554" };
             Random random = new Random();
             return jobCodes[random.Next(jobCodes.Count)];
         }

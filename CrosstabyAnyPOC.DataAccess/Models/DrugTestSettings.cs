@@ -54,35 +54,39 @@ namespace CrosstabAnyPOC.DataAccess.Models
 
     public class DrugTestSettings
     {
-        public int TestNumber { get; set; }                                             //  421
+        public int TestNumber { get; set; }                                             
 
-        public string TestOperatorName { get; set; } = string.Empty;                    //  JDOE
+        public string TestOperatorName { get; set; } = string.Empty;                    
         
-        public DateTime RequestDateTime { get; set; }                                   // 2021-07-01 12:00:00
+        public DateTime RequestDateTime { get; set; }                                   
 
-        public TestType TestType { get; set; }                                          // ENUM - Drug, alcohol or both
+        public TestType TestType { get; set; }                                          
 
-        public TestingGroup TestingGroup { get; set; }                                  // ENUM - Transit, NonTransit, Other-DOT
+        public TestingGroup TestingGroup { get; set; }                                  
 
-        public TestCategory TestCategory { get; set; }                                  // ENUM - Random, FollowUp, Post-Accident, etc
+        public TestCategory TestCategory { get; set; }                                  
 
-        public TestSubjectSelectionMethod TestSubjectSelectionMethod { get; set; }      // ENUM - manual or automatic
-
-
-        public decimal PercentageOfEmployeesToDrugTest { get; set; }                    // DECIMAL % DRUG selection
-
-        public decimal PercentageOfEmployeesToAlcoholTest { get; set; }                 // DECIMAL % ALC. selection
-
-        public int NumberOfEmployeesToDrugTest { get; set; }                            // INT actual number to Drug test, -OR- set via code based on percentage
-
-        public int NumberOfEmployeesToAlcoholTest { get; set; }                         // INT actual number to Alco test, -OR- set via code based on percentage
+        public TestSubjectSelectionMethod TestSubjectSelectionMethod { get; set; }      
 
 
+        public decimal PercentageOfEmployeesToDrugTest { get; set; }                    
 
-        public int EmployeePoolSize { get;   }                                            // INT R/O For MANUAL selection
+        public decimal PercentageOfEmployeesToAlcoholTest { get; set; }                 
 
-        public string? DrugSelectionPattern { get;  }                                   // STRING R/O, store hashset for DRUG selecting employees
+        public int NumberOfEmployeesToDrugTest { get; set; }                            
 
-        public string? AlcoholSelectionPattern { get; }                                // STRING  R/O, store hashset for ALC. selecting employees
+        public int NumberOfEmployeesToAlcoholTest { get; set; }                         
+
+
+        public int EmployeePoolSize { get; set; }                                          
+
+
+        public List<int>    DrugTestHashset { get; set; } = new List<int>();
+        public List<int> AlcoholTestHashset { get; set; } = new List<int>();
+
+
+        public string? DrugSelectionPattern { get; set; }                                   
+
+        public string? AlcoholSelectionPattern { get; set; }                                
     }
 }
