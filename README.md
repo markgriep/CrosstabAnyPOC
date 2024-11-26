@@ -1,10 +1,21 @@
 # Crosstab Any Proof of Concept
 
 
-10/14/2024 test
+This is for "random drug testing"
 
-Playing around with crosstab in with LINQ
+It's an Engine that does all the work
+You give it both a list of employees and a matrix, in return 
+you get a list of employees that are ELIGIBLE and also a 
+list of the CHOSEN employees.
 
 
-Taking matrix of jobs/departments and matching them with the 
-employees that are in those departments. 
+
+
+
+It's called Crosstab because it's an intersection of 
+jobs/departments and employees.
+
+It uses LINQ to do the heavy lifting.
+
+
+

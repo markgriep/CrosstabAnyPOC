@@ -119,7 +119,7 @@ namespace CrosstabAnyPOC
 
 
         /// <summary>
-        /// Adds Special Assingment employees to the selection pool
+        /// Adds Special Assignment employees to the selection pool
         /// </summary>
         /// <param name="specialAssignmentEmployees"></param>
         public void AddSpecialAssignmentEmployeesToPool(List<SpecialAssignment> specialAssignmentEmployees)

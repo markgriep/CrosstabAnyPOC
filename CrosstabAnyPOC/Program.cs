@@ -54,7 +54,7 @@ namespace CrosstabAnyPOC
             List<JobCodeToDepartmentMapping> _mappings = MockJobToDepartment.GetStaticMappings();
 
 
-            // Instantiate a new settings object
+            // Instantiate a new settings object with the setting given below it
             DrugTestSettings _settings = new DrugTestSettings();
 
             _settings.TestNumber = 2468;
@@ -80,11 +80,11 @@ namespace CrosstabAnyPOC
             SelectionManager sm = new SelectionManager(_settings);      // Create a new SelectionManager object
 
 
-           // sm.PrintSelectionPool();                                        // should be empty
+            // sm.PrintSelectionPool();                                        // should be empty
 
 
-            //sm.PopulateSelectionPool(_employees, _mappings);      // OPT 1  Populate the selection pool
-            sm.PopulateSelectionPool(_employees, 600);            // OPT 2  Populate the selection pool with a hard number
+            sm.PopulateSelectionPool(_employees, _mappings);      // OPT 1  Populate the selection pool
+            //sm.PopulateSelectionPool(_employees, 600);              // OPT 2  Populate the selection pool with a hard number
 
             //sm.PrintEmployees();                                        // should show ALL employees that were just passed in
 
