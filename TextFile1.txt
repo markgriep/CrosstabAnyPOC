@@ -1,0 +1,29 @@
+=============
+Settings
+-------------
+Theme: Oceanic
+Font: Arial, 12pt
+Layout: Single Column
+=============
+
+=============
+Names
+-------------
+- Alice Johnson
+- Bob Smith
+- Carol Martinez
+- David Lee
+- Eva Green
+- Frank Harris
+- Grace Kim
+- Henry Adams
+- Irene Clark
+- Jack Lewis
+=============
+
+=============
+Totals
+-------------
+Total Names: 10
+Average Name Length: 11.2 characters
+=============
