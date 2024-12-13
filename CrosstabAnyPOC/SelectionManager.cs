@@ -23,7 +23,7 @@ namespace CrosstabAnyPOC
 
         // MATRIX: Holds the job code to departments matrix
         private List<JobCodeToDepartmentMapping> _jobCodeToDepartmentMatrix { get; set; }
-        public IReadOnlyList<JobCodeToDepartmentMapping> JobCodeToDepartmentMatrix => _jobCodeToDepartmentMatrix;               
+        public IReadOnlyList<JobCodeToDepartmentMapping> JobCodeToDepartmentMatrix => _jobCodeToDepartmentMatrix;
 
 
         // SETTINGS: Holds the settings for this test

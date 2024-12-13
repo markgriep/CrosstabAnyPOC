@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 
 namespace CrosstabAnyPOC.DataAccess.Models
 {
-
-
-
     public enum TestSubjectSelectionMethod      // AUTO, MANUAL
     {
         [Display(Name = "Automatic")]
@@ -19,17 +16,15 @@ namespace CrosstabAnyPOC.DataAccess.Models
     }
 
 
-
     public enum TestingGroup                    // TRANSIT, NON-TRANSIT, OTHER-DOT
     {
         [Display(Name = "Transit")]
         T,
         [Display(Name = "Non-Tranist")]
         N,
-        [Display(Name = "DOT-Other")]  
+        [Display(Name = "DOT-Other")]
         O
     }
-
 
     public enum TestType                        // DRUG, ALCOHOL, BOTH
     {
@@ -54,39 +49,39 @@ namespace CrosstabAnyPOC.DataAccess.Models
 
     public class DrugTestSettings
     {
-        public int TestNumber { get; set; }                                             
+        public int TestNumber { get; set; }
 
-        public string TestOperatorName { get; set; } = string.Empty;                    
-        
-        public DateTime RequestDateTime { get; set; }                                   
+        public string TestOperatorName { get; set; } = string.Empty;
 
-        public TestType TestType { get; set; }                                          
+        public DateTime RequestDateTime { get; set; }
 
-        public TestingGroup TestingGroup { get; set; }                                  
+        public TestType TestType { get; set; }
 
-        public TestCategory TestCategory { get; set; }                                  
+        public TestingGroup TestingGroup { get; set; }
 
-        public TestSubjectSelectionMethod TestSubjectSelectionMethod { get; set; }      
+        public TestCategory TestCategory { get; set; }
 
-
-        public decimal PercentageOfEmployeesToDrugTest { get; set; }                    
-
-        public decimal PercentageOfEmployeesToAlcoholTest { get; set; }                 
-
-        public int NumberOfEmployeesToDrugTest { get; set; }                            
-
-        public int NumberOfEmployeesToAlcoholTest { get; set; }                         
+        public TestSubjectSelectionMethod TestSubjectSelectionMethod { get; set; }
 
 
-        public int EmployeePoolSize { get; set; }                                          
+        public decimal PercentageOfEmployeesToDrugTest { get; set; }
+
+        public decimal PercentageOfEmployeesToAlcoholTest { get; set; }
+
+        public int NumberOfEmployeesToDrugTest { get; set; }
+
+        public int NumberOfEmployeesToAlcoholTest { get; set; }
+
+
+        public int EmployeePoolSize { get; set; }
 
 
         public List<int>    DrugTestHashset { get; set; } = new List<int>();
         public List<int> AlcoholTestHashset { get; set; } = new List<int>();
 
 
-        public string? DrugSelectionPattern { get; set; }                                   
+        public string? DrugSelectionPattern { get; set; }
 
-        public string? AlcoholSelectionPattern { get; set; }                                
+        public string? AlcoholSelectionPattern { get; set; }
     }
 }
