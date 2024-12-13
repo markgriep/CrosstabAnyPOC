@@ -16,9 +16,9 @@ namespace CrosstabAnyPOC
     {
         static void Main()
         {
-            #region Setup  ---------------------------------------------------------------------------------------------------------------------
+            #region UI Setup  ---------------------------------------------------------------------------------------------------------------------
             Console.SetWindowSize(180, 25);
-            Console.SetBufferSize(180, 1255); // Match buffer to avoid scroll bars
+            Console.SetBufferSize(180, 1255);           // Match buffer to avoid scroll bars
             #endregion
 
 
@@ -77,22 +77,20 @@ namespace CrosstabAnyPOC
 
 
 
-            SelectionManager sm = new SelectionManager(_settings);      // Create a new SelectionManager object
+            SelectionManager sm = new SelectionManager(_settings);   // Create a new SelectionManager object
 
 
-            // sm.PrintSelectionPool();                                        // should be empty
+            // sm.PrintSelectionPool();                              // should be empty
 
 
-            sm.PopulateSelectionPool(_employees, _mappings);      // OPT 1  Populate the selection pool
-            //sm.PopulateSelectionPool(_employees, 600);              // OPT 2  Populate the selection pool with a hard number
+            sm.PopulateSelectionPool(_employees, _mappings);         // OPT 1  Populate the selection pool
+            //sm.PopulateSelectionPool(_employees, 600);             // OPT 2  Populate the selection pool with a hard number
 
-            //sm.PrintEmployees();                                        // should show ALL employees that were just passed in
+            //sm.PrintEmployees();                                   // should show ALL employees that were just passed in
 
   //          sm.PrintSelectionPool();
 
-
-            // for sanity, include of one of the selected employees in to the not eligible list
-            x.NotEligibleList.Add(sm.SelectionPool[0].EmployeeId);      // Add the first employee to the not eligible list
+            x.NotEligibleList.Add(sm.SelectionPool[0].EmployeeId);   // Add the first employee to the not eligible list
 
             for (int i = 2; i < 12; i++)
             {

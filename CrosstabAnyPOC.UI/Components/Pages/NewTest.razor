@@ -1,0 +1,165 @@
+﻿@page "/mark"
+@page "/newtest"
+@using CrosstabAnyPOC.DataAccess.Models
+
+
+
+@page "/dropdown-form"
+
+<h3>Dropdown Form</h3>
+
+<EditForm Model="@this">
+
+
+
+	<div>
+		<label for="testNumber">Test Number:</label>
+		<input id="testNumber" type="text" @bind="TestNumber" />
+	</div>
+	<div>
+		<label for="operatorName">Test Operator Name:</label>
+		<input id="operatorName" type="text" @bind="TestOperatorName" />
+	</div>
+	<div>
+		<label for="requestedDateTime">Requested Date Time:</label>
+		<input id="requestedDateTime" type="datetime-local" @bind="RequestedDateTime" />
+	</div>
+
+
+
+
+
+	<div>
+		<label for="typeSelect">Select Test Type:</label>
+		<select id="typeSelect" @bind="SelectedTestType">
+			<option value="Alco">Alcohol</option>
+			<option value="Drug">Drug</option>
+			<option value="Both">Both</option>
+		</select>
+	</div>
+
+
+
+	<div>
+		<label for="transportSelect">Select Group Type:</label>
+		<select id="transportSelect" @bind="SelectedGroup">
+			<option value="Trans">Transit</option>
+			<option value="NonTrns">Non-Transit</option>
+			<option value="Other">Other-DOT</option>
+		</select>
+	</div>
+
+
+
+
+
+
+
+
+	<div>
+		<label for="testCategory">Select Test Category:</label>
+		<select id="testCategory" @bind="SelectedCategory">
+			<option value="Random">Random</option>
+			<option value="Followup">Follow-up</option>
+			<option value="PostAccident">Post Accident</option>
+		</select>
+	</div>
+
+
+	<div>
+		<label>
+			<input type="radio" name="transmission" value="Automatic" @onchange="OnTransmissionChanged" checked="@IsAutomatic" />
+			Automatic
+		</label>
+	</div>
+	<div>
+		<label>
+			<input type="radio" name="transmission" value="Manual" @onchange="OnTransmissionChanged" checked="@IsManual" />
+			Manual
+		</label>
+	</div>
+	<button @onclick="RunIt">GO</button>
+</EditForm>
+<p />
+<p></p>
+<p></p>
+
+
+
+
+<p>Test Number: @TestNumber</p>
+<p>Test Operator Name: @TestOperatorName</p>
+<p>Requested Date Time: @RequestedDateTime</p>
+
+<p>Selected Type: @SelectedTestType</p>
+<p>Selected Transport: @SelectedGroup</p>
+<p>Selected Transport: @SelectedCategory</p>
+<p>Selected Transmission: @SelectedTransmission</p>
+
+
+
+<p>@SubmissionMessage</p>
+
+
+
+@code {
+
+	private string TestNumber { get; set; } = DateTime.Now.Millisecond.ToString();
+	private string TestOperatorName { get; set; } = Environment.UserName;
+	private DateTime RequestedDateTime { get; set; } = DateTime.Now;
+
+
+	private string SelectedTestType { get; set; } = "Both"; // Default value
+	private string SelectedGroup { get; set; } = "Transit"; // Default value
+	private string SelectedCategory { get; set; } = "Transit"; // Default value
+
+	private string SelectedTransmission { get; set; } = "Automatic"; // Default value
+
+	private bool IsAutomatic => SelectedTransmission == "Automatic";
+	private bool IsManual => SelectedTransmission == "Manual";
+
+	private string SubmissionMessage { get; set; } = string.Empty;
+
+
+
+
+
+
+
+
+
+	private void OnTransmissionChanged(ChangeEventArgs e)
+	{
+		SelectedTransmission = e.Value?.ToString() ?? "Automatic";
+	}
+
+
+	/// <summary>
+	/// Need to pass all the settings into the thing that gets called or call it in her
+	/// </summary>
+	private void RunIt()
+	{
+		SubmissionMessage = $"You have PRESSED the GO button.";
+
+		var x = new DrugTestSettings();
+		x.RequestDateTime = DateTime.Now;
+		x.TestOperatorName = TestOperatorName;
+		x.TestNumber = int.TryParse(TestNumber, out var testnum) ? testnum : 99999;
+
+
+
+		// x.TestCategory = x.TestCategory.;
+		// x.TestType = SelectedTestType.;
+
+
+		// var x = new SelectionManager();
+
+
+
+		Console.WriteLine(x.RequestDateTime);
+
+
+	}
+
+
+}
