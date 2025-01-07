@@ -13,7 +13,6 @@ namespace CrosstabAnyPOC
     public class SelectionManager
     {
 
-        #region Variables/Properties
 
 
         // ALL EMPLOYEES: Holds the list of all current employees
@@ -51,23 +50,13 @@ namespace CrosstabAnyPOC
         public IReadOnlyList<WorkdayEmployee> SelectedForTesting => _selectedForTesting;
 
 
-        #endregion
 
-
-
-        #region CTOR  -----------------------------------------------------------------------------------------------
 
         // CTOR that takes in TestSettings
         public SelectionManager( DrugTestSettings drugTestSettings)
         {
             _drugTestSettings = drugTestSettings;
         }
-
-        #endregion
-
-
-
-        #region METHODS  ------------------------------------------------------------------------------------
 
 
         /// <summary>
@@ -274,7 +263,6 @@ namespace CrosstabAnyPOC
         }
 
 
-        #endregion
     }
 }
 
